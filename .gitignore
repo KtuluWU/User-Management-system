@@ -18,3 +18,5 @@
 ### Yun
 .DS_Store
 .vscode
+*.map
+.sass-cache
