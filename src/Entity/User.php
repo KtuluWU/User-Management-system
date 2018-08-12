@@ -110,6 +110,14 @@ class User extends BaseUser
     */
     private $responsible_region;
 
+    /**
+     * User constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+        // your own logic
+    }
+
     public function getId(): ?int
     {
         return $this->id;
