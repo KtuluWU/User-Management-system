@@ -44,7 +44,6 @@ class Seller extends BaseUser
     private $lastname;
 
     /**
-    
     * @var datetime
     *
     * @ORM\Column(name="date_birth", type="datetime", nullable=true)
