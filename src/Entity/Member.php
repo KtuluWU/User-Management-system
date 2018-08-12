@@ -99,10 +99,9 @@ class Member extends BaseUser
     /**
     * @var string
     * @Assert\NotBlank()
-    * @ORM\Column(name="responsible_id", type="string", nullable=false)
+    * @ORM\Column(name="responsible_id", type="string", nullable=true)
     */
     private $responsible_id;
-
 
     public function getId(): ?int
     {
@@ -246,7 +245,7 @@ class Member extends BaseUser
         return $this->responsible_id;
     }
 
-    public function setResponsibleId(string $responsible_id): self
+    public function setResponsibleId(?string $responsible_id): self
     {
         $this->responsible_id = $responsible_id;
 
