@@ -50,10 +50,10 @@ class Admin extends BaseUser
     private $date_birth;
 
     /**
-    * @var bool
+    * @var boolean
     *
     * @Assert\NotBlank()
-    * @ORM\Column(name="sex", type="bool", nullable=false)
+    * @ORM\Column(name="sex", type="boolean", nullable=false)
     */
     private $sex;
 
@@ -147,12 +147,12 @@ class Admin extends BaseUser
         return $this;
     }
 
-    public function getSex()
+    public function getSex(): ?bool
     {
         return $this->sex;
     }
 
-    public function setSex($sex): self
+    public function setSex(bool $sex): self
     {
         $this->sex = $sex;
 
