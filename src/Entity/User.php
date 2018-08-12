@@ -104,9 +104,9 @@ class User extends BaseUser
     private $responsible_id;
 
     /**
-    * @var string
+    * @var array
     * 
-    * @ORM\Column(name="responsible_region", type="string", nullable=true)
+    * @ORM\Column(name="responsible_region", type="array", nullable=true)
     */
     private $responsible_region;
 
@@ -259,12 +259,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getResponsibleRegion(): ?string
+    public function getResponsibleRegion(): ?array
     {
         return $this->responsible_region;
     }
 
-    public function setResponsibleRegion(?string $responsible_region): self
+    public function setResponsibleRegion(?array $responsible_region): self
     {
         $this->responsible_region = $responsible_region;
 
