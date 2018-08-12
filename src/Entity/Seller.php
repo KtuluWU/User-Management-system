@@ -7,10 +7,11 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="member")
- * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @ORM\Table(name="seller")
+ * @ORM\Entity(repositoryClass="App\Repository\SellerRepository")
  */
-class Member extends BaseUser
+
+class Seller extends BaseUser
 {
     /**
      * @ORM\Id()
@@ -18,23 +19,25 @@ class Member extends BaseUser
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
-    * @var string
-    * @Assert\NotBlank()
-    * @ORM\Column(name="member_id", type="string", nullable=false)
-    */
-    private $member_id;
     
     /**
     * @var string
-    * 
+    *
+    * @Assert\NotBlank()
+    * @ORM\Column(name="employee_id", type="string", nullable=false)
+    */
+    private $employee_id;
+
+    /**
+    * @var string
+    *
     * @ORM\Column(name="firstname", type="string", length=70, nullable=true)
     */
     private $firstname;
 
     /**
     * @var string
+    *
     * @Assert\NotBlank()
     * @ORM\Column(name="lastname", type="string", length=70, nullable=false)
     */
@@ -49,6 +52,7 @@ class Member extends BaseUser
 
     /**
     * @var bool
+    *
     * @Assert\NotBlank()
     * @ORM\Column(name="sex", type="bool", nullable=false)
     */
@@ -56,15 +60,16 @@ class Member extends BaseUser
 
     /**
     * @var string
+    *
     * @Assert\NotBlank()
-    * @ORM\Column(name="id_card", type="string", length=20, nullable=false)
+    * @ORM\Column(name="id_card", type="string", nullable=false, length=20)
     */
     private $id_card;
 
     /**
     * @var string
     *
-    * @ORM\Column(name="phone", type="string", length=20, nullable=true)
+    * @ORM\Column(name="phone", type="string", nullable=true, length=20)
     */
     private $phone;
 
@@ -77,20 +82,14 @@ class Member extends BaseUser
 
     /**
     * @var string
-    * @Assert\NotBlank()
-    * @ORM\Column(name="region", type="string", nullable=false)
-    */
-    private $region;
-
-    /**
-    * @var string
-    * 
+    *
     * @ORM\Column(name="address", type="string", nullable=true)
     */
     private $address;
 
     /**
     * @var datetime
+    *
     * @Assert\NotBlank()
     * @ORM\Column(name="date_register", type="datetime", nullable=false)
     */
@@ -99,6 +98,12 @@ class Member extends BaseUser
     /**
     * @var string
     * @Assert\NotBlank()
+    * @ORM\Column(name="responsible_region", type="string", nullable=false)
+    */
+    private $responsible_region;
+
+    /**
+    * @var string
     * @ORM\Column(name="responsible_id", type="string", nullable=true)
     */
     private $responsible_id;
@@ -108,14 +113,14 @@ class Member extends BaseUser
         return $this->id;
     }
 
-    public function getMemberId(): ?string
+    public function getEmployeeId(): ?string
     {
-        return $this->member_id;
+        return $this->employee_id;
     }
 
-    public function setMemberId(string $member_id): self
+    public function setEmployeeId(string $employee_id): self
     {
-        $this->member_id = $member_id;
+        $this->employee_id = $employee_id;
 
         return $this;
     }
@@ -204,18 +209,6 @@ class Member extends BaseUser
         return $this;
     }
 
-    public function getRegion(): ?string
-    {
-        return $this->region;
-    }
-
-    public function setRegion(string $region): self
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
     public function getAddress(): ?string
     {
         return $this->address;
@@ -236,6 +229,18 @@ class Member extends BaseUser
     public function setDateRegister(\DateTimeInterface $date_register): self
     {
         $this->date_register = $date_register;
+
+        return $this;
+    }
+
+    public function getResponsibleRegion(): ?string
+    {
+        return $this->responsible_region;
+    }
+
+    public function setResponsibleRegion(string $responsible_region): self
+    {
+        $this->responsible_region = $responsible_region;
 
         return $this;
     }

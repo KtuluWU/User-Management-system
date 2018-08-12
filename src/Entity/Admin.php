@@ -50,10 +50,10 @@ class Admin extends BaseUser
     private $date_birth;
 
     /**
-    * @var tinyint
+    * @var bool
     *
     * @Assert\NotBlank()
-    * @ORM\Column(name="sex", type="tinyint", nullable=false)
+    * @ORM\Column(name="sex", type="bool", nullable=false)
     */
     private $sex;
 
@@ -93,8 +93,6 @@ class Admin extends BaseUser
     * @ORM\Column(name="date_register", type="datetime", nullable=false)
     */
     private $date_register;
-
-
 
     public function getId(): ?int
     {
