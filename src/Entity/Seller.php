@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="seller")
  * @ORM\Entity(repositoryClass="App\Repository\SellerRepository")
  */
-
 class Seller extends BaseUser
 {
     /**
@@ -51,10 +50,10 @@ class Seller extends BaseUser
     private $date_birth;
 
     /**
-    * @var bool
+    * @var boolean
     *
     * @Assert\NotBlank()
-    * @ORM\Column(name="sex", type="bool", nullable=false)
+    * @ORM\Column(name="sex", type="boolean", nullable=false)
     */
     private $sex;
 
@@ -161,12 +160,12 @@ class Seller extends BaseUser
         return $this;
     }
 
-    public function getSex()
+    public function getSex(): ?bool
     {
         return $this->sex;
     }
 
-    public function setSex($sex): self
+    public function setSex(bool $sex): self
     {
         $this->sex = $sex;
 
