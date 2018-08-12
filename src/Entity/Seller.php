@@ -102,19 +102,11 @@ class Seller extends BaseUser
     */
     private $responsible_region;
 
-
     /**
     * @var string
     * @ORM\Column(name="responsible_id", type="string", nullable=true)
     */
     private $responsible_id;
-
-
-
-
-
-
-
 
     public function getId(): ?int
     {
