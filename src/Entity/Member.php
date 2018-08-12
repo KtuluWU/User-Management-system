@@ -48,9 +48,9 @@ class Member extends BaseUser
     private $date_birth;
 
     /**
-    * @var tinyint
+    * @var bool
     * @Assert\NotBlank()
-    * @ORM\Column(name="sex", type="tinyint", nullable=false)
+    * @ORM\Column(name="sex", type="bool", nullable=false)
     */
     private $sex;
 
