@@ -7,10 +7,10 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="admin")
- * @ORM\Entity(repositoryClass="App\Repository\AdminRepository")
+ * @ORM\Table(name="User")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class Admin extends BaseUser
+class User extends BaseUser
 {
     /**
      * @ORM\Id()
@@ -21,22 +21,20 @@ class Admin extends BaseUser
 
     /**
     * @var string
-    *
     * @Assert\NotBlank()
-    * @ORM\Column(name="employee_id", type="string", nullable=false)
+    * @ORM\Column(name="user_id", type="string", length=70, nullable=false)
     */
-    private $employee_id;
-
+    private $user_id;
+    
     /**
     * @var string
-    *
+    * 
     * @ORM\Column(name="firstname", type="string", length=70, nullable=true)
     */
     private $firstname;
 
     /**
     * @var string
-    *
     * @Assert\NotBlank()
     * @ORM\Column(name="lastname", type="string", length=70, nullable=false)
     */
@@ -51,7 +49,6 @@ class Admin extends BaseUser
 
     /**
     * @var boolean
-    *
     * @Assert\NotBlank()
     * @ORM\Column(name="sex", type="boolean", nullable=false)
     */
@@ -59,16 +56,15 @@ class Admin extends BaseUser
 
     /**
     * @var string
-    *
     * @Assert\NotBlank()
-    * @ORM\Column(name="id_card", type="string", nullable=false, length=20)
+    * @ORM\Column(name="id_card", type="string", length=20, nullable=false)
     */
     private $id_card;
 
     /**
     * @var string
-    *
-    * @ORM\Column(name="phone", type="string", nullable=true, length=20)
+    * @Assert\NotBlank()
+    * @ORM\Column(name="phone", type="string", length=20, nullable=false)
     */
     private $phone;
 
@@ -81,32 +77,52 @@ class Admin extends BaseUser
 
     /**
     * @var string
-    *
+    * @Assert\NotBlank()
+    * @ORM\Column(name="region", type="string", nullable=false)
+    */
+    private $region;
+
+    /**
+    * @var string
+    * 
     * @ORM\Column(name="address", type="string", nullable=true)
     */
     private $address;
 
     /**
     * @var datetime
-    *
     * @Assert\NotBlank()
     * @ORM\Column(name="date_register", type="datetime", nullable=false)
     */
     private $date_register;
+
+    /**
+    * @var string
+    * 
+    * @ORM\Column(name="responsible_id", type="string", nullable=true)
+    */
+    private $responsible_id;
+
+    /**
+    * @var string
+    * 
+    * @ORM\Column(name="responsible_region", type="string", nullable=true)
+    */
+    private $responsible_region;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmployeeId(): ?string
+    public function getUserId(): ?string
     {
-        return $this->employee_id;
+        return $this->user_id;
     }
 
-    public function setEmployeeId(string $employee_id): self
+    public function setUserId(string $user_id): self
     {
-        $this->employee_id = $employee_id;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -176,7 +192,7 @@ class Admin extends BaseUser
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -191,6 +207,18 @@ class Admin extends BaseUser
     public function setWechat(?string $wechat): self
     {
         $this->wechat = $wechat;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }
@@ -215,6 +243,30 @@ class Admin extends BaseUser
     public function setDateRegister(\DateTimeInterface $date_register): self
     {
         $this->date_register = $date_register;
+
+        return $this;
+    }
+
+    public function getResponsibleId(): ?string
+    {
+        return $this->responsible_id;
+    }
+
+    public function setResponsibleId(?string $responsible_id): self
+    {
+        $this->responsible_id = $responsible_id;
+
+        return $this;
+    }
+
+    public function getResponsibleRegion(): ?string
+    {
+        return $this->responsible_region;
+    }
+
+    public function setResponsibleRegion(?string $responsible_region): self
+    {
+        $this->responsible_region = $responsible_region;
 
         return $this;
     }
