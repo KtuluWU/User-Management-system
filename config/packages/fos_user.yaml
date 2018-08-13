@@ -4,7 +4,7 @@ fos_user:
     user_class: App\Entity\User
     from_email:
         address: "no-reply@yunkun.org"
-        sender_name: "Yunkun云堃"
+        sender_name: "UMS TEST"
     use_listener: false
     profile:
         form:
