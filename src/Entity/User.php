@@ -7,11 +7,10 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="seller")
- * @ORM\Entity(repositoryClass="App\Repository\SellerRepository")
+ * @ORM\Table(name="User")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-
-class Seller extends BaseUser
+class User extends BaseUser
 {
     /**
      * @ORM\Id()
@@ -19,25 +18,23 @@ class Seller extends BaseUser
      * @ORM\Column(type="integer")
      */
     protected $id;
-    
-    /**
-    * @var string
-    *
-    * @Assert\NotBlank()
-    * @ORM\Column(name="employee_id", type="string", nullable=false)
-    */
-    private $employee_id;
 
     /**
     * @var string
-    *
+    * @Assert\NotBlank()
+    * @ORM\Column(name="user_id", type="string", length=70, nullable=false)
+    */
+    private $user_id;
+    
+    /**
+    * @var string
+    * 
     * @ORM\Column(name="firstname", type="string", length=70, nullable=true)
     */
     private $firstname;
 
     /**
     * @var string
-    *
     * @Assert\NotBlank()
     * @ORM\Column(name="lastname", type="string", length=70, nullable=false)
     */
@@ -51,25 +48,23 @@ class Seller extends BaseUser
     private $date_birth;
 
     /**
-    * @var bool
-    *
+    * @var boolean
     * @Assert\NotBlank()
-    * @ORM\Column(name="sex", type="bool", nullable=false)
+    * @ORM\Column(name="sex", type="boolean", nullable=false)
     */
     private $sex;
 
     /**
     * @var string
-    *
     * @Assert\NotBlank()
-    * @ORM\Column(name="id_card", type="string", nullable=false, length=20)
+    * @ORM\Column(name="id_card", type="string", length=20, nullable=false)
     */
     private $id_card;
 
     /**
     * @var string
-    *
-    * @ORM\Column(name="phone", type="string", nullable=true, length=20)
+    * @Assert\NotBlank()
+    * @ORM\Column(name="phone", type="string", length=20, nullable=false)
     */
     private $phone;
 
@@ -82,14 +77,20 @@ class Seller extends BaseUser
 
     /**
     * @var string
-    *
+    * @Assert\NotBlank()
+    * @ORM\Column(name="region", type="string", nullable=false)
+    */
+    private $region;
+
+    /**
+    * @var string
+    * 
     * @ORM\Column(name="address", type="string", nullable=true)
     */
     private $address;
 
     /**
     * @var datetime
-    *
     * @Assert\NotBlank()
     * @ORM\Column(name="date_register", type="datetime", nullable=false)
     */
@@ -97,30 +98,39 @@ class Seller extends BaseUser
 
     /**
     * @var string
-    * @Assert\NotBlank()
-    * @ORM\Column(name="responsible_region", type="string", nullable=false)
+    * 
+    * @ORM\Column(name="responsible_id", type="string", nullable=true)
+    */
+    private $responsible_id;
+
+    /**
+    * @var array
+    * 
+    * @ORM\Column(name="responsible_region", type="array", nullable=true)
     */
     private $responsible_region;
 
     /**
-    * @var string
-    * @ORM\Column(name="responsible_id", type="string", nullable=true)
-    */
-    private $responsible_id;
+     * User constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+        // your own logic
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmployeeId(): ?string
+    public function getUserId(): ?string
     {
-        return $this->employee_id;
+        return $this->user_id;
     }
 
-    public function setEmployeeId(string $employee_id): self
+    public function setUserId(string $user_id): self
     {
-        $this->employee_id = $employee_id;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -161,12 +171,12 @@ class Seller extends BaseUser
         return $this;
     }
 
-    public function getSex()
+    public function getSex(): ?bool
     {
         return $this->sex;
     }
 
-    public function setSex($sex): self
+    public function setSex(bool $sex): self
     {
         $this->sex = $sex;
 
@@ -190,7 +200,7 @@ class Seller extends BaseUser
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -205,6 +215,18 @@ class Seller extends BaseUser
     public function setWechat(?string $wechat): self
     {
         $this->wechat = $wechat;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }
@@ -233,18 +255,6 @@ class Seller extends BaseUser
         return $this;
     }
 
-    public function getResponsibleRegion(): ?string
-    {
-        return $this->responsible_region;
-    }
-
-    public function setResponsibleRegion(string $responsible_region): self
-    {
-        $this->responsible_region = $responsible_region;
-
-        return $this;
-    }
-
     public function getResponsibleId(): ?string
     {
         return $this->responsible_id;
@@ -253,6 +263,18 @@ class Seller extends BaseUser
     public function setResponsibleId(?string $responsible_id): self
     {
         $this->responsible_id = $responsible_id;
+
+        return $this;
+    }
+
+    public function getResponsibleRegion(): ?array
+    {
+        return $this->responsible_region;
+    }
+
+    public function setResponsibleRegion(?array $responsible_region): self
+    {
+        $this->responsible_region = $responsible_region;
 
         return $this;
     }
