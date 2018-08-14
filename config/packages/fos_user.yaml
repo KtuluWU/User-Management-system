@@ -6,6 +6,9 @@ fos_user:
         address: "no-reply@yunkun.org"
         sender_name: "UMS TEST"
     use_listener: false
+    registration:
+        form:
+            type: App\Form\RegistrationType
     profile:
         form:
             type: App\Form\ProfileType
