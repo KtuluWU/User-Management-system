@@ -1,22 +1,30 @@
+{% trans_default_domain 'ums' %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <title>
-            {% block title %}Welcome!{% endblock %}
+            {% block title %}{{ 'base.title'|trans }}{% endblock %}
         </title>
         <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/vendor/bootstrap.min.css') }}"/>
-            <link rel="stylesheet" href="{{ asset('css/style.min.css') }}"/>
+            <!-- VENDOR CSS -->
+            <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}"/>
+            <!-- MAIN CSS -->
+            <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('css/color_skins.css') }}"/>
         {% endblock %}
     </head>
-    <body>
+    <body class="theme-purple">
         {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
         {% block javascripts %}
-            <script src="{{ asset('js/vendor/jquery-3.2.1.min.js') }}"></script>
-            <script src="{{ asset('js/vendor/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+            <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

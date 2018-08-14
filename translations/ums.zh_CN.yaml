@@ -1,0 +1,8 @@
+base:
+  title: 用户管理系统
+
+login_page:
+  title: 登录到您的账户
+  forgot_password: 忘记密码？
+  have_not_account: 还没有账户？
+  register: 注册
