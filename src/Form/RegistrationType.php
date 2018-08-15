@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class RegistrationType extends AbstractType
 {
@@ -14,12 +16,14 @@ class RegistrationType extends AbstractType
         $builder
             ->add('firstname', null, array('translation_domain' => 'ums'))
             ->add('lastname', null, array('translation_domain' => 'ums'))
+            ->add('username', null, array('translation_domain' => 'ums'))
+            ->add('email', EmailType::class, array('translation_domain' => 'ums'))
+            ->add('plainPassword', PasswordType::class, array('translation_domain' => 'ums'))
             ->add('date_birth', BirthdayType::class, array('translation_domain' => 'ums'))
             ->add('sex', ChoiceType::class, array(
                 'choices'  => array(
-                    ' ' => null,
-                    'sex.m' => true,
-                    'sex.f' => false,
+                    'sex.m' => 1,
+                    'sex.f' => 0,
                 ),
                 'translation_domain' => 'ums'))
             ->add('id_card', null, array('translation_domain' => 'ums'))
@@ -28,21 +32,5 @@ class RegistrationType extends AbstractType
             ->add('region', null, array('translation_domain' => 'ums'))
             ->add('address', null, array('translation_domain' => 'ums'))
         ;
-    }
-
-    public function getParent()
-    {
-        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
-    }
-
-    public function getBlockPrefix()
-    {
-        return 'app_user_registration';
-    }
-
-    public function getName()
-
-    {
-        return $this->getBlockPrefix();
     }
 }
