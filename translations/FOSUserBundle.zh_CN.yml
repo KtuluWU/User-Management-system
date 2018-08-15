@@ -11,7 +11,7 @@ group:
         deleted: 小组已被删除
 security:
     login:
-        username: 用户名
+        username: 用户名或邮箱
         password: 密码
         remember_me: 自动登录
         submit: 登录
