@@ -3,28 +3,94 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegistrationType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/user")
- */
 
 class UserController extends Controller
 {
+
     /**
-     * @Route("/", name="UserPage")
+     * @Route("/user_register", name="UserRegisterPage")
      */
-    public function index()
+    public function  user_register( Request $request)
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $form = $this->createForm(Registrationtype::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $firstname = $user->getFirstname();
+            $lastname = $user->getLastname();
+            $username = $user->getUsername();
+            $email = $user->getEmail();
+            $plainpsw = $user->getPlainPassword();
+            $date_birth = $user->getDateBirth();
+            $sex = $user->getSex();
+            $id_card = $user->getIdCard();
+            $phone = $user->getPhone();
+            $wechat = $user->getWechat();
+            $region = $user->getRegion();
+            $address = $user->getAddress();
+
+            $roles = ["ROLE_USER"];
+            $user_id = "00000000000001";
+            date_default_timezone_set("Europe/Paris");
+            $register_date = date_create(date('Y-m-d H:i:s'));
+            $user->setEnabled("false");
+
+            /*
+             * 验证Username
+             * findUserByUsername
+             *
+             * if !empty
+             * render (error.html.twig)
+             * else
+             * 生成token
+             * set token
+             * */
+
+            $user->setFirstname($firstname);
+            $user->setLastname($lastname);
+            $user->setUsername($username);
+            $user->setEmail($email);
+            $user->setPlainPassword($plainpsw);
+            $user->setDateBirth($date_birth);
+            $user->setSex($sex);
+            $user->setIdCard($id_card);
+            $user->setPhone($phone);
+            $user->setWechat($wechat);
+            $user->setRegion($region);
+            $user->setAddress($address);
+            $user->setUserId($user_id);
+            $user->setRoles($roles);
+            $user->setDateRegister($register_date);
+
+            $userManager->updateUser($user);
+
+            /*
+             * 发邮件
+             * */
+
+            return $this->redirectToRoute('HomePage');
+
+        }
+
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
+
+
     /**
-     * @Route("/create_base_user", name="CreateBaseUserPage")
+     * @Route("/user/create_base_user", name="CreateBaseUserPage")
      */
     public function create_base_user()
     {
