@@ -21,7 +21,6 @@ class User extends BaseUser
 
     /**
     * @var string
-    * @Assert\NotBlank()
     * @ORM\Column(name="user_id", type="string", length=70, nullable=false)
     */
     private $user_id;
@@ -91,7 +90,6 @@ class User extends BaseUser
 
     /**
     * @var datetime
-    * @Assert\NotBlank()
     * @ORM\Column(name="date_register", type="datetime", nullable=false)
     */
     private $date_register;
