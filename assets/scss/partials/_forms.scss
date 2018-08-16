@@ -178,6 +178,30 @@ label {
 	}
 }
 
+/****************************** Yun ******************************/
+.form-group {
+	.form-control-select {
+		select {
+			padding: .375rem .75rem;
+			line-height: 1.5;
+			color: $grey-700;
+			background-color: $col-white;
+			border: 1px solid #ced4da;
+			border-radius: .25em;
+			transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+	}
+}
+.form-control-errors {
+	ul {
+		list-style-type: none;
+		padding: 0;
+		padding-left: 1em;
+		color: $color-danger;
+	}
+}
+/*****************************************************************/
+
 .help-block {
 	font-size: 13px;
 	color: #929292;

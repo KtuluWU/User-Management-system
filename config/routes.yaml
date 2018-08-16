@@ -13,3 +13,8 @@ userpage:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+registration_confirm:
+    path: /registration/user_confirm/{token}
+    defaults:
+        _controller: App\Controller\UserController::registration_confirm
