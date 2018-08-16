@@ -1,11 +1,35 @@
 {% trans_default_domain 'FOSUserBundle' %}
-
-<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-    <div>
-        <label for="username">{{ 'resetting.request.username'|trans }}</label>
-        <input type="text" id="username" name="username" required="required" />
+{% extends "base.html.twig" %}
+{% block body %}
+    <div id="wrapper">
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle auth-main">
+                <div class="auth-box">
+                    <div class="card">
+                        <div class="header">
+                            <p class="lead">{{ 'resetting.reset'|trans({},'ums') }}</p>
+                        </div>
+                        <div class="body">
+                            <p>{{ 'resetting.msg'|trans({},'ums') }}</p>
+                            <form class="form-auth-small" action="{{ path('fos_user_resetting_send_email') }}"
+                                  method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="username" name="username"
+                                           required="required"
+                                           placeholder="{{ 'resetting.request.username'|trans }}">
+                                </div>
+                                <div>
+                                    <input type="submit" value="{{ 'resetting.request.submit'|trans }}" class="btn btn-primary btn-lg btn-block"/>
+                                </div>
+                                <div class="bottom">
+                                    <span class="helper-text">{{ 'resetting.got_psw'|trans({},'ums') }} <a
+                                                href="/login">{{ 'resetting.login'|trans({},'ums') }}</a></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <input type="submit" value="{{ 'resetting.request.submit'|trans }}" />
-    </div>
-</form>
+{% endblock %}
