@@ -94,9 +94,11 @@ class UserController extends Controller
                 $userManager->updateUser($user);
 
                 $url = $this->router->generate('registration_confirm' ,array('token' => $token),UrlGeneratorInterface::ABSOLUTE_URL );
-                $this->send_activate_email("Activate account", "no-reply@yunkun.org", $email, $url); // 发送邮件
+                $this->send_activate_email("Activate account", "no-reply@yunkun.org", $email, $url, $username); // 发送邮件
 
-                return new Response("Ok! : ".$token);
+                return $this->render('user/register_check_email.html.twig', [
+                    'email' => $email
+                ]);
             }
         }
         return $this->render('user/register.html.twig', [
@@ -111,13 +113,16 @@ class UserController extends Controller
     {
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserByConfirmationToken($token);
+        $username = $user->getUsername();
         /*
          * 点击邮件中激活链接，如果token在数据库中不存在即报错，反之激活账户
          * */
         if (null != $user) {
             $user->setEnabled(true);
             $userManager->updateUser($user);
-            return new Response("Registration confirmed!!!");
+            return $this->render('user/register_confirm.html.twig', [
+                'username' => $username
+            ]);
         } else {
             return new Response("Token invalid!");
         }
@@ -175,13 +180,18 @@ class UserController extends Controller
         return hash('sha256', md5(uniqid(md5(microtime(true)),true)));
     }
 
-    private function send_activate_email($subject_to_send, $mail_from, $mail_to, $url)
+    private function send_activate_email($subject_to_send, $mail_from, $mail_to, $url, $username)
     {
         $mail_to_send = (new \Swift_Message())
             ->setSubject($subject_to_send)
             ->setFrom($mail_from)
             ->setTo($mail_to)
-            ->setBody($url);
+            ->setBody($this->renderView(
+                'user/confirm_email.html.twig',array(
+                'username' => $username,
+                    'url' => $url
+            )),
+                'text/html');
         $this->get('mailer')->send($mail_to_send);
     }
 
