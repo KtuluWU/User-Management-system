@@ -22,8 +22,9 @@ class RegistrationType extends AbstractType
             ->add('date_birth', BirthdayType::class, array('translation_domain' => 'ums'))
             ->add('sex', ChoiceType::class, array(
                 'choices'  => array(
-                    'sex.m' => 1,
-                    'sex.f' => 0,
+                    'sex' => null,
+                    'sex.m' => true,
+                    'sex.f' => false,
                 ),
                 'translation_domain' => 'ums'))
             ->add('id_card', null, array('translation_domain' => 'ums'))
