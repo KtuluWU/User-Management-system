@@ -48,7 +48,6 @@ class User extends BaseUser
 
     /**
     * @var boolean
-    * @Assert\NotBlank()
     * @ORM\Column(name="sex", type="boolean", nullable=false)
     */
     private $sex;

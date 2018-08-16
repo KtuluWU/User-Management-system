@@ -7,6 +7,7 @@ use App\Form\RegistrationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -14,7 +15,17 @@ class UserController extends Controller
 {
 
     /**
-     * @Route("/user_register", name="UserRegisterPage")
+     * @var UrlGeneratorInterface
+     */
+    protected $router;
+
+    public function __construct(UrlGeneratorInterface  $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * @Route("/registration/user_register", name="UserRegisterPage")
      */
     public function  user_register( Request $request)
     {
@@ -43,51 +54,74 @@ class UserController extends Controller
             $user_id = "00000000000001";
             date_default_timezone_set("Europe/Paris");
             $register_date = date_create(date('Y-m-d H:i:s'));
-            $user->setEnabled("false");
 
             /*
-             * 验证Username
-             * findUserByUsername
-             *
-             * if !empty
-             * render (error.html.twig)
-             * else
-             * 生成token
-             * set token
+             * 用户名和邮件验证唯一
+             * 从数据库中查询是否已存在
              * */
+            $user_db_by_username = $userManager->findUserByUsername($username);
+            $user_db_by_email = $userManager->findUserByEmail($email);
+            if (null != $user_db_by_username) {
+                return new Response("Username exist!");
+            }
+            else if (null != $user_db_by_email) {
+                return new Response("Email exist!");
+            }
+            else {
+                /*
+                 * 若不存在，用户注册成功，发送账户激活邮件
+                 * */
+                $token = $this->generate_token();
+                $user->setConfirmationToken($token);
 
-            $user->setFirstname($firstname);
-            $user->setLastname($lastname);
-            $user->setUsername($username);
-            $user->setEmail($email);
-            $user->setPlainPassword($plainpsw);
-            $user->setDateBirth($date_birth);
-            $user->setSex($sex);
-            $user->setIdCard($id_card);
-            $user->setPhone($phone);
-            $user->setWechat($wechat);
-            $user->setRegion($region);
-            $user->setAddress($address);
-            $user->setUserId($user_id);
-            $user->setRoles($roles);
-            $user->setDateRegister($register_date);
+                $user->setEnabled(false);
+                $user->setFirstname($firstname);
+                $user->setLastname($lastname);
+                $user->setUsername($username);
+                $user->setEmail($email);
+                $user->setPlainPassword($plainpsw);
+                $user->setDateBirth($date_birth);
+                $user->setSex($sex);
+                $user->setIdCard($id_card);
+                $user->setPhone($phone);
+                $user->setWechat($wechat);
+                $user->setRegion($region);
+                $user->setAddress($address);
+                $user->setUserId($user_id);
+                $user->setRoles($roles);
+                $user->setDateRegister($register_date);
 
-            $userManager->updateUser($user);
+                $userManager->updateUser($user);
 
-            /*
-             * 发邮件
-             * */
+                $url = $this->router->generate('registration_confirm' ,array('token' => $token),UrlGeneratorInterface::ABSOLUTE_URL );
+                $this->send_activate_email("Activate account", "no-reply@yunkun.org", $email, $url); // 发送邮件
 
-            return $this->redirectToRoute('HomePage');
-
+                return new Response("Ok! : ".$token);
+            }
         }
-
         return $this->render('user/register.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
-
+    /**
+     * @Route("/registration/user_confirm/{token}", name="UserconfirmPage")
+     */
+    public function registration_confirm(Request $request, $token)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserByConfirmationToken($token);
+        /*
+         * 点击邮件中激活链接，如果token在数据库中不存在即报错，反之激活账户
+         * */
+        if (null != $user) {
+            $user->setEnabled(true);
+            $userManager->updateUser($user);
+            return new Response("Registration confirmed!!!");
+        } else {
+            return new Response("Token invalid!");
+        }
+    }
 
     /**
      * @Route("/user/create_base_user", name="CreateBaseUserPage")
@@ -134,6 +168,21 @@ class UserController extends Controller
         $userManager->updateUser($user);
 
         return new Response("Super Admin Created !");
+    }
+
+    private function generate_token()
+    {
+        return hash('sha256', md5(uniqid(md5(microtime(true)),true)));
+    }
+
+    private function send_activate_email($subject_to_send, $mail_from, $mail_to, $url)
+    {
+        $mail_to_send = (new \Swift_Message())
+            ->setSubject($subject_to_send)
+            ->setFrom($mail_from)
+            ->setTo($mail_to)
+            ->setBody($url);
+        $this->get('mailer')->send($mail_to_send);
     }
 
 }
