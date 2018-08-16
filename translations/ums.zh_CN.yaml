@@ -6,3 +6,37 @@ login_page:
   forgot_password: 忘记密码？
   have_not_account: 还没有账户？
   register: 注册
+
+registration_page:
+  title: 注册一个账户
+  firstname: 名字
+  lastname: 姓氏 *
+  username: 用户名昵称 *
+  email: 邮箱 *
+  password: 密码 *
+  date_birth: 出生日期
+  sex:
+    title: 性别 *
+    m: 男
+    f: 女
+  id_card: 身份证号码 *
+  phone: 电话号码 *
+  wechat: 微信号
+  region: 省市 *
+  address: 具体地址
+  btn: 注册
+  have_an_account: 已经有账户了？
+  login: 登录
+  check_email: 系统向 %email% 发送了一封包含激活链接的邮件，请访问该链接以启用你的帐户。
+  confirm:
+    title: '%username%，恭喜你，你的帐户已启用！'
+    msg: 请登录
+  email_to_send:
+    message1: '%username%，你好！'
+    message2: '要启用你的用户帐号，请访问：%confirmationUrl%'
+    message3: 祝好
+    message4: 网站团队
+
+
+
+

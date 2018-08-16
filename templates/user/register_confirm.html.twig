@@ -1,0 +1,13 @@
+{% trans_default_domain 'ums' %}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="register-confirm">
+        <div class="register-confirm-title">
+            {{ 'registration_page.confirm.title'|trans({'%username%': username}) }}
+        </div>
+        <div class="register-confirm-msg">
+            <a href="/login">{{ 'registration_page.confirm.msg'|trans() }}</a>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,10 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 {% extends "base.html.twig" %}
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     <div id="wrapper">
         <div class="vertical-align-wrap">
             <div class="vertical-align-middle auth-main">
@@ -17,6 +13,9 @@
                             <form class="form-auth-small" action="{{ path("fos_user_security_check") }}" method="post">
                                 {% if csrf_token %}
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                                {% endif %}
+                                {% if error %}
+                                    <div class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="username"
@@ -39,8 +38,8 @@
                                 <input type="submit" id="_submit" name="_submit" class="btn btn-primary btn-lg btn-block" value="{{ 'security.login.submit'|trans }}"/>
                                 <div class="bottom">
                                     <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a
-                                                href="page-forgot-password.html">{{ 'login_page.forgot_password'|trans({},'ums') }}</a></span>
-                                    <span>{{ 'login_page.have_not_account'|trans({},'ums') }} <a href="/user_register">{{ 'login_page.register'|trans({},'ums') }}</a></span>
+                                                href="/resetting/request">{{ 'login_page.forgot_password'|trans({},'ums') }}</a></span>
+                                    <span>{{ 'login_page.have_not_account'|trans({},'ums') }} <a href="/registration/user_register">{{ 'login_page.register'|trans({},'ums') }}</a></span>
                                 </div>
                             </form>
                         </div>
