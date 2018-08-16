@@ -192,6 +192,14 @@ label {
 		}
 	}
 }
+.form-control-errors {
+	ul {
+		list-style-type: none;
+		padding: 0;
+		padding-left: 1em;
+		color: $color-danger;
+	}
+}
 /*****************************************************************/
 
 .help-block {
