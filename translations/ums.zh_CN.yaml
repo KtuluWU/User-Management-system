@@ -37,6 +37,11 @@ registration_page:
     message3: 祝好
     message4: 网站团队
 
-
+resetting:
+  reset: 重置你的密码
+  msg: 请输入你注册的用户名或者邮箱，然后请跟随系统给你邮箱发送的邮件中指令完成密码的重置。
+  got_psw: 想起密码了？
+  login: 登录
+  check_email: 系统向已经向你注册的邮箱发送了一封包含密码重置链接的邮件，请查收。
 
 
