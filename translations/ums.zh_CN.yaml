@@ -44,4 +44,12 @@ resetting:
   login: 登录
   check_email: 系统向已经向你注册的邮箱发送了一封包含密码重置链接的邮件，请查收。
 
+purchase_page:
+  title: 记录您的购买信息
+  user_id: 用户名
+  product_id: 产品名
+  date_purchase: 购买时间
+  purchase_tracking_id: 溯源号
+  quantity: 数量
+  btn: 保存
 
