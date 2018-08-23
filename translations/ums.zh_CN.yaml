@@ -1,5 +1,6 @@
 base:
   title: 用户管理系统
+  loader: 请稍等...
 
 login_page:
   title: 登录到您的账户
