@@ -57,7 +57,7 @@
 		width: calc(100% - 250px);
 		
 		@include max-screen($break-1024){
-			width: calc(100% - 150px);
+			width: calc(100% - 200px);
 		}
 
 		@include max-screen($break-small){
