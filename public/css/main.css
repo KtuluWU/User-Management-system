@@ -8973,9 +8973,10 @@ ul.list-connected-app > li:last-child .connected-app {
 /**
 * Customer
 */
-#wrapper .navbar-fixed-top {
-  top: 0 !important; }
-#wrapper #left-sidebar {
-  left: 0 !important; }
+@media screen and (min-width: 992px) {
+  #wrapper .navbar-fixed-top {
+    top: 0; }
+  #wrapper #left-sidebar {
+    left: 0; } }
 
 /*# sourceMappingURL=main.css.map */
