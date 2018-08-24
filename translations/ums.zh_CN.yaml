@@ -46,3 +46,10 @@ resetting:
   check_email: 系统向已经向你注册的邮箱发送了一封包含密码重置链接的邮件，请查收。
 
 sidebar:
+  welcome: 您好
+  profile: 个人信息
+  logout: 登出
+  admin: 管理员
+  index: 首页
+  buy_histo: 购买记录
+  product_source: 产品溯源
