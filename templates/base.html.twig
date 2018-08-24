@@ -1,12 +1,31 @@
+{% trans_default_domain 'ums' %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="author" content="Yun WU, Jie LU, Yuxiang WANG">
+    {#<link rel="icon" href="favicon.ico" type="image/x-icon">#}
+    <title>
+        {% block title %}{{ 'base.title'|trans }}{% endblock %}
+    </title>
+
+    {% block stylesheets %}
+        <!-- VENDOR CSS -->
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}"/>
+        <!-- MAIN CSS -->
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/color_skins.css') }}"/>
+    {% endblock %}
+</head>
+<body class="theme-orange">
+{% block body %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+</body>
 </html>

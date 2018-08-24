@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'ums' %}
+
+{% set user_name = app.user.firstname ~ " " ~ app.user.lastname %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/chartist/css/chartist.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+{% endblock %}
+
+{% block main_content %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/toastr/toastr.js') }}"></script>
+    <script src="{{ asset('bundles_js/chartist.bundle.js') }}"></script>
+    <script src="{{ asset('bundles_js/knob.bundle.js') }}"></script>
+    <script src="{{ asset('js/index.js') }}"></script>
+{% endblock %}

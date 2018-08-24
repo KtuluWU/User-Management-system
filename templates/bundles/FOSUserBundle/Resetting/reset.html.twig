@@ -1,0 +1,31 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "base.html.twig" %}
+{% block body %}
+    <div id="wrapper">
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle auth-main">
+                <div class="auth-box">
+                    <div class="card">
+                        <div class="header">
+                            <p class="lead">{{ 'resetting.reset'|trans({},'ums') }}</p>
+                        </div>
+                        <div class="body">
+                            {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'form-auth-small' } }) }}
+                            <div class="form-group">
+                                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control', 'id': 'username', 'name': 'username', 'required': 'required', 'placeholder': 'form.new_password' }}) }}
+                            </div>
+                            <div>
+                                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control', 'id': 'username', 'name': 'username', 'required': 'required', 'placeholder': 'form.new_password_confirmation' }}) }}
+                                <input type="submit" value="{{ 'resetting.reset.submit'|trans }}"
+                                       class="btn btn-primary btn-lg btn-block"/>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

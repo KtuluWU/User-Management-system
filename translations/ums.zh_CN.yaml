@@ -1,0 +1,84 @@
+base:
+  title: 用户管理系统
+  loader: 请稍等...
+
+login_page:
+  title: 登录到您的账户
+  forgot_password: 忘记密码？
+  have_not_account: 还没有账户？
+  register: 注册
+
+registration_page:
+  title: 注册一个账户
+  firstname: 名字
+  lastname: 姓氏 *
+  username: 用户名昵称 *
+  email: 邮箱 *
+  password: 密码 *
+  date_birth: 出生日期
+  sex:
+    title: 性别 *
+    m: 男
+    f: 女
+  id_card: 身份证号码 *
+  phone: 电话号码 *
+  wechat: 微信号
+  region: 省市 *
+  address: 具体地址
+  btn: 注册
+  have_an_account: 已经有账户了？
+  login: 登录
+  check_email: 系统向 %email% 发送了一封包含激活链接的邮件，请访问该链接以启用你的帐户。
+  confirm:
+    title: '%username%，恭喜你，你的帐户已启用！'
+    msg: 请登录
+  email_to_send:
+    message1: '%username%，你好！'
+    message2: '要启用你的用户帐号，请访问：%confirmationUrl%'
+    message3: 祝好
+    message4: 网站团队
+
+resetting:
+  reset: 重置你的密码
+  msg: 请输入你注册的用户名或者邮箱，然后请跟随系统给你邮箱发送的邮件中指令完成密码的重置。
+  got_psw: 想起密码了？
+  login: 登录
+  check_email: 系统向已经向你注册的邮箱发送了一封包含密码重置链接的邮件，请查收。
+
+sidebar:
+  menu:
+    welcome: 您好
+    profile: 个人信息
+    logout: 登出
+    admin: 管理员
+    index: 首页
+    buy_histo: 购买记录
+    product_source: 产品溯源
+  admin:
+    users: 买家信息
+    sellers: 销售员信息
+    admins: 管理员信息
+    products: 产品信息
+  setting:
+    skins: 切换皮肤
+    purple: 紫色
+    blue: 蓝色
+    cyan: 青色
+    green: 绿色
+    orange: 橙色
+    blush: 腮红色
+
+roles:
+  ROLE_USER: 会员
+  ROLE_SELLER: 销售员
+  ROLE_ADMIN: 管理员
+  ROLE_SUPER_ADMIN: 超级管理员
+
+purchase_page:
+  user_id: 用户名
+  product_id: 商品名
+  date_purchase: 购买时间
+  purchase_tracking_id: 溯源号
+  quantity: 数量
+  title: 输入购买记录
+  btn: 保存
