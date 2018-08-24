@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 {% trans_default_domain 'ums' %}
 
-{% set user_name = app.user.firstname ~ " " ~ app.user.lastname %}
+
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,6 +11,11 @@
 {% endblock %}
 
 {% block main_content %}
+    <div class="container-fluid">
+        <video width="600" height="450" controls>
+            <source src="{{ asset('video/test.mp4') }}" type="video/mp4">
+        </video>
+    </div>
 
 {% endblock %}
 
