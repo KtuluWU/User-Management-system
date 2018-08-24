@@ -4,10 +4,8 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
 class PurchaseType extends AbstractType
@@ -25,7 +23,7 @@ class PurchaseType extends AbstractType
                     'placeholder' => 'purchase_page.product_id',
                 ),
                 'translation_domain' => 'ums')) 
-            ->add('date_purchase',DateType::class,array(
+            ->add('date_purchase',DateTimeType::class,array(
                 'label' => 'purchase_page.date_purchase',
                 'translation_domain' => 'ums'))
             ->add('purchase_tracking_id',null, array(

@@ -35,8 +35,8 @@ class PurchaseHistory
     private $product_id;
 
     /**
-    * @var date
-    * @ORM\Column(name="date_purchase", type="date", nullable=false)
+    * @var datetime
+    * @ORM\Column(name="date_purchase", type="datetime", nullable=false)
     */
     private $date_purchase;
 
