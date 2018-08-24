@@ -46,10 +46,30 @@ resetting:
   check_email: 系统向已经向你注册的邮箱发送了一封包含密码重置链接的邮件，请查收。
 
 sidebar:
-  welcome: 您好
-  profile: 个人信息
-  logout: 登出
-  admin: 管理员
-  index: 首页
-  buy_histo: 购买记录
-  product_source: 产品溯源
+  menu:
+    welcome: 您好
+    profile: 个人信息
+    logout: 登出
+    admin: 管理员
+    index: 首页
+    buy_histo: 购买记录
+    product_source: 产品溯源
+  admin:
+    users: 买家信息
+    sellers: 销售员信息
+    admins: 管理员信息
+    products: 产品信息
+  setting:
+    skins: 切换皮肤
+    purple: 紫色
+    blue: 蓝色
+    cyan: 青色
+    green: 绿色
+    orange: 橙色
+    blush: 腮红色
+
+roles:
+  ROLE_USER: 会员
+  ROLE_SELLER: 销售员
+  ROLE_ADMIN: 管理员
+  ROLE_SUPER_ADMIN: 超级管理员

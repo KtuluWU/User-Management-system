@@ -8970,4 +8970,12 @@ ul.list-connected-app > li:last-child .connected-app {
 .invoice .table tr td {
   vertical-align: middle; }
 
+/**
+* Customer
+*/
+#wrapper .navbar-fixed-top {
+  top: 0 !important; }
+#wrapper #left-sidebar {
+  left: 0 !important; }
+
 /*# sourceMappingURL=main.css.map */
