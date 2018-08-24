@@ -9,19 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\PurchaseType;
-
+/**
+ * @Route("/purchasehistory")
+ */
 class PurchaseController extends AbstractController
-{   
-    
+{
     /**
-    * @Route("/")
-    */
-    public function index()
+     * @Route("/", name="PurchaseHistoryPage")
+     */
+    public function purchase_show()
     {
-        return $this->render('purchase/index.html.twig', [
-            'controller_name' => 'PurchaseController',
-        ]);
+        return $this->render('purchase/index.html.twig');
     }
+
 
     /**
      * @Route("/purchase/history/register", name="PurchaseRegisterPage")
@@ -66,7 +66,8 @@ class PurchaseController extends AbstractController
         return $this->render('purchase/purchase_register.html.twig', [
             'form' => $form->createView()
         ]);
-    }   
+    }
+
 }
 
 

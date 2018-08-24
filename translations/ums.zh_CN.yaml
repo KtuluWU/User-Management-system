@@ -75,6 +75,8 @@ roles:
   ROLE_SUPER_ADMIN: 超级管理员
 
 purchase_page:
+  purchase_id: 购买记录号
+  activity: 选项
   user_id: 用户名
   product_id: 商品名
   date_purchase: 购买时间
@@ -82,3 +84,5 @@ purchase_page:
   quantity: 数量
   title: 输入购买记录
   btn: 保存
+  index:
+    add_row: 添加
