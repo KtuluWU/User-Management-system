@@ -74,3 +74,12 @@ roles:
   ROLE_SELLER: 销售员
   ROLE_ADMIN: 管理员
   ROLE_SUPER_ADMIN: 超级管理员
+
+purchase_page:
+  user_id: 用户名
+  product_id: 商品名
+  date_purchase: 购买时间
+  purchase_tracking_id: 溯源号
+  quantity: 数量
+  title: 输入购买记录
+  btn: 保存
