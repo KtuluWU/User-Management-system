@@ -84,5 +84,6 @@ purchase_page:
   quantity: 数量
   title: 输入购买记录
   btn: 保存
+  return: 返回
   index:
     add_row: 添加
