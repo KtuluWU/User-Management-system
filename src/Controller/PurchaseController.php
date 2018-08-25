@@ -14,6 +14,8 @@ use App\Form\PurchaseType;
  */
 class PurchaseController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="PurchaseHistoryPage")
      */
@@ -37,7 +39,7 @@ class PurchaseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $num = 1;
+            $num = 2222;
             $purchase_id = '000000000000000000'.$num;
             $user_id = $purchase->getUserId();
             $date_purchase = $purchase->getDatePurchase();
@@ -54,7 +56,7 @@ class PurchaseController extends AbstractController
             }
             
             else {
-                
+
                 $purchase->setPurchaseId($purchase_id);
                 $purchase->setUserId($user_id);
                 $purchase->setDatePurchase($date_purchase);
@@ -63,8 +65,12 @@ class PurchaseController extends AbstractController
                 $purchase->setQuantity($quantity);
                 $purchase_manager->persist($purchase);
                 $purchase_manager->flush();
+                return $this->render('purchase/purchase_register.html.twig', [
+                    'form' => $form->createView()
+                ]);
             }
         }
+
         return $this->render('purchase/purchase_register.html.twig', [
             'form' => $form->createView()
         ]);
