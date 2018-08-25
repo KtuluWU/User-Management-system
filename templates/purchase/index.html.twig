@@ -36,36 +36,36 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Actions</th>
+                                        <th>{{ 'purchase_page.purchase_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.user_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.product_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.date_purchase'|trans }}</th>
+                                        <th>{{ 'purchase_page.purchase_tracking_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.quantity'|trans }}</th>
+                                        <th>{{ 'purchase_page.activity'|trans }}</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr class="gradeA">
-                                        <td>Martena Mccray</td>
-                                        <td>Post-Sales support</td>
-                                        <td>Edinburgh</td>
-                                        <td>Edinburgh</td>
-                                        <td>Edinburgh</td>
-                                        <td>Edinburgh</td>
-                                        <td class="actions">
-                                            <button class="btn btn-sm btn-icon btn-pure btn-default on-editing m-r-5 button-save"
-                                                    data-toggle="tooltip" data-original-title="Save" hidden><i class="icon-drawer" aria-hidden="true"></i></a>
-                                                <button class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard"
-                                                        data-toggle="tooltip" data-original-title="Discard" hidden><i class="icon-close" aria-hidden="true"></i></a>
-                                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit"
-                                                            data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i></a>
-                                                        <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove"
-                                                                data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></a>
-                                        </td>
+                                    {% for p in purchase %}
+                                        <tr class="gradeA">
+                                            <td>{{ p.PurchaseId }}</td>
+                                            <td>{{ p.UserId }}</td>
+                                            <td>{{ p.ProductId }}</td>
+                                            <td>{{ p.DatePurchase|date('Y-m-d') }}</td>
+                                            <td>{{ p.PurchaseTrackingId }}</td>
+                                            <td>{{ p.Quantity }}</td>
+                                            <td class="actions">
+                                                <button ><a href="/purchasehistory/register"><i class="icon-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove"
+                                                        data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
                                     </tr>
-
+                                    {% endfor %}
 
                                     </tbody>
                                 </table>
-                                </button>
                             </div>
                         </div>
                     </div>

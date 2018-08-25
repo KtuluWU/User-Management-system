@@ -19,12 +19,14 @@ class PurchaseController extends AbstractController
      */
     public function purchase_show()
     {
-        return $this->render('purchase/index.html.twig');
+        $repository = $this->getDoctrine()->getRepository(PurchaseHistory::class);
+        $purchase_history = $repository->findAll();
+        return $this->render('purchase/index.html.twig',['purchase' => $purchase_history]);
     }
 
 
     /**
-     * @Route("/purchase/history/register", name="PurchaseRegisterPage")
+     * @Route("/register", name="PurchaseRegisterPage")
      */
     public function  purchase_register( Request $request)
     {
