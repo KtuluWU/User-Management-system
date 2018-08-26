@@ -9,22 +9,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\PurchaseType;
-
+/**
+ * @Route("/purchasehistory")
+ */
 class PurchaseController extends AbstractController
-{   
-    
+{
+
+
     /**
-    * @Route("/")
-    */
-    public function index()
+     * @Route("/", name="PurchaseHistoryPage")
+     */
+    public function purchase_show()
     {
-        return $this->render('purchase/index.html.twig', [
-            'controller_name' => 'PurchaseController',
-        ]);
+        $repository = $this->getDoctrine()->getRepository(PurchaseHistory::class);
+        $purchase_history = $repository->findAll();
+        return $this->render('purchase/index.html.twig',['purchase' => $purchase_history]);
     }
 
+
     /**
-     * @Route("/purchase/history/register", name="PurchaseRegisterPage")
+     * @Route("/register", name="PurchaseRegisterPage")
      */
     public function  purchase_register( Request $request)
     {
@@ -35,7 +39,7 @@ class PurchaseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $num = 1;
+            $num = 2222;
             $purchase_id = '000000000000000000'.$num;
             $user_id = $purchase->getUserId();
             $date_purchase = $purchase->getDatePurchase();
@@ -52,7 +56,7 @@ class PurchaseController extends AbstractController
             }
             
             else {
-                
+
                 $purchase->setPurchaseId($purchase_id);
                 $purchase->setUserId($user_id);
                 $purchase->setDatePurchase($date_purchase);
@@ -61,12 +65,17 @@ class PurchaseController extends AbstractController
                 $purchase->setQuantity($quantity);
                 $purchase_manager->persist($purchase);
                 $purchase_manager->flush();
+                return $this->render('purchase/purchase_register.html.twig', [
+                    'form' => $form->createView()
+                ]);
             }
         }
+
         return $this->render('purchase/purchase_register.html.twig', [
             'form' => $form->createView()
         ]);
-    }   
+    }
+
 }
 
 

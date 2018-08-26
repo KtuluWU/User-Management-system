@@ -1,38 +1,42 @@
 {% trans_default_domain 'ums' %}
-{% extends 'base.html.twig' %}
-{% block body %}
-    <div id="wrapper">
-        <div class="vertical-align-wrap">
-            <div class="vertical-align-middle auth-main">
-                <div class="auth-box">
-                    <div class="card">
-                        <div class="header">
-                            <p class="lead">{{ 'purchase_page.title'|trans }}</p>
-                        </div>
-                        <div class="body">
-                            {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
-                            <div class="form-group">
-                                {{ form_widget(form.user_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                                {{ form_errors(form.user_id) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form.product_id, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_label(form.date_purchase) }}
-                                {{ form_widget(form.date_purchase, {'attr': {'class': 'form-control-select', 'id': 'signup-date_birth'}}) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form.purchase_tracking_id, {'attr': {'class': 'form-control', 'id': 'signup-id_card'}}) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form.quantity, {'attr': {'class': 'form-control', 'id': 'signup-region'}}) }}
-                            </div>
-                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'purchase_page.btn'|trans }}">
-                            {{ form_end(form) }}
-                        </div>
+{% extends 'layout.html.twig' %}
+{% block main_content %}
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="auth-box">
+                <div class="card">
+                    <div class="header">
+                        <p class="lead">{{ 'purchase_page.title'|trans }}</p>
                     </div>
+                    <div class="body">
+                        {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
+                        <div class="form-group">
+                            {{ form_widget(form.user_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.user_id) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.product_id, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.date_purchase) }}
+                            {{ form_widget(form.date_purchase, {'attr': {'class': 'form-control-select', 'id': 'signup-date_birth'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.purchase_tracking_id, {'attr': {'class': 'form-control', 'id': 'signup-id_card'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.quantity, {'attr': {'class': 'form-control', 'id': 'signup-region'}}) }}
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'registration_page.btn'|trans }}">
+                        {{ form_end(form) }}
+                        <p></p>
+                        <a href="/purchasehistory"  class="btn btn-primary btn-lg btn-block">
+                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'purchase_page.return'|trans }}
+                        </a>
+                    </div>
+
                 </div>
+            </div>
             </div>
         </div>
     </div>
