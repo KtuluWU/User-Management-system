@@ -133,6 +133,11 @@
         </nav>
 
     {% endblock %}
+
+    <!-- 设置变量控制左侧标签的active属性 -->
+    {% set nav_user_active, nav_admin_active = false, false %}
+    {% set tab_home, tab_profile, tab_purchase, tab_source, tab_buyer, tab_seller, tab_admin, tab_product = false, false, false, false, false, false, false, false %}
+
     {% block sidebar %}
         <div id="left-sidebar" class="sidebar">
             <div class="sidebar-scroll">
@@ -153,9 +158,9 @@
                 </div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#menu"><i class="icon-grid"></i></a></li>
+                    <li class="nav-item"><a class={% if nav_user_active %}"nav-link active"{% else %}"nav-link"{% endif %} data-toggle="tab" href="#menu"><i class="icon-grid"></i></a></li>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#admin_menu">{{ 'sidebar.menu.admin'|trans }}</a></li>
+                    <li class="nav-item"><a class={% if nav_admin_active %}"nav-link active"{% else %}"nav-link"{% endif %} data-toggle="tab" href="#admin_menu">{{ 'sidebar.menu.admin'|trans }}</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>
                 </ul>
@@ -163,13 +168,13 @@
                 <!-- Tab panes -->
                 {% block tab_content %}
                 <div class="tab-content p-l-0 p-r-0">
-                    <div class="tab-pane animated fadeIn active" id="menu">
+                    <div class={% if nav_user_active %}"tab-pane animated fadeIn active"{% else %}"tab-pane animated fadeIn"{% endif %} id="menu">
                         <nav class="sidebar-nav">
                             <ul class="main-menu metismenu">
-                                <li class="active"><a href="/"><i class="icon-home"></i><span>{{ 'sidebar.menu.index'|trans }}</span></a></li>
-                                <li><a href="/profile"><i class="icon-user"></i>{{ 'sidebar.menu.profile'|trans }}</a></li>
-                                <li><a href="/purchasehistory"><i class="icon-basket-loaded"></i>{{ 'sidebar.menu.buy_histo'|trans }}</a></li>
-                                <li>
+                                <li {% if tab_home %}class="active"{% endif %}><a href="/"><i class="icon-home"></i><span>{{ 'sidebar.menu.index'|trans }}</span></a></li>
+                                <li {% if tab_profile %}class="active"{% endif %}><a href="/profile"><i class="icon-user"></i>{{ 'sidebar.menu.profile'|trans }}</a></li>
+                                <li {% if tab_purchase %}class="active"{% endif %}><a href="/purchasehistory"><i class="icon-basket-loaded"></i>{{ 'sidebar.menu.buy_histo'|trans }}</a></li>
+                                <li {% if tab_source %}class="active"{% endif %}>
                                     <a href="javascript:void(0);" class="has-arrow"><i class="icon-plane"></i><span>{{ 'sidebar.menu.product_source'|trans }}</span></a>
                                     <ul>
                                         <li><a href="javascript:void(0);">All Employees</a></li>
@@ -182,13 +187,13 @@
                         </nav>
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <div class="tab-pane animated fadeIn" id="admin_menu">
+                    <div class={% if nav_admin_active %}"tab-pane animated fadeIn active"{% else %}"tab-pane animated fadeIn"{% endif %} id="admin_menu">
                         <nav class="sidebar-nav">
                             <ul class="main-menu metismenu">
-                                <li><a href="javascript:void(0);"><i class="icon-users"></i><span>{{ 'sidebar.admin.users'|trans }}</span></a></li>
-                                <li><a href="javascript:void(0);"><i class="icon-users"></i>{{ 'sidebar.admin.sellers'|trans }}</a></li>
-                                <li><a href="javascript:void(0);"><i class="icon-diamond"></i>{{ 'sidebar.admin.admins'|trans }}</a></li>
-
+                                <li {% if tab_buyer %}class="active"{% endif %}><a href="javascript:void(0);"><i class="icon-users"></i><span>{{ 'sidebar.admin.users'|trans }}</span></a></li>
+                                <li {% if tab_seller %}class="active"{% endif %}><a href="javascript:void(0);"><i class="icon-users"></i>{{ 'sidebar.admin.sellers'|trans }}</a></li>
+                                <li {% if tab_admin %}class="active"{% endif %}><a href="javascript:void(0);"><i class="icon-diamond"></i>{{ 'sidebar.admin.admins'|trans }}</a></li>
+                                <li {% if tab_product %}class="active"{% endif %}><a href="/product"><i class="icon-basket-loaded"></i>{{ 'sidebar.admin.products'|trans }}</a></li>
                                 {#<li>
                                     <a href="javascript:void(0);" class="has-arrow"><i class="icon-list"></i><span>Projects</span></a>
                                     <ul>
