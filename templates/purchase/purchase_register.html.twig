@@ -1,5 +1,9 @@
 {% trans_default_domain 'ums' %}
 {% extends 'layout.html.twig' %}
+{% block sidebar %}
+    {% set nav_user_active, tab_purchase = true, true %}
+    {{ parent() }}
+{% endblock %}
 {% block main_content %}
     <div id="main-content">
         <div class="container-fluid">

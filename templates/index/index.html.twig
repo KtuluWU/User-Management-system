@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
 {% endblock %}
 
+{% block sidebar %}
+    {% set nav_user_active, tab_home = true, true %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
 
 {% endblock %}
