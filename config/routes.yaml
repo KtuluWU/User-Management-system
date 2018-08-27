@@ -18,8 +18,3 @@ registration_confirm:
     path: /registration/user_confirm/{token}
     defaults:
         _controller: App\Controller\UserController::registration_confirm
-
-purchasehistory:
-    path: /purchase/history
-    defaults:
-        _controller: App\Controller\PurchaseController::index
