@@ -16,7 +16,7 @@
                                         class="fa fa-arrow-left"></i></a>{{ 'profile_page.title'|trans }}</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
-                            <li class="breadcrumb-item active">{{ 'profile_page.title'|trans }}</li>
+                            <li class="breadcrumb-item active">{{ 'profile_page.action.edit'|trans }}</li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
@@ -48,7 +48,7 @@
             <div class="col-lg-8 col-md-12" style="margin:auto">
                 <div class="card">
                     <div class="header">
-                        <h2>{{ 'profile_page.title'|trans }}</h2>
+                        <h2>{{ 'profile_page.action.edit'|trans }}</h2>
                     </div>
                     <div class="body">
                         {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
