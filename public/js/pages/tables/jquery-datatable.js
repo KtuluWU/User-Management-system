@@ -69,8 +69,9 @@ $(document).ready(function() {
 var addRowTable = {
     options: {
         addButton: "#addToTable",
-        table: "#addrowExample",
-        dialog: {}
+        table: "#main-table",
+        dialog: {},
+        numCols: document.getElementById("main-table").rows[0].cells.length,
     },
     initialize: function() {
         this.setVars().build().events()
@@ -79,10 +80,10 @@ var addRowTable = {
         return this.$table = $(this.options.table), this.$addButton = $(this.options.addButton), this.dialog = {}, this.dialog.$wrapper = $(this.options.dialog.wrapper), this.dialog.$cancel = $(this.options.dialog.cancelButton), this.dialog.$confirm = $(this.options.dialog.confirmButton), this
     },
     build: function() {
+        var cols = Array.from({length:this.options.numCols-1}, i=>null);
+        cols.push({bSortable: !1});
         return this.datatable = this.$table.DataTable({
-            aoColumns: [null, null, null, null, null, null, {
-                bSortable: !1
-            }],
+            aoColumns: cols,
         }), window.dt = this.datatable, this
     },
     events: function() {
@@ -119,7 +120,16 @@ var addRowTable = {
             disabled: "disabled"
         });
         var actions, data, $row;
-        actions = ['<button class="btn btn-sm btn-icon btn-pure btn-default on-editing button-save" data-toggle="tooltip" data-original-title="Save" hidden><i class="icon-drawer" aria-hidden="true"></i></button>', '<button class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard" hidden><i class="icon-close" aria-hidden="true"></i></button>', '<button class="btn btn-sm btn-icon btn-pure btn-default on-default button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i></button>', '<button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button>'].join(" "), data = this.datatable.row.add(["", "", "", "", "", "", actions]), ($row = this.datatable.row(data[0]).nodes().to$()).addClass("adding").find("td:last").addClass("actions"), this.rowEdit($row), this.datatable.order([0, "asc"]).draw()
+        var cols = Array.from({length:this.options.numCols-1}, i=>"");
+        actions = ['<button id="mySubmitButton" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-save" data-toggle="tooltip" data-original-title="Save" hidden><i class="icon-drawer" aria-hidden="true"></i></button>',
+            '<button class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard" hidden><i class="icon-close" aria-hidden="true"></i></button>',
+            '<button class="btn btn-sm btn-icon btn-pure btn-default on-default button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i></button>',
+            '<button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button>'].join(" ");
+        cols.push(actions);
+        data = this.datatable.row.add(cols);
+        ($row = this.datatable.row(data[0]).nodes().to$()).attr('id', 'addingRow').addClass("adding").find("td:last").addClass("actions");
+        this.rowEdit($row);
+        this.datatable.order([0, "asc"]).draw()
     },
     rowCancel: function($row) {
         var $actions, data;
