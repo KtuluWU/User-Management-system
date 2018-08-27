@@ -1,7 +1,6 @@
 {% trans_default_domain 'ums' %}
 {% extends 'layout.html.twig' %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
@@ -11,7 +10,7 @@
 
 {% endblock %}
 {% block sidebar %}
-    {% set nav_user_active, tab_purchase = true, true %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "active", "", "", "", "", "", "active", "" %}
     {{ parent() }}
 {% endblock %}
 {% block main_content %}
