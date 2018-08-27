@@ -75,6 +75,10 @@ roles:
   ROLE_ADMIN: 管理员
   ROLE_SUPER_ADMIN: 超级管理员
 
+sex:
+  1: 男
+  0: 女
+
 purchase_page:
   purchase_id: 购买记录号
   activity: 选项
@@ -88,3 +92,24 @@ purchase_page:
   return: 返回
   index:
     add_row: 添加
+
+profile_page:
+  title: 个人信息
+  action:
+    edit: 更新个人信息
+  info:
+    firstname: 名字
+    lastname: 姓氏
+    user_id: 会员号
+    address: 地址
+    sex: 性别
+    email: 邮箱
+    phone: 电话
+    birthday: 出生日期
+    id_card: 身份证号
+    wechat: 微信号
+    region: 所属地区
+    register_date: 注册日期
+    responsible: 负责人
+  btn: 提交
+  cancel: 取消

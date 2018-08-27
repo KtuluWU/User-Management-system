@@ -40,3 +40,8 @@ services:
         class: App\Form\PurchaseType
         tags:
         - { name: form.type, alias: app_purchasehistory }
+
+    app.form.profile:
+        class: App\Form\ProfileType
+        tags:
+        - { name: form.type, alis: app_user_profile }

@@ -14,12 +14,13 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="container-fluid">
-        <video width="600" height="450" controls>
-            <source src="{{ asset('video/test.mp4') }}" type="video/mp4">
-        </video>
+    <div id="main-content">
+        <div class="container-fluid">
+            <video width="600" height="450" controls>
+                <source src="{{ asset('video/test.mp4') }}" type="video/mp4">
+            </video>
+        </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
