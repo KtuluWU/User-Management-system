@@ -1,7 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% trans_default_domain 'ums' %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('vendor/chartist/css/chartist.min.css') }}"/>
@@ -9,7 +8,17 @@
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
 {% endblock %}
 
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "active", "", "", "", "", "", "", "", "active", "" %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
+    <div class="container-fluid">
+        <video width="600" height="450" controls>
+            <source src="{{ asset('video/test.mp4') }}" type="video/mp4">
+        </video>
+    </div>
 
 {% endblock %}
 

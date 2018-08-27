@@ -1,7 +1,6 @@
 {% trans_default_domain 'ums' %}
 {% extends 'layout.html.twig' %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
@@ -10,78 +9,9 @@
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 
 {% endblock %}
-{% block tab_content %}
-    <div class="tab-content p-l-0 p-r-0">
-        <div class="tab-pane animated fadeIn active" id="menu">
-            <nav class="sidebar-nav">
-                <ul class="main-menu metismenu">
-                    <li><a href="/"><i class="icon-home"></i><span>{{ 'sidebar.menu.index'|trans }}</span></a></li>
-                    <li><a href="/profile"><i class="icon-user"></i>{{ 'sidebar.menu.profile'|trans }}</a></li>
-                    <li class="active"><a href="/purchasehistory"><i class="icon-basket-loaded"></i>{{ 'sidebar.menu.buy_histo'|trans }}</a></li>
-                    <li>
-                        <a href="javascript:void(0);" class="has-arrow"><i class="icon-plane"></i><span>{{ 'sidebar.menu.product_source'|trans }}</span></a>
-                        <ul>
-                            <li><a href="javascript:void(0);">All Employees</a></li>
-                            <li><a href="javascript:void(0);">Leave Requests</a></li>
-                            <li><a href="javascript:void(0);">Attendance</a></li>
-                            <li><a href="javascript:void(0);">Departments</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="tab-pane animated fadeIn" id="admin_menu">
-                <nav class="sidebar-nav">
-                    <ul class="main-menu metismenu">
-                        <li><a href="javascript:void(0);"><i class="icon-users"></i><span>{{ 'sidebar.admin.users'|trans }}</span></a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-users"></i>{{ 'sidebar.admin.sellers'|trans }}</a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-diamond"></i>{{ 'sidebar.admin.admins'|trans }}</a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-basket-loaded"></i>{{ 'sidebar.admin.products'|trans }}</a></li>
-                        {#<li>
-                            <a href="javascript:void(0);" class="has-arrow"><i class="icon-list"></i><span>Projects</span></a>
-                            <ul>
-                                <li><a href="project-add.html">Add Projects</a></li>
-                                <li><a href="project-list.html">Projects List</a></li>
-                                <li><a href="project-detail.html">Projects Detail</a></li>
-                            </ul>
-                        </li>#}
-                    </ul>
-                </nav>
-            </div>
-        {% endif %}
-        <div class="tab-pane animated fadeIn" id="setting">
-            <div class="p-l-15 p-r-15">
-                <h6>{{ 'sidebar.setting.skins'|trans }}</h6>
-                <ul class="choose-skin list-unstyled">
-                    <li data-theme="purple">
-                        <div class="purple"></div>
-                        <span>{{ 'sidebar.setting.purple'|trans }}</span>
-                    </li>
-                    <li data-theme="blue">
-                        <div class="blue"></div>
-                        <span>{{ 'sidebar.setting.blue'|trans }}</span>
-                    </li>
-                    <li data-theme="cyan">
-                        <div class="cyan"></div>
-                        <span>{{ 'sidebar.setting.cyan'|trans }}</span>
-                    </li>
-                    <li data-theme="green">
-                        <div class="green"></div>
-                        <span>{{ 'sidebar.setting.green'|trans }}</span>
-                    </li>
-                    <li data-theme="orange" class="active">
-                        <div class="orange"></div>
-                        <span>{{ 'sidebar.setting.orange'|trans }}</span>
-                    </li>
-                    <li data-theme="blush">
-                        <div class="blush"></div>
-                        <span>{{ 'sidebar.setting.blush'|trans }}</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "active", "", "", "", "", "", "active", "" %}
+    {{ parent() }}
 {% endblock %}
 {% block main_content %}
     <div id="main-content">
