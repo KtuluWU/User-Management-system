@@ -53,6 +53,7 @@ sidebar:
     admin: 管理员
     index: 首页
     buy_histo: 购买记录
+    product_info: 产品信息
     product_source: 产品溯源
   admin:
     users: 买家信息
