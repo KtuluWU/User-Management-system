@@ -144,7 +144,7 @@
         </nav>
 
     {% endblock %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products = "active", "", "", "", "", "", "", "" %}
+    {#{% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "active", "", "", "", "", "", "", "", "active", "" %}#}
     {% block sidebar %}
         <div id="left-sidebar" class="sidebar">
             <div class="sidebar-scroll">
@@ -167,11 +167,11 @@
                 </div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#menu"><i
+                    <li class="nav-item"><a class="nav-link {{ nav_menu }}" data-toggle="tab" href="#menu"><i
                                     class="icon-grid"></i></a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                        <li class="nav-item"><a class="nav-link {{ nav_admin }}" data-toggle="tab"
                                                 href="#admin_menu">{{ 'sidebar.menu.admin'|trans }}</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i
@@ -181,7 +181,7 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content p-l-0 p-r-0">
-                    <div class="tab-pane animated fadeIn active" id="menu">
+                    <div class="tab-pane animated fadeIn {{ nav_menu }}" id="menu">
                         <nav class="sidebar-nav">
                             <ul class="main-menu metismenu">
                                 <li class="{{ tab_menu_index }}"><a href="/"><i
@@ -205,7 +205,7 @@
                         </nav>
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <div class="tab-pane animated fadeIn" id="admin_menu">
+                        <div class="tab-pane animated fadeIn {{ nav_admin }}" id="admin_menu">
                             <nav class="sidebar-nav">
                                 <ul class="main-menu metismenu">
                                     <li class="{{ tab_admin_users }}"><a href="javascript:void(0);"><i
