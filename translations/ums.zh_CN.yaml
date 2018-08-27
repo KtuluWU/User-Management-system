@@ -113,11 +113,12 @@ profile_page:
     responsible: 负责人
   btn: 提交
   cancel: 取消
+
 product_page:
   product_id: 商品编号
   product_name: 商品名
   barcode: 条形码
-  image_path: 商品图片路径
+  image_path: 商品图片
   category: 商品类别
   shelf_life: 保质期
   promotion: 促销情况
