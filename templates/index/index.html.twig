@@ -1,8 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% trans_default_domain 'ums' %}
 
-
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('vendor/chartist/css/chartist.min.css') }}"/>
@@ -11,7 +9,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% set nav_user_active, tab_home = true, true %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products = "active", "", "", "", "", "", "", "" %}
     {{ parent() }}
 {% endblock %}
 
