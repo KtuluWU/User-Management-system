@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\UserListEditType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -215,14 +216,40 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/userList/edit/{user_id}")
+     * @Route("/userList/edit/{user_id}&{page}")
      */
-    public function userList_edit($user_id)
+    public function userList_edit(Request $request, $user_id, $page)
     {
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['user_id' => $user_id]);
 
-        return new Response(var_dump($user));
+        $form = $this->createForm(UserListEditType::class, $user);
+        $form->setData($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setEnabled($data->isEnabled());
+
+            $userManager->updateUser($user);
+            return $this->redirectToRoute('UserList'.$page.'Page');
+        }
+
+        return $this->render('user/userList_edit.html.twig', [
+            'form' => $form->createView(),
+            'page' => $page
+        ]);
     }
 
     /**

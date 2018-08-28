@@ -103,6 +103,7 @@ profile_page:
     edit: 更新个人信息
     changepwd: 更新登录密码
   info:
+    username: 用户名
     firstname: 名字
     lastname: 姓氏
     user_id: 会员号
@@ -115,7 +116,8 @@ profile_page:
     wechat: 微信号
     region: 所属地区
     register_date: 注册日期
-    responsible: 负责人
+    responsible: 负责人工号
+    responsible_region: 负责地区
   btn: 提交
   cancel: 取消
 
@@ -153,3 +155,4 @@ userList_pages:
   enabled: 账户状态
   date_register: 注册日期
   action: 选项
+  edit_form: 修改用户信息

@@ -45,3 +45,8 @@ services:
         class: App\Form\ProfileType
         tags:
         - { name: form.type, alis: app_user_profile }
+
+    app.form.userListEdit:
+        class: App\Form\UserListEditType
+        tags:
+        - { name: form.type, alis: app_userList_edit }
