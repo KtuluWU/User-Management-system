@@ -71,8 +71,8 @@ sidebar:
 
 roles:
   ROLE_USER: 会员
-  ROLE_SELLER: 销售员
-  ROLE_ADMIN: 管理员
+  ROLE_SELLER: 销售人员
+  ROLE_ADMIN: 管理人员
   ROLE_SUPER_ADMIN: 超级管理员
 
 sex:
@@ -138,6 +138,9 @@ userList_pages:
   title_users: 会员信息
   title_sellers: 销售人员信息
   title_admins: 管理人员信息
+  add_seller: 添加销售人员
+  add_admin: 添加管理人员
+  add_seller_admin: 添加销售/管理人员
   name: 真实姓名
   username: 昵称
   sex: 性别
@@ -154,5 +157,7 @@ userList_pages:
   responsible_region: 负责地区
   enabled: 账户状态
   date_register: 注册日期
+  roles: 权限
+  plain_pwd: 密码
   action: 选项
   edit_form: 修改用户信息

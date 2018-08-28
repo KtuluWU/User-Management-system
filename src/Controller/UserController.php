@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends Controller
 {
-
     /**
      * @var UrlGeneratorInterface
      */
@@ -216,6 +215,56 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/userList/add/{page}")
+     */
+    public function userList_add(Request $request, $page)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $form = $this->createForm(UserListEditType::class, $user);
+        $form->handleRequest($request);
+
+        date_default_timezone_set("Europe/Paris");
+
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $plain_pwd = $_POST["userList_add_plain_pwd"];
+            $roles = $_POST["userList_add_roles"];
+            $id_card = $_POST["userList_add_id_card"];
+            $user_id = $this->user_id_generator($roles);
+            $register_date = date_create(date('Y-m-d H:i:s'));
+
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setEnabled($data->isEnabled());
+            $user->setRoles([$roles]);
+            $user->setPlainPassword($plain_pwd);
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
+            $user->setIdCard($id_card);
+
+
+            $userManager->updateUser($user);
+
+            return $this->redirectToRoute('UserList'.$page.'Page');
+        }
+
+        return $this->render('user/userList_add.html.twig', [
+            'form' => $form->createView(),
+            'page' => $page
+        ]);
+    }
+
+    /**
      * @Route("/userList/edit/{user_id}&{page}")
      */
     public function userList_edit(Request $request, $user_id, $page)
@@ -292,7 +341,7 @@ class UserController extends Controller
     /**
      * @return array
      */
-  private function UsersGenerator($sql)
+    private function UsersGenerator($sql)
     {
         $em_users = $this->getDoctrine()->getManager()->getConnection();
         $users_pre = $em_users->prepare($sql);
@@ -323,5 +372,28 @@ class UserController extends Controller
             ]);
         }
         return $users;
+    }
+
+    /**
+     * @return string
+     */
+    private function user_id_generator($role)
+    {
+        $em_users = $this->getDoctrine()->getManager()->getConnection();
+
+        $sql_seller = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%' ORDER BY user_id DESC LIMIT 1";
+        $sql_admin = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%' ORDER BY user_id DESC LIMIT 1";
+
+        if ($role == 'ROLE_SELLER') {
+            $user_id_pre = $em_users->prepare($sql_seller);
+        } else {
+            $user_id_pre = $em_users->prepare($sql_admin);
+        }
+
+        $user_id_pre->execute();
+        $user_id_last = $user_id_pre->fetchAll();
+
+        $user_id = $user_id_last["0"]["user_id"]+1;
+        return $user_id;
     }
 }
