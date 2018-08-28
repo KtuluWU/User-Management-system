@@ -121,7 +121,24 @@ class User extends BaseUser
     public function __construct() {
         parent::__construct();
         // your own logic
+        $this->responsible_region = array();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addResponsibleRegion($responsible_region)
+    {
+
+        $responsible_region = strtoupper($responsible_region);
+
+        if (!in_array($responsible_region, $this->responsible_region, true)) {
+            $this->responsible_region[] = $responsible_region;
+        }
+
+        return $this;
+    }
+
 
     public function getId(): ?int
     {
