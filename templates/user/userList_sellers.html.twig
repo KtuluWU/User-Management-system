@@ -3,6 +3,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 {% endblock %}
 
@@ -55,7 +60,7 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-hover m-b-0 c_list text-center table-userList">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
                                         <th class="text-left">{{ 'userList_pages.name'|trans }}</th>
@@ -143,7 +148,14 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.delete_user_confirm').click(function(e) {
