@@ -133,11 +133,15 @@ product_page:
   add_row: 添加产品
 
 userList_pages:
+  title_users: 会员信息
+  title_sellers: 销售人员信息
+  title_admins: 管理人员信息
   name: 真实姓名
   username: 昵称
   sex: 性别
   email: 邮箱
   user_id: 会员号
+  seller_id: 工号
   date_birth: 出生日期
   id_card: 身份证号
   phone: 电话
@@ -149,5 +153,3 @@ userList_pages:
   enabled: 账户状态
   date_register: 注册日期
   action: 选项
-  users:
-    title: 会员信息
