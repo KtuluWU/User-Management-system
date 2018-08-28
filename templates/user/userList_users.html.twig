@@ -3,6 +3,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 {% endblock %}
 
@@ -55,7 +60,7 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-hover m-b-0 c_list text-center table-userList">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
                                         <th class="text-left">{{ 'userList_pages.name'|trans }}</th>
@@ -81,51 +86,31 @@
                                             <td class="text-left">
                                                 <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
                                             </td>
-                                            <td>
-                                                <span>{{ user.username }}</span>
-                                            </td>
+                                            <td>{{ user.username }}</td>
                                             <td>
                                                 {% set user_sex = 'sex.' ~ user.sex %}
-                                                <span>{{ user_sex|trans }}</span>
+                                                {{ user_sex|trans }}
                                             </td>
-                                            <td>
-                                                <span>{{ user.email }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.user_id }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.date_birth|date('Y年m月d日') }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.id_card }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.phone }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.wechat }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.address }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.region }}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{ user.responsible_id }}</span>
-                                            </td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.user_id }}</td>
+                                            <td>{{ user.date_birth|date('Y年m月d日') }}</td>
+                                            <td>{{ user.id_card }}</td>
+                                            <td>{{ user.phone }}</td>
+                                            <td>{{ user.wechat }}</td>
+                                            <td>{{ user.address }}</td>
+                                            <td>{{ user.region }}</td>
+                                            <td>{{ user.responsible_id }}</td>
                                             <td>
                                                 {% set user_enabeld = 'enabled.' ~ user.enabled %}
-                                                <span>{{ user_enabeld|trans }}</span>
+                                                {{ user_enabeld|trans }}
                                             </td>
+                                            <td>{{ user.date_register|date('Y年m月d日') }}</td>
                                             <td>
-                                                <span>{{ user.date_register|date('Y年m月d日') }}</span>
-                                            </td>
-                                            <td>
-                                                <a href="/userList/edit/{{ user.user_id }}&Users" class="btn btn-info"><i
+                                                <a href="/userList/edit/{{ user.user_id }}&Users"
+                                                   class="btn btn-info"><i
                                                             class="fa fa-edit"></i></a>
-                                                <a href="/userList/delete/{{ user.user_id }}&Users" class="btn btn-danger delete_user_confirm"><i
+                                                <a href="/userList/delete/{{ user.user_id }}&Users"
+                                                   class="btn btn-danger delete_user_confirm"><i
                                                             class="fa fa-trash-o"></i></a>
                                             </td>
                                         </tr>
@@ -143,14 +128,22 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('.delete_user_confirm').click(function(e) {
+            $('.delete_user_confirm').click(function (e) {
                 e.preventDefault();
                 var linkURL = $(this).attr("href");
                 confirmBeforeRedirect(linkURL);
             });
+
             function confirmBeforeRedirect(linkURL) {
                 swal({
                     title: "确定删除该用户吗？",
@@ -160,10 +153,10 @@
                     confirmButtonColor: "#dc3545",
                     confirmButtonText: "确定删除",
                     cancelButtonText: "取消"
-                }, function() {
+                }, function () {
                     window.location.href = linkURL;
                 });
-            }
+            };
         })
     </script>
 {% endblock %}
