@@ -56,7 +56,7 @@ sidebar:
     product_info: 产品信息
     product_source: 产品溯源
   admin:
-    users: 买家信息
+    users: 会员信息
     sellers: 销售员信息
     admins: 管理员信息
     products: 产品信息
@@ -78,6 +78,10 @@ roles:
 sex:
   1: 男
   0: 女
+
+enabled:
+  1: 激活
+  0: 未激活
 
 purchase_page:
   purchase_id: 购买记录号
@@ -129,5 +133,21 @@ product_page:
   add_row: 添加产品
 
 userList_pages:
+  name: 真实姓名
+  username: 昵称
+  sex: 性别
+  email: 邮箱
+  user_id: 会员号
+  date_birth: 出生日期
+  id_card: 身份证号
+  phone: 电话
+  wechat: 微信号
+  address: 地址
+  region: 所属地区
+  responsible_id: 负责人工号
+  responsible_region: 负责地区
+  enabled: 账户状态
+  date_register: 注册日期
+  action: 选项
   users:
-    title: 买家信息
+    title: 会员信息

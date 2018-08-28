@@ -50,109 +50,81 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-hover m-b-0 c_list">
+                                <table class="table table-hover m-b-0 c_list text-center table-userList">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Address</th>
-                                        <th>Action</th>
+                                        <th class="text-left">{{ 'userList_pages.name'|trans }}</th>
+                                        <th>{{ 'userList_pages.username'|trans }}</th>
+                                        <th>{{ 'userList_pages.sex'|trans }}</th>
+                                        <th>{{ 'userList_pages.email'|trans }}</th>
+                                        <th>{{ 'userList_pages.user_id'|trans }}</th>
+                                        <th>{{ 'userList_pages.date_birth'|trans }}</th>
+                                        <th>{{ 'userList_pages.id_card'|trans }}</th>
+                                        <th>{{ 'userList_pages.phone'|trans }}</th>
+                                        <th>{{ 'userList_pages.wechat'|trans }}</th>
+                                        <th>{{ 'userList_pages.address'|trans }}</th>
+                                        <th>{{ 'userList_pages.region'|trans }}</th>
+                                        <th>{{ 'userList_pages.responsible_id'|trans }}</th>
+                                        <th>{{ 'userList_pages.enabled'|trans }}</th>
+                                        <th>{{ 'userList_pages.date_register'|trans }}</th>
+                                        <th>{{ 'userList_pages.action'|trans }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {% for user in users %}
                                     <tr>
-                                        <td>
-                                            <img src="{{ asset('images/xs/avatar1.jpg') }}" class="rounded-circle avatar"
-                                                 alt="">
-                                            <p class="c_name">John Smith <span
-                                                        class="badge badge-default m-l-10 hidden-sm-down">Family</span>
-                                            </p>
+                                        <td class="text-left">
+                                            <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
                                         </td>
                                         <td>
-                                            <span class="phone"><i
-                                                        class="zmdi zmdi-phone m-r-10"></i>264-625-2583</span>
+                                            <span>{{ user.username }}</span>
                                         </td>
                                         <td>
-                                            <address><i class="zmdi zmdi-pin"></i>123 6th St. Melbourne, FL 32904
-                                            </address>
+                                            {% set user_sex = 'sex.' ~ user.sex %}
+                                            <span>{{ user_sex|trans }}</span>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-info" title="Edit"><i
-                                                        class="fa fa-edit"></i></button>
-                                            <button type="button" data-type="confirm"
-                                                    class="btn btn-danger js-sweetalert" title="Delete"><i
-                                                        class="fa fa-trash-o"></i></button>
+                                            <span>{{ user.email }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.user_id }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.date_birth|date('Y年m月d日') }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.id_card }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.phone }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.wechat }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.address }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.region }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.responsible_id }}</span>
+                                        </td>
+                                        <td>
+                                            {% set user_enabeld = 'enabled.' ~ user.enabled %}
+                                            <span>{{ user_enabeld|trans }}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ user.date_register|date('Y年m月d日') }}</span>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info" title="Edit"><i
+                                                        class="fa fa-edit"></i></a>
+                                            <a class="btn btn-danger js-sweetalert" title="Delete"><i
+                                                        class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('images/xs/avatar3.jpg') }}" class="rounded-circle avatar"
-                                                 alt="">
-                                            <p class="c_name">Hossein Shams <span
-                                                        class="badge badge-info m-l-10 hidden-sm-down">Google</span></p>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i
-                                                        class="zmdi zmdi-phone m-r-10"></i>264-625-5689</span>
-                                        </td>
-                                        <td>
-                                            <address><i class="zmdi zmdi-pin"></i>44 Shirley Ave. West Chicago, IL 60185
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" title="Edit"><i
-                                                        class="fa fa-edit"></i></button>
-                                            <button type="button" data-type="confirm"
-                                                    class="btn btn-danger js-sweetalert" title="Delete"><i
-                                                        class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('images/xs/avatar9.jpg') }}" class="rounded-circle avatar"
-                                                 alt="">
-                                            <p class="c_name">Frank Camly</p>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i
-                                                        class="zmdi zmdi-phone m-r-10"></i>264-625-9999</span>
-                                        </td>
-                                        <td>
-                                            <address><i class="zmdi zmdi-pin"></i>123 6th St. Melbourne, FL 32904
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" title="Edit"><i
-                                                        class="fa fa-edit"></i></button>
-                                            <button type="button" data-type="confirm"
-                                                    class="btn btn-danger js-sweetalert" title="Delete"><i
-                                                        class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('images/xs/avatar10.jpg') }}" class="rounded-circle avatar"
-                                                 alt="">
-                                            <p class="c_name">Tim Hank<span
-                                                        class="badge badge-default m-l-10 hidden-sm-down">Family</span>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i
-                                                        class="zmdi zmdi-phone m-r-10"></i>264-625-1212</span>
-                                        </td>
-                                        <td>
-                                            <address><i class="zmdi zmdi-pin"></i>70 Bowman St. South Windsor, CT 06074
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" title="Edit"><i
-                                                        class="fa fa-edit"></i></button>
-                                            <button type="button" data-type="confirm"
-                                                    class="btn btn-danger js-sweetalert" title="Delete"><i
-                                                        class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
