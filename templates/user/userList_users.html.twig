@@ -1,6 +1,11 @@
 {% extends 'layout.html.twig' %}
 {% trans_default_domain 'ums' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+{% endblock %}
+
 {% block sidebar %}
     {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "active", "", "", "", "", "active" %}
     {{ parent() }}
@@ -72,58 +77,58 @@
                                     </thead>
                                     <tbody>
                                     {% for user in users %}
-                                    <tr>
-                                        <td class="text-left">
-                                            <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.username }}</span>
-                                        </td>
-                                        <td>
-                                            {% set user_sex = 'sex.' ~ user.sex %}
-                                            <span>{{ user_sex|trans }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.email }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.user_id }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.date_birth|date('Y年m月d日') }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.id_card }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.phone }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.wechat }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.address }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.region }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.responsible_id }}</span>
-                                        </td>
-                                        <td>
-                                            {% set user_enabeld = 'enabled.' ~ user.enabled %}
-                                            <span>{{ user_enabeld|trans }}</span>
-                                        </td>
-                                        <td>
-                                            <span>{{ user.date_register|date('Y年m月d日') }}</span>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-info" title="Edit"><i
-                                                        class="fa fa-edit"></i></a>
-                                            <a class="btn btn-danger js-sweetalert" title="Delete"><i
-                                                        class="fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.username }}</span>
+                                            </td>
+                                            <td>
+                                                {% set user_sex = 'sex.' ~ user.sex %}
+                                                <span>{{ user_sex|trans }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.email }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.user_id }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.date_birth|date('Y年m月d日') }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.id_card }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.phone }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.wechat }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.address }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.region }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.responsible_id }}</span>
+                                            </td>
+                                            <td>
+                                                {% set user_enabeld = 'enabled.' ~ user.enabled %}
+                                                <span>{{ user_enabeld|trans }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ user.date_register|date('Y年m月d日') }}</span>
+                                            </td>
+                                            <td>
+                                                <a href="/userList/edit/{{ user.user_id }}" class="btn btn-info"><i
+                                                            class="fa fa-edit"></i></a>
+                                                <a href="/userList/delete/{{ user.user_id }}&Users" class="btn btn-danger delete_user_confirm"><i
+                                                            class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
@@ -134,4 +139,31 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete_user_confirm').click(function(e) {
+                e.preventDefault();
+                var linkURL = $(this).attr("href");
+                confirmBeforeRedirect(linkURL);
+            });
+            function confirmBeforeRedirect(linkURL) {
+                swal({
+                    title: "确定删除该用户吗？",
+                    text: "该操作无法恢复！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#dc3545",
+                    confirmButtonText: "确定删除！",
+                    cancelButtonText: "取消"
+                }, function() {
+                    window.location.href = linkURL;
+                });
+            }
+        })
+    </script>
 {% endblock %}

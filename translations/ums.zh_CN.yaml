@@ -141,7 +141,7 @@ userList_pages:
   sex: 性别
   email: 邮箱
   user_id: 会员号
-  seller_id: 工号
+  employee_id: 工号
   date_birth: 出生日期
   id_card: 身份证号
   phone: 电话

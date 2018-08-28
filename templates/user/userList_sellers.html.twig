@@ -1,6 +1,11 @@
 {% extends 'layout.html.twig' %}
 {% trans_default_domain 'ums' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+{% endblock %}
+
 {% block sidebar %}
     {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "", "active", "", "", "", "active" %}
     {{ parent() }}
@@ -57,7 +62,7 @@
                                         <th>{{ 'userList_pages.username'|trans }}</th>
                                         <th>{{ 'userList_pages.sex'|trans }}</th>
                                         <th>{{ 'userList_pages.email'|trans }}</th>
-                                        <th>{{ 'userList_pages.seller_id'|trans }}</th>
+                                        <th>{{ 'userList_pages.employee_id'|trans }}</th>
                                         <th>{{ 'userList_pages.date_birth'|trans }}</th>
                                         <th>{{ 'userList_pages.id_card'|trans }}</th>
                                         <th>{{ 'userList_pages.phone'|trans }}</th>
@@ -120,7 +125,7 @@
                                             <td>
                                                 <a class="btn btn-info" title="Edit"><i
                                                             class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger js-sweetalert" title="Delete"><i
+                                                <a href="/userList/delete/{{ user.user_id }}&Sellers" class="btn btn-danger delete_user_confirm" title="Delete"><i
                                                             class="fa fa-trash-o"></i></a>
                                             </td>
                                         </tr>
@@ -134,4 +139,31 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete_user_confirm').click(function(e) {
+                e.preventDefault();
+                var linkURL = $(this).attr("href");
+                confirmBeforeRedirect(linkURL);
+            });
+            function confirmBeforeRedirect(linkURL) {
+                swal({
+                    title: "确定删除该销售人员吗？",
+                    text: "该操作无法恢复！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#dc3545",
+                    confirmButtonText: "确定删除！",
+                    cancelButtonText: "取消"
+                }, function() {
+                    window.location.href = linkURL;
+                });
+            }
+        })
+    </script>
 {% endblock %}

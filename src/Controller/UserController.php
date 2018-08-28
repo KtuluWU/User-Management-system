@@ -215,6 +215,28 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/userList/edit/{user_id}")
+     */
+    public function userList_edit($user_id)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['user_id' => $user_id]);
+
+        return new Response(var_dump($user));
+    }
+
+    /**
+     * @Route("/userList/delete/{user_id}&{page}")
+     */
+    public function userList_delete($user_id, $page)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['user_id' => $user_id]);
+        $userManager->deleteUser($user);
+        return $this->redirectToRoute('UserList'.$page.'Page');
+    }
+
+    /**
      * @return string
      */
     private function generate_token()
