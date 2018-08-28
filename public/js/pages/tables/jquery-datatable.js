@@ -1,5 +1,28 @@
 $(function () {
-    $('.js-basic-example').DataTable();
+    $('.js-basic-example').DataTable({
+        "language": {
+            "info": "第 _PAGE_ 页 / 共 _PAGES_ 页",
+            "paginate": {
+                "first": "首页",
+                "last": "尾页",
+                "next": "下一页",
+                "previous": "上一页",
+                "emptyTable": "无会员数据",
+                "infoEmpty": "无会员数据",
+            },
+            "lengthMenu": '每页显示 <select>'+
+                '<option value="5">5</option>'+
+                '<option value="10">10</option>'+
+                '<option value="30">30</option>'+
+                '<option value="50">50</option>'+
+                '<option value="100">100</option>'+
+                '<option value="200">200</option>'+
+                '</select> 行'
+        },
+        "searching": false
+
+    });
+
 
     //Exportable table
     $('.js-exportable').DataTable({

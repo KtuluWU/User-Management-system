@@ -2,7 +2,7 @@
 {% trans_default_domain 'ums' %}
 
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "active", "", "", "", "", "", "", "active", "" %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "", "", "", "", "", "active" %}
     {{ parent() }}
 {% endblock %}
 
@@ -13,10 +13,10 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>{{ 'profile_page.title'|trans }}</h2>
+                                        class="fa fa-arrow-left"></i></a>{{ 'userList_pages.edit_form'|trans }}</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
-                            <li class="breadcrumb-item active">{{ 'profile_page.action.edit'|trans }}</li>
+                            <li class="breadcrumb-item active">{{ 'userList_pages.edit_form'|trans }}</li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
@@ -48,10 +48,10 @@
             <div class="col-lg-8 col-md-12 m-auto">
                 <div class="card">
                     <div class="header">
-                        <h2>{{ 'profile_page.action.edit'|trans }}</h2>
+                        <h2>{{ 'userList_pages.edit_form'|trans }}</h2>
                     </div>
                     <div class="body">
-                        {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+                        {{ form_start(form) }}
                         <small class="text-muted">{{ form_label(form.username) }}</small>
                         <p>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
@@ -60,6 +60,9 @@
                         <hr>
                         <small class="text-muted">{{ form_label(form.lastname) }}</small>
                         <p>{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+                        <small class="text-muted">{{ form_label(form.sex) }}</small>
+                        <p>{{ form_widget(form.sex) }}</p>
                         <hr>
                         <small class="text-muted">{{ form_label(form.email) }}</small>
                         <p>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</p>
@@ -79,12 +82,12 @@
                         <small class="text-muted">{{ form_label(form.region) }}</small>
                         <p>{{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
-                        <small class="text-muted">{{ form_label(form.current_password) }}</small>
-                        <p>{{ form_widget(form.current_password, {'attr': {'class': 'form-control'}}) }}</p>
+                        <small class="text-muted">{{ form_label(form.enabled) }}</small>
+                        <p>{{ form_widget(form.enabled) }}</p>
                         <hr>
                         <div class="text-center">
                             <input type="submit" class="btn btn-primary" value="{{ 'profile_page.btn'|trans }}">&nbsp;&nbsp;
-                            <a href="/profile" class="btn btn-default">{{ 'profile_page.cancel'|trans }}</a>
+                            <a href="/userList/{{ page|lower }}" class="btn btn-default">{{ 'profile_page.cancel'|trans }}</a>
                         </div>
                         {{ form_end(form) }}
                     </div>
@@ -92,4 +95,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
