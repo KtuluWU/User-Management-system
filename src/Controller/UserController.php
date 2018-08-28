@@ -144,8 +144,8 @@ class UserController extends Controller
         $plain_psw = "11111";
         $roles = ["ROLE_SUPER_ADMIN"];
         $user_id = "10000000001";
-        $fstname = "Super";
-        $lstnamle = "ADMIN";
+        $firstname = "Super";
+        $lastname = "ADMIN";
         $dt_birth = date_create("2000-01-01");
         $sex = 1;
         $id_card = "123456789123456789";
@@ -160,8 +160,8 @@ class UserController extends Controller
         $user->setPlainPassword($plain_psw);
         $user->setRoles($roles);
         $user->setUserId($user_id);
-        $user->setFirstname($fstname);
-        $user->setLastname($lstnamle);
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
         $user->setDateBirth($dt_birth);
         $user->setSex($sex);
         $user->setIdCard($id_card);
@@ -175,11 +175,56 @@ class UserController extends Controller
         return new Response("Super Admin Created !");
     }
 
+    /**
+     * @Route("/userList/users", name="UserListUsersPage")
+     */
+    public function userList_users()
+    {
+        $sql = "SELECT * FROM User WHERE roles='a:0:{}'";
+        $users = $this->UsersGenerator($sql);
+
+        return $this->render('user/userList_users.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/userList/sellers", name="UserListSellersPage")
+     */
+    public function userList_sellers()
+    {
+        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%'";
+        $users = $this->UsersGenerator($sql);
+
+        return $this->render('user/userList_sellers.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/userList/admins", name="UserListAdminsPage")
+     */
+    public function userList_admins()
+    {
+        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%'";
+        $users = $this->UsersGenerator($sql);
+
+        return $this->render('user/userList_admins.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @return string
+     */
     private function generate_token()
     {
         return hash('sha256', md5(uniqid(md5(microtime(true)),true)));
     }
 
+    /**
+     *
+     */
     private function send_activate_email($subject_to_send, $mail_from, $mail_to, $url, $username)
     {
         $mail_to_send = (new \Swift_Message())
@@ -195,4 +240,39 @@ class UserController extends Controller
         $this->get('mailer')->send($mail_to_send);
     }
 
+    /**
+     * @return array
+     */
+  private function UsersGenerator($sql)
+    {
+        $em_users = $this->getDoctrine()->getManager()->getConnection();
+        $users_pre = $em_users->prepare($sql);
+        $users_pre->execute();
+        $users_db = $users_pre->fetchAll();
+
+        $users = array();
+
+        foreach ($users_db as $v) {
+            array_push($users, [
+                'username' => $v['username'],
+                'email' => $v['email'],
+                'enabled' => $v['enabled'],
+                'last_login' => $v['last_login'],
+                'user_id' => $v['user_id'],
+                'firstname' => $v['firstname'],
+                'lastname' => $v['lastname'],
+                'date_birth' => $v['date_birth'],
+                'sex' => $v['sex'],
+                'id_card' => $v['id_card'],
+                'phone' => $v['phone'],
+                'wechat' => $v['wechat'],
+                'region' => $v['region'],
+                'address' => $v['address'],
+                'date_register' => $v['date_register'],
+                'responsible_id' => $v['responsible_id'],
+                'responsible_region' => $v['responsible_region'],
+            ]);
+        }
+        return $users;
+    }
 }

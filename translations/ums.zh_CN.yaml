@@ -127,3 +127,7 @@ product_page:
   description: 商品描述
   action: 操作
   add_row: 添加产品
+
+userList_pages:
+  users:
+    title: 买家信息
