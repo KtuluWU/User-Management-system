@@ -132,13 +132,11 @@ product_page:
   stock: 库存
   description: 商品描述
   action: 操作
-<<<<<<< HEAD
   add_row: 添加商品
   btn: 保存
   return: 返回
   title: 请输入您的新产品
-=======
-  add_row: 添加产品
+
 
 userList_pages:
   title_users: 会员信息
@@ -162,4 +160,3 @@ userList_pages:
   date_register: 注册日期
   action: 选项
   edit_form: 修改用户信息
->>>>>>> develop

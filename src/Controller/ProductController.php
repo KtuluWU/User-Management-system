@@ -8,11 +8,11 @@ use App\Entity\Product;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
- * @Route("/product")
+ * @Route("/product", name = "Product")
  */
 class ProductController extends AbstractController
 {
@@ -40,7 +40,8 @@ class ProductController extends AbstractController
             $product_id = $product->getProductId();
             $product_name = $product->getProductName();
             $barcode = $product->getBarcode();
-            $image_path = $product->getImagePath();
+            $image = $form->get('image_path')->getData();
+            $image_path = md5(uniqid()).'.'.$image->guessExtension();
             $category = $product->getCategory();
             $shelf_life = $product->getShelfLife();
             $promotion = $product->getPromotion();
@@ -56,16 +57,22 @@ class ProductController extends AbstractController
                 $product->setBarcode($barcode);
                 $product->setImagePath($image_path);
                 $product->setCategory($category);
+
                 $product->setShelfLife($shelf_life);
                 $product->setPromotion($promotion);
                 $product->setStock($stock);
                 $product->setDescription($description);
                 $product_manager->persist($product);
                 $product_manager->flush();
+                $image->move(
+                    $this->getParameter('upload_directory'),
+                    $image_path
+                );
+
             }
 
             else {
-                return new Response("product exists!!!");;
+                return new Response("product exists!!!");
             }
         }
 
@@ -73,4 +80,18 @@ class ProductController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    /**
+     * @Route("/delete/{product_id}&{page}", name = "ProductEdit")
+     */
+    public function userList_delete($product_id, $page)
+    {   $product_manager = $this->getDoctrine()->getManager();
+        $product= $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id));
+        if ($product != null){
+            $product_manager->remove($product);
+            $product_manager->flush();
+        }
+
+        return $this->redirectToRoute("ProductProductPage");
+    }
+
 }

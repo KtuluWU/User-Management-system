@@ -6,8 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -28,7 +28,7 @@ class ProductType extends AbstractType
                     'placeholder' => 'product_page.barcode',
                 ),
                 'translation_domain' => 'ums'))
-            ->add('image_path', null, array(
+            ->add('image_path', FileType::class, array(
                 'attr' => array(
                     'placeholder' => 'product_page.image_path',
                 ),
