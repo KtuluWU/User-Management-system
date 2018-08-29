@@ -6,7 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Product;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Form\ProductType;
+use Symfony\Component\HttpFoundation\Response;
+
+
+
 /**
  * @Route("/product")
  */
@@ -24,31 +28,49 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="AddNewProduct", methods="POST")
+     * @Route("/register", name="AddNewProduct")
      */
     public function saveToDatabase(Request $request){
-        if ($request->isXmlHttpRequest()){
-            $content = $request->getContent();
-            if (!empty($content)){
-                $params = json_decode($content, true);
-                $product = new Product();
-                // TODO: validation
-                $product->setProductId($params["product_id"]);
-                $product->setProductName($params["product_name"]);
-                $product->setBarcode($params["barcode"]);
-                $product->setImagePath($params["image_path"]);
-                $product->setCategory($params["category"]);
-                $product->setShelfLife($params["shelf_life"]);
-                $product->setPromotion($params["promotion"]);
-                $product->setStock((int)$params["stock"]);
-                $product->setDescription($params["description"]);
+        $product= new Product();
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($product);
-                $em->flush();
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product_id = $product->getProductId();
+            $product_name = $product->getProductName();
+            $barcode = $product->getBarcode();
+            $image_path = $product->getImagePath();
+            $category = $product->getCategory();
+            $shelf_life = $product->getShelfLife();
+            $promotion = $product->getPromotion();
+            $stock = $product->getStock();
+            $description = $product->getDescription();
+
+            $product_manager = $this->getDoctrine()->getManager();
+            $product_confirmation = $product_manager->getRepository(Product::class)->findBy(array('product_id' => $product_id));
+
+            if (null == $product_confirmation) {
+                $product->setProductId($product_id);
+                $product->setProductName($product_name);
+                $product->setBarcode($barcode);
+                $product->setImagePath($image_path);
+                $product->setCategory($category);
+                $product->setShelfLife($shelf_life);
+                $product->setPromotion($promotion);
+                $product->setStock($stock);
+                $product->setDescription($description);
+                $product_manager->persist($product);
+                $product_manager->flush();
             }
-            return new JsonResponse(array('data' => $params));
+
+            else {
+                return new Response("product exists!!!");;
+            }
         }
+
+        return $this->render('product/product_register.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
