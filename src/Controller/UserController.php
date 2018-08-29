@@ -198,8 +198,8 @@ class UserController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->createUser();
 
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $users = $em->findUserByRole('ROLE_SELLER');
+        $users_obj = $this->getDoctrine()->getRepository(User::class);
+        $users = $users_obj->findUserByRole('ROLE_SELLER');
 
         $form = $this->createForm(UserListAddType::class, $user);
         $form->handleRequest($request);
@@ -247,8 +247,8 @@ class UserController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->createUser();
 
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $users = $em->findUserByRole('ROLE_ADMIN');
+        $users_obj = $this->getDoctrine()->getRepository(User::class);
+        $users = $users_obj->findUserByRole('ROLE_ADMIN');
 
         $form = $this->createForm(UserListAddType::class, $user);
         $form->handleRequest($request);
