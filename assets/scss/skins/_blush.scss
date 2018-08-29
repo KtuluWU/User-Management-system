@@ -114,4 +114,11 @@ $blush-600: #e25985 !default;
             }
         }
     }
+
+    #popupBox {
+        border:5px solid $blush-500;
+        #popupContent {
+            color: $blush-500;
+        }
+    }
 }

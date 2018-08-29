@@ -114,5 +114,11 @@ $blue-600: #0d97ff !default;
         }
     }
 
+    #popupBox {
+        border:5px solid $blue-500;
+        #popupContent {
+            color: $blue-500;
+        }
+    }
 }
 

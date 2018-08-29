@@ -114,6 +114,10 @@ $cyan-600: #00acc1 !default;
         }
     }
 
-    
-
+    #popupBox {
+        border:5px solid $cyan-500;
+        #popupContent {
+            color: $cyan-500;
+        }
+    }
 }

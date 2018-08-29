@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Form\RegistrationType;
 use App\Form\UserListEditType;
+use App\Form\UserListAddType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends Controller
 {
-
     /**
      * @var UrlGeneratorInterface
      */
@@ -181,8 +182,8 @@ class UserController extends Controller
      */
     public function userList_users()
     {
-        $sql = "SELECT * FROM User WHERE roles='a:0:{}'";
-        $users = $this->UsersGenerator($sql);
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $users = $em->findMembers();
 
         return $this->render('user/userList_users.html.twig', [
             'users' => $users
@@ -192,26 +193,98 @@ class UserController extends Controller
     /**
      * @Route("/userList/sellers", name="UserListSellersPage")
      */
-    public function userList_sellers()
+    public function userList_sellers(Request $request)
     {
-        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%'";
-        $users = $this->UsersGenerator($sql);
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $users_obj = $this->getDoctrine()->getRepository(User::class);
+        $users = $users_obj->findUserByRole('ROLE_SELLER');
+
+        $form = $this->createForm(UserListAddType::class, $user);
+        $form->handleRequest($request);
+
+        date_default_timezone_set("Europe/Paris");
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data = $form->getData();
+            $user_id = $this->user_id_generator(($data->getRoles())[0]);
+            $register_date = date_create(date('Y-m-d H:i:s'));
+
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setIdCard($data->getIdCard());
+            $user->setEnabled($data->isEnabled());
+            $user->setRoles($data->getRoles());
+            $user->setPlainPassword($data->getPlainPassword());
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
+
+            $userManager->updateUser($user);
+
+            return $this->redirectToRoute('UserListSellersPage');
+        }
 
         return $this->render('user/userList_sellers.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/userList/admins", name="UserListAdminsPage")
      */
-    public function userList_admins()
+    public function userList_admins(Request $request)
     {
-        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%'";
-        $users = $this->UsersGenerator($sql);
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $users_obj = $this->getDoctrine()->getRepository(User::class);
+        $users = $users_obj->findUserByRole('ROLE_ADMIN');
+
+        $form = $this->createForm(UserListAddType::class, $user);
+        $form->handleRequest($request);
+
+        date_default_timezone_set("Europe/Paris");
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data = $form->getData();
+            $user_id = $this->user_id_generator(($data->getRoles())[0]);
+            $register_date = date_create(date('Y-m-d H:i:s'));
+
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setIdCard($data->getIdCard());
+            $user->setEnabled($data->isEnabled());
+            $user->setRoles($data->getRoles());
+            $user->setPlainPassword($data->getPlainPassword());
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
+
+            $userManager->updateUser($user);
+
+            return $this->redirectToRoute('UserListAdminsPage');
+        }
 
         return $this->render('user/userList_admins.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -240,6 +313,7 @@ class UserController extends Controller
             $user->setWechat($data->getWechat());
             $user->setAddress($data->getAddress());
             $user->setRegion($data->getRegion());
+            $user->setResponsibleRegion($data->getResponsibleRegion());
             $user->setEnabled($data->isEnabled());
 
             $userManager->updateUser($user);
@@ -289,39 +363,27 @@ class UserController extends Controller
         $this->get('mailer')->send($mail_to_send);
     }
 
+
     /**
-     * @return array
+     * @return string
      */
-  private function UsersGenerator($sql)
+    private function user_id_generator($role)
     {
         $em_users = $this->getDoctrine()->getManager()->getConnection();
-        $users_pre = $em_users->prepare($sql);
-        $users_pre->execute();
-        $users_db = $users_pre->fetchAll();
 
-        $users = array();
+        $sql_seller = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%' ORDER BY user_id DESC LIMIT 1";
+        $sql_admin = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%' ORDER BY user_id DESC LIMIT 1";
 
-        foreach ($users_db as $v) {
-            array_push($users, [
-                'username' => $v['username'],
-                'email' => $v['email'],
-                'enabled' => $v['enabled'],
-                'last_login' => $v['last_login'],
-                'user_id' => $v['user_id'],
-                'firstname' => $v['firstname'],
-                'lastname' => $v['lastname'],
-                'date_birth' => $v['date_birth'],
-                'sex' => $v['sex'],
-                'id_card' => $v['id_card'],
-                'phone' => $v['phone'],
-                'wechat' => $v['wechat'],
-                'region' => $v['region'],
-                'address' => $v['address'],
-                'date_register' => $v['date_register'],
-                'responsible_id' => $v['responsible_id'],
-                'responsible_region' => $v['responsible_region'],
-            ]);
+        if ($role == 'ROLE_SELLER') {
+            $user_id_pre = $em_users->prepare($sql_seller);
+        } else {
+            $user_id_pre = $em_users->prepare($sql_admin);
         }
-        return $users;
+
+        $user_id_pre->execute();
+        $user_id_last = $user_id_pre->fetchAll();
+
+        $user_id = $user_id_last["0"]["user_id"]+1;
+        return $user_id;
     }
 }
