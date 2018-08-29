@@ -50,3 +50,8 @@ services:
         class: App\Form\UserListEditType
         tags:
         - { name: form.type, alis: app_userList_edit }
+
+    app.form.userListAdd:
+        class: App\Form\UserListAddType
+        tags:
+        - { name: form.type, alis: app_userList_add }

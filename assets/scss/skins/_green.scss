@@ -101,4 +101,11 @@ $green-600: #43a047 !default;
             }
         }
     }
+
+    #popupBox {
+        border:5px solid $green-500;
+        #popupContent {
+            color: $green-500;
+        }
+    }
 }

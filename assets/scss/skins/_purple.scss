@@ -100,4 +100,11 @@ $purple-600: #6a44fb !default;
             }
         }
     }
+
+    #popupBox {
+        border:5px solid $purple-500;
+        #popupContent {
+            color: $purple-500;
+        }
+    }
 }
