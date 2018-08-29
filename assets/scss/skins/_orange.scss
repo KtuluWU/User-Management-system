@@ -116,4 +116,11 @@ $orange-600: #fb8c00 !default;
             }
         }
     }
+
+    #popupBox {
+        border:5px solid $orange-500;
+        #popupContent {
+            color: $orange-500;
+        }
+    }
 }
