@@ -69,20 +69,6 @@ sidebar:
     orange: 橙色
     blush: 腮红色
 
-roles:
-  ROLE_USER: 会员
-  ROLE_SELLER: 销售人员
-  ROLE_ADMIN: 管理人员
-  ROLE_SUPER_ADMIN: 超级管理员
-
-sex:
-  1: 男
-  0: 女
-
-enabled:
-  1: 激活
-  0: 未激活
-
 purchase_page:
   purchase_id: 购买记录号
   activity: 选项
@@ -102,24 +88,6 @@ profile_page:
   action:
     edit: 更新个人信息
     changepwd: 更新登录密码
-  info:
-    username: 用户名
-    firstname: 名字
-    lastname: 姓氏
-    user_id: 会员号
-    address: 地址
-    sex: 性别
-    email: 邮箱
-    phone: 电话
-    birthday: 出生日期
-    id_card: 身份证号
-    wechat: 微信号
-    region: 所属地区
-    register_date: 注册日期
-    responsible: 负责人工号
-    responsible_region: 负责地区
-  btn: 提交
-  cancel: 取消
 
 product_page:
   product_id: 商品编号
@@ -141,23 +109,51 @@ userList_pages:
   add_seller: 添加销售人员
   add_admin: 添加管理人员
   add_seller_admin: 添加销售/管理人员
+  action: 选项
+  edit_form: 修改用户信息
+
+user_infos:
+  username: 用户名
   name: 真实姓名
-  username: 昵称
-  sex: 性别
-  email: 邮箱
+  firstname: 名字
+  lastname: 姓氏
   user_id: 会员号
   employee_id: 工号
+  sex:
+    title: 性别
+    1: 男
+    0: 女
+  email: 邮箱
+  phone: 电话
   date_birth: 出生日期
   id_card: 身份证号
-  phone: 电话
   wechat: 微信号
   address: 地址
   region: 所属地区
   responsible_id: 负责人工号
   responsible_region: 负责地区
-  enabled: 账户状态
-  date_register: 注册日期
-  roles: 权限
   plain_pwd: 密码
-  action: 选项
-  edit_form: 修改用户信息
+  enabled:
+    title: 账户状态
+    1: 激活
+    0: 未激活
+  roles:
+    title: 权限
+    ROLE_USER: 会员
+    ROLE_SELLER: 销售人员
+    ROLE_ADMIN: 管理人员
+    ROLE_SUPER_ADMIN: 超级管理员
+  date_register: 注册日期
+  btn:
+    submit: 提交
+    cancel: 取消
+
+responsible_region:
+  title: 负责地区
+  nah: 请选择(可多选)
+  beijing: 北京市
+  shanghai: 上海市
+  tianjin: 天津市
+  jiangsu: 江苏省
+  hainan: 海南省
+  taiwan: 台湾省

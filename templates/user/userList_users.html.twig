@@ -63,20 +63,20 @@
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
-                                        <th class="text-left">{{ 'userList_pages.name'|trans }}</th>
-                                        <th>{{ 'userList_pages.username'|trans }}</th>
-                                        <th>{{ 'userList_pages.sex'|trans }}</th>
-                                        <th>{{ 'userList_pages.email'|trans }}</th>
-                                        <th>{{ 'userList_pages.user_id'|trans }}</th>
-                                        <th>{{ 'userList_pages.date_birth'|trans }}</th>
-                                        <th>{{ 'userList_pages.id_card'|trans }}</th>
-                                        <th>{{ 'userList_pages.phone'|trans }}</th>
-                                        <th>{{ 'userList_pages.wechat'|trans }}</th>
-                                        <th>{{ 'userList_pages.address'|trans }}</th>
-                                        <th>{{ 'userList_pages.region'|trans }}</th>
-                                        <th>{{ 'userList_pages.responsible_id'|trans }}</th>
-                                        <th>{{ 'userList_pages.enabled'|trans }}</th>
-                                        <th>{{ 'userList_pages.date_register'|trans }}</th>
+                                        <th class="text-left">{{ 'user_infos.name'|trans }}</th>
+                                        <th>{{ 'user_infos.username'|trans }}</th>
+                                        <th>{{ 'user_infos.sex.title'|trans }}</th>
+                                        <th>{{ 'user_infos.email'|trans }}</th>
+                                        <th>{{ 'user_infos.user_id'|trans }}</th>
+                                        <th>{{ 'user_infos.date_birth'|trans }}</th>
+                                        <th>{{ 'user_infos.id_card'|trans }}</th>
+                                        <th>{{ 'user_infos.phone'|trans }}</th>
+                                        <th>{{ 'user_infos.wechat'|trans }}</th>
+                                        <th>{{ 'user_infos.address'|trans }}</th>
+                                        <th>{{ 'user_infos.region'|trans }}</th>
+                                        <th>{{ 'user_infos.responsible_id'|trans }}</th>
+                                        <th>{{ 'user_infos.enabled.title'|trans }}</th>
+                                        <th>{{ 'user_infos.date_register'|trans }}</th>
                                         <th>{{ 'userList_pages.action'|trans }}</th>
                                     </tr>
                                     </thead>
@@ -88,28 +88,33 @@
                                             </td>
                                             <td>{{ user.username }}</td>
                                             <td>
-                                                {% set user_sex = 'sex.' ~ user.sex %}
+                                                {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
+                                                {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
                                                 {{ user_sex|trans }}
                                             </td>
                                             <td>{{ user.email }}</td>
-                                            <td>{{ user.user_id }}</td>
-                                            <td>{{ user.date_birth|date('Y年m月d日') }}</td>
-                                            <td>{{ user.id_card }}</td>
+                                            <td>{{ user.userid }}</td>
+                                            <td>{{ user.datebirth|date('Y年m月d日') }}</td>
+                                            <td>{{ user.idcard }}</td>
                                             <td>{{ user.phone }}</td>
                                             <td>{{ user.wechat }}</td>
                                             <td>{{ user.address }}</td>
-                                            <td>{{ user.region }}</td>
-                                            <td>{{ user.responsible_id }}</td>
                                             <td>
-                                                {% set user_enabeld = 'enabled.' ~ user.enabled %}
+                                                {% set user_region = 'responsible_region.'~user.region %}
+                                                {{ user_region|trans }}
+                                            </td>
+                                            <td>{{ user.responsibleid }}</td>
+                                            <td>
+                                                {% if user.enabled %}{% set user_enabeld = 'user_infos.enabled.' ~ user.enabled %}
+                                                {% else %}{% set user_enabeld = 'user_infos.enabled.0' %}{% endif %}
                                                 {{ user_enabeld|trans }}
                                             </td>
-                                            <td>{{ user.date_register|date('Y年m月d日') }}</td>
+                                            <td>{{ user.dateregister|date('Y年m月d日') }}</td>
                                             <td>
-                                                <a href="/userList/edit/{{ user.user_id }}&Users"
+                                                <a href="/userList/edit/{{ user.userid }}&Users"
                                                    class="btn btn-info"><i
                                                             class="fa fa-edit"></i></a>
-                                                <a href="/userList/delete/{{ user.user_id }}&Users"
+                                                <a href="/userList/delete/{{ user.userid }}&Users"
                                                    class="btn btn-danger delete_user_confirm"><i
                                                             class="fa fa-trash-o"></i></a>
                                             </td>

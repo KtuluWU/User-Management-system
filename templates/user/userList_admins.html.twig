@@ -17,6 +17,73 @@
 {% endblock %}
 
 {% block main_content %}
+    <div id="overlay"></div>
+    <div id="popupBox" class="animated flipInY">
+        <div id="popupContent">
+            <div class="header">
+                <h2>{{ 'userList_pages.add_seller_admin'|trans }}</h2>
+            </div>
+            <div class="body">
+                {{ form_start(form) }}
+                <small class="text-muted">{{ form_label(form.username) }} *</small>
+                <p>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors" id="error_username">{{ form_errors(form.username) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.firstname) }}</small>
+                <p>{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.lastname) }} *</small>
+                <p>{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.lastname) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.sex) }} *</small>
+                <p>{{ form_widget(form.sex, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.email) }} *</small>
+                <p>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors" id="error_email">{{ form_errors(form.email) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.id_card) }} *</small>
+                <p>{{ form_widget(form.id_card, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.id_card) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.date_birth) }}</small>
+                <p>{{ form_widget(form.date_birth) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.phone) }} *</small>
+                <p>{{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.phone) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.wechat) }}</small>
+                <p>{{ form_widget(form.wechat, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.address) }} *</small>
+                <p>{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.address) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.region) }} *</small>
+                <p>{{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.region) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.plainPassword) }} *</small>
+                <p>{{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.plainPassword) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.enabled) }} *</small>
+                <p>{{ form_widget(form.enabled, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.roles) }} *</small>
+                <p>{{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.roles) }}</div>
+                <hr>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">&nbsp;&nbsp;
+                    <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'user_infos.btn.cancel'|trans }}</a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
     <div id="main-content" class="profilepage_2">
         <div class="container-fluid">
             <div class="block-header">
@@ -59,23 +126,25 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                            <a href="/userList/add/Admins" class="btn btn-primary m-b-15 text-white">{{ 'userList_pages.add_admin'|trans }}</a>
+                            <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15 text-white">{{ 'userList_pages.add_admin'|trans }}</a>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
-                                        <th class="text-left">{{ 'userList_pages.name'|trans }}</th>
-                                        <th>{{ 'userList_pages.username'|trans }}</th>
-                                        <th>{{ 'userList_pages.sex'|trans }}</th>
-                                        <th>{{ 'userList_pages.email'|trans }}</th>
-                                        <th>{{ 'userList_pages.employee_id'|trans }}</th>
-                                        <th>{{ 'userList_pages.date_birth'|trans }}</th>
-                                        <th>{{ 'userList_pages.id_card'|trans }}</th>
-                                        <th>{{ 'userList_pages.phone'|trans }}</th>
-                                        <th>{{ 'userList_pages.wechat'|trans }}</th>
-                                        <th>{{ 'userList_pages.address'|trans }}</th>
-                                        <th>{{ 'userList_pages.enabled'|trans }}</th>
-                                        <th>{{ 'userList_pages.date_register'|trans }}</th>
+                                        <th class="text-left">{{ 'user_infos.name'|trans }}</th>
+                                        <th>{{ 'user_infos.username'|trans }}</th>
+                                        <th>{{ 'user_infos.sex.title'|trans }}</th>
+                                        <th>{{ 'user_infos.email'|trans }}</th>
+                                        <th>{{ 'user_infos.employee_id'|trans }}</th>
+                                        <th>{{ 'user_infos.date_birth'|trans }}</th>
+                                        <th>{{ 'user_infos.id_card'|trans }}</th>
+                                        <th>{{ 'user_infos.phone'|trans }}</th>
+                                        <th>{{ 'user_infos.wechat'|trans }}</th>
+                                        <th>{{ 'user_infos.address'|trans }}</th>
+                                        <th>{{ 'user_infos.region'|trans }}</th>
+                                        <th>{{ 'user_infos.responsible_region'|trans }}</th>
+                                        <th>{{ 'user_infos.enabled.title'|trans }}</th>
+                                        <th>{{ 'user_infos.date_register'|trans }}</th>
                                         <th>{{ 'userList_pages.action'|trans }}</th>
                                     </tr>
                                     </thead>
@@ -86,44 +155,58 @@
                                                 <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
                                             </td>
                                             <td>
-                                                <span>{{ user.username }}</span>
+                                                {{ user.username }}
                                             </td>
                                             <td>
-                                                {% set user_sex = 'sex.' ~ user.sex %}
-                                                <span>{{ user_sex|trans }}</span>
+                                                {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
+                                                {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
+                                                {{ user_sex|trans }}
                                             </td>
                                             <td>
-                                                <span>{{ user.email }}</span>
+                                                {{ user.email }}
                                             </td>
                                             <td>
-                                                <span>{{ user.user_id }}</span>
+                                                {{ user.userid }}
                                             </td>
                                             <td>
-                                                <span>{{ user.date_birth|date('Y年m月d日') }}</span>
+                                                {{ user.datebirth|date('Y年m月d日') }}
                                             </td>
                                             <td>
-                                                <span>{{ user.id_card }}</span>
+                                                {{ user.idcard }}
                                             </td>
                                             <td>
-                                                <span>{{ user.phone }}</span>
+                                                {{ user.phone }}
                                             </td>
                                             <td>
-                                                <span>{{ user.wechat }}</span>
+                                                {{ user.wechat }}
                                             </td>
                                             <td>
-                                                <span>{{ user.address }}</span>
+                                                {{ user.address }}
                                             </td>
                                             <td>
-                                                {% set user_enabeld = 'enabled.' ~ user.enabled %}
-                                                <span>{{ user_enabeld|trans }}</span>
+                                                {% set user_region = 'responsible_region.'~user.region %}
+                                                {{ user_region|trans }}
                                             </td>
                                             <td>
-                                                <span>{{ user.date_register|date('Y年m月d日') }}</span>
+                                                {% for r in user.responsibleregion %}
+                                                    {% if r is not empty %}
+                                                        {% set rt = 'responsible_region.' ~ r %}
+                                                        [<span>{{ rt|trans }}</span>]
+                                                    {% endif %}
+                                                {% endfor %}
                                             </td>
                                             <td>
-                                                <a href="/userList/edit/{{ user.user_id }}&Admins" class="btn btn-info" title="Edit"><i
+                                                {% if user.enabled %}{% set user_enabeld = 'user_infos.enabled.' ~ user.enabled %}
+                                                {% else %}{% set user_enabeld = 'user_infos.enabled.0' %}{% endif %}
+                                                {{ user_enabeld|trans }}
+                                            </td>
+                                            <td>
+                                                {{ user.dateregister|date('Y年m月d日') }}
+                                            </td>
+                                            <td>
+                                                <a href="/userList/edit/{{ user.userid }}&Admins" class="btn btn-info" title="Edit"><i
                                                             class="fa fa-edit"></i></a>
-                                                <a href="/userList/delete/{{ user.user_id }}&Admins" class="btn btn-danger delete_user_confirm" title="Delete"><i
+                                                <a href="/userList/delete/{{ user.userid }}&Admins" class="btn btn-danger delete_user_confirm" title="Delete"><i
                                                             class="fa fa-trash-o"></i></a>
                                             </td>
                                         </tr>
@@ -151,6 +234,7 @@
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script>
         $(document).ready(function () {
+            $('#app_userList_add_roles').removeAttr("multiple");
             $('.delete_user_confirm').click(function(e) {
                 e.preventDefault();
                 var linkURL = $(this).attr("href");
@@ -168,7 +252,18 @@
                 }, function() {
                     window.location.href = linkURL;
                 });
-            }
+            };
+            $('#addRow').click(function () {
+                $('#overlay').fadeIn('fast');
+                $('#popupBox').fadeIn('fast');
+                $('#popupContent').fadeIn('fast');
+            });
+
+            $('#overlay, #popupCancel').click(function () {
+                $('#overlay').fadeOut('fast');
+                $('#popupBox').fadeOut('fast');
+                $('#popupContent').fadeOut('fast');
+            });
         })
     </script>
 {% endblock %}

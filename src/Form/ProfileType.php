@@ -12,42 +12,42 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('firstname', null, array(
-                'label' => 'profile_page.info.firstname',
+                'label' => 'user_infos.firstname',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.firstname',
+                    'placeholder' => 'user_infos.firstname',
                 ),
                 'translation_domain' => 'ums'))
             ->add('lastname', null, array(
-                'label' => 'profile_page.info.lastname',
+                'label' => 'user_infos.lastname',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.lastname',
+                    'placeholder' => 'user_infos.lastname',
                 ),
                 'translation_domain' => 'ums'))
             ->add('date_birth', BirthdayType::class, array(
-                'label' => 'profile_page.info.birthday',
+                'label' => 'user_infos.date_birth',
                 'translation_domain' => 'ums'))
             ->add('phone', null, array(
-                'label' => 'profile_page.info.phone',
+                'label' => 'user_infos.phone',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.phone',
+                    'placeholder' => 'user_infos.phone',
                 ),
                 'translation_domain' => 'ums'))
             ->add('wechat', null, array(
-                'label' => 'profile_page.info.wechat',
+                'label' => 'user_infos.wechat',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.wechat',
+                    'placeholder' => 'user_infos.wechat',
                 ),
                 'translation_domain' => 'ums'))
             ->add('address', null, array(
-                'label' => 'profile_page.info.address',
+                'label' => 'user_infos.address',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.address',
+                    'placeholder' => 'user_infos.address',
                 ),
                 'translation_domain' => 'ums'))
             ->add('region', null, array(
-                'label' => 'profile_page.info.region',
+                'label' => 'user_infos.region',
                 'attr' => array(
-                    'placeholder' => 'profile_page.info.region',
+                    'placeholder' => 'user_infos.region',
                 ),
                 'translation_domain' => 'ums'))
             ;

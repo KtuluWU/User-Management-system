@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Form\RegistrationType;
 use App\Form\UserListEditType;
+use App\Form\UserListAddType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -180,8 +182,8 @@ class UserController extends Controller
      */
     public function userList_users()
     {
-        $sql = "SELECT * FROM User WHERE roles='a:0:{}'";
-        $users = $this->UsersGenerator($sql);
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $users = $em->findMembers();
 
         return $this->render('user/userList_users.html.twig', [
             'users' => $users
@@ -191,48 +193,22 @@ class UserController extends Controller
     /**
      * @Route("/userList/sellers", name="UserListSellersPage")
      */
-    public function userList_sellers()
-    {
-        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%'";
-        $users = $this->UsersGenerator($sql);
-
-        return $this->render('user/userList_sellers.html.twig', [
-            'users' => $users
-        ]);
-    }
-
-    /**
-     * @Route("/userList/admins", name="UserListAdminsPage")
-     */
-    public function userList_admins()
-    {
-        $sql = "SELECT * FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%'";
-        $users = $this->UsersGenerator($sql);
-
-        return $this->render('user/userList_admins.html.twig', [
-            'users' => $users
-        ]);
-    }
-
-    /**
-     * @Route("/userList/add/{page}")
-     */
-    public function userList_add(Request $request, $page)
+    public function userList_sellers(Request $request)
     {
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->createUser();
 
-        $form = $this->createForm(UserListEditType::class, $user);
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $users = $em->findUserByRole('ROLE_SELLER');
+
+        $form = $this->createForm(UserListAddType::class, $user);
         $form->handleRequest($request);
 
         date_default_timezone_set("Europe/Paris");
 
-        if ($form->isSubmitted()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             $data = $form->getData();
-            $plain_pwd = $_POST["userList_add_plain_pwd"];
-            $roles = $_POST["userList_add_roles"];
-            $id_card = $_POST["userList_add_id_card"];
-            $user_id = $this->user_id_generator($roles);
+            $user_id = $this->user_id_generator(($data->getRoles())[0]);
             $register_date = date_create(date('Y-m-d H:i:s'));
 
             $user->setUsername($data->getUsername());
@@ -245,22 +221,70 @@ class UserController extends Controller
             $user->setWechat($data->getWechat());
             $user->setAddress($data->getAddress());
             $user->setRegion($data->getRegion());
+            $user->setIdCard($data->getIdCard());
             $user->setEnabled($data->isEnabled());
-            $user->setRoles([$roles]);
-            $user->setPlainPassword($plain_pwd);
+            $user->setRoles($data->getRoles());
+            $user->setPlainPassword($data->getPlainPassword());
             $user->setUserId($user_id);
             $user->setDateRegister($register_date);
-            $user->setIdCard($id_card);
-
 
             $userManager->updateUser($user);
 
-            return $this->redirectToRoute('UserList'.$page.'Page');
+            return $this->redirectToRoute('UserListSellersPage');
         }
 
-        return $this->render('user/userList_add.html.twig', [
+        return $this->render('user/userList_sellers.html.twig', [
+            'users' => $users,
             'form' => $form->createView(),
-            'page' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/userList/admins", name="UserListAdminsPage")
+     */
+    public function userList_admins(Request $request)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $users = $em->findUserByRole('ROLE_ADMIN');
+
+        $form = $this->createForm(UserListAddType::class, $user);
+        $form->handleRequest($request);
+
+        date_default_timezone_set("Europe/Paris");
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data = $form->getData();
+            $user_id = $this->user_id_generator(($data->getRoles())[0]);
+            $register_date = date_create(date('Y-m-d H:i:s'));
+
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setIdCard($data->getIdCard());
+            $user->setEnabled($data->isEnabled());
+            $user->setRoles($data->getRoles());
+            $user->setPlainPassword($data->getPlainPassword());
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
+
+            $userManager->updateUser($user);
+
+            return $this->redirectToRoute('UserListAdminsPage');
+        }
+
+        return $this->render('user/userList_admins.html.twig', [
+            'users' => $users,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -289,6 +313,7 @@ class UserController extends Controller
             $user->setWechat($data->getWechat());
             $user->setAddress($data->getAddress());
             $user->setRegion($data->getRegion());
+            $user->setResponsibleRegion($data->getResponsibleRegion());
             $user->setEnabled($data->isEnabled());
 
             $userManager->updateUser($user);
@@ -338,41 +363,6 @@ class UserController extends Controller
         $this->get('mailer')->send($mail_to_send);
     }
 
-    /**
-     * @return array
-     */
-    private function UsersGenerator($sql)
-    {
-        $em_users = $this->getDoctrine()->getManager()->getConnection();
-        $users_pre = $em_users->prepare($sql);
-        $users_pre->execute();
-        $users_db = $users_pre->fetchAll();
-
-        $users = array();
-
-        foreach ($users_db as $v) {
-            array_push($users, [
-                'username' => $v['username'],
-                'email' => $v['email'],
-                'enabled' => $v['enabled'],
-                'last_login' => $v['last_login'],
-                'user_id' => $v['user_id'],
-                'firstname' => $v['firstname'],
-                'lastname' => $v['lastname'],
-                'date_birth' => $v['date_birth'],
-                'sex' => $v['sex'],
-                'id_card' => $v['id_card'],
-                'phone' => $v['phone'],
-                'wechat' => $v['wechat'],
-                'region' => $v['region'],
-                'address' => $v['address'],
-                'date_register' => $v['date_register'],
-                'responsible_id' => $v['responsible_id'],
-                'responsible_region' => $v['responsible_region'],
-            ]);
-        }
-        return $users;
-    }
 
     /**
      * @return string
