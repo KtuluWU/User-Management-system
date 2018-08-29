@@ -264,6 +264,23 @@
                 $('#popupBox').fadeOut('fast');
                 $('#popupContent').fadeOut('fast');
             });
+
+            if ( $('#error_username').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该用户名已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
+            if ( $('#error_email').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该邮箱已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
         })
     </script>
 {% endblock %}
