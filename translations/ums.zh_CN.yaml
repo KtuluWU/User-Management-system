@@ -148,7 +148,7 @@ user_infos:
     submit: 提交
     cancel: 取消
 
-responsible_region:
+region:
   title: 负责地区
   nah: 请选择(可多选)
   beijing: 北京市

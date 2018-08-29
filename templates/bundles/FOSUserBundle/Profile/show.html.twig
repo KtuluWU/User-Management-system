@@ -102,21 +102,22 @@
                         <p>{{ user.address }}</p>
                         <hr>
                         <small class="text-muted">{{ 'user_infos.region'|trans }}:</small>
-                        <p>{{ user.region }}</p>
+                        {% set user_region = 'region.'~user.region %}
+                        <p>{{ user_region|trans }}</p>
                         <hr>
+                        {% if is_granted('ROLE_ADMIN') == false %}
                         <small class="text-muted">{{ 'user_infos.responsible_id'|trans }}:</small>
                         <p>{{ user.ResponsibleId }}</p>
                         <hr>
+                        {% endif %}
                         {% if is_granted('ROLE_SELLER') %}
-                            <small class="text-muted">{{ 'user_infos.responsible_region'|trans }}:</small>
+                            <small class="text-muted">{{ 'user_infos.region'|trans }}:</small>
                             <br>
                             {% for r in user.responsibleregion %}
                                 {% if r is not empty %}
-                                    {% set rt = 'responsible_region.' ~ r %}
-                                {% else %}
-                                    {% set rt = '' %}
+                                    {% set rt = 'region.' ~ r %}
+                                    [<span>{{ rt|trans }}</span>]&nbsp;
                                 {% endif %}
-                                [<span>{{ rt|trans }}</span>]&nbsp;
                             {% endfor %}
                             <hr>
                         {% endif %}

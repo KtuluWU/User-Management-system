@@ -74,12 +74,12 @@ class UserListAddType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('region', ChoiceType::class, array(
                 'choices' => [
-                    'responsible_region.beijing' => 'beijing',
-                    'responsible_region.shanghai' => 'shanghai',
-                    'responsible_region.tianjin' => 'tianjin',
-                    'responsible_region.jiangsu' => 'jiangsu',
-                    'responsible_region.hainan' => 'hainan',
-                    'responsible_region.taiwan' => 'taiwan'
+                    'region.beijing' => 'beijing',
+                    'region.shanghai' => 'shanghai',
+                    'region.tianjin' => 'tianjin',
+                    'region.jiangsu' => 'jiangsu',
+                    'region.hainan' => 'hainan',
+                    'region.taiwan' => 'taiwan'
                 ],
                 'label' => 'user_infos.region',
                 'attr' => array(

@@ -100,7 +100,7 @@
                                             <td>{{ user.wechat }}</td>
                                             <td>{{ user.address }}</td>
                                             <td>
-                                                {% set user_region = 'responsible_region.'~user.region %}
+                                                {% set user_region = 'region.'~user.region %}
                                                 {{ user_region|trans }}
                                             </td>
                                             <td>{{ user.responsibleid }}</td>

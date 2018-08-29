@@ -5,6 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProfileType extends AbstractType
 {
@@ -44,7 +45,15 @@ class ProfileType extends AbstractType
                     'placeholder' => 'user_infos.address',
                 ),
                 'translation_domain' => 'ums'))
-            ->add('region', null, array(
+            ->add('region', ChoiceType::class, array(
+                'choices' => [
+                    'region.beijing' => 'beijing',
+                    'region.shanghai' => 'shanghai',
+                    'region.tianjin' => 'tianjin',
+                    'region.jiangsu' => 'jiangsu',
+                    'region.hainan' => 'hainan',
+                    'region.taiwan' => 'taiwan'
+                ],
                 'label' => 'user_infos.region',
                 'attr' => array(
                     'placeholder' => 'user_infos.region',

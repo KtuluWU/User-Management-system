@@ -67,12 +67,12 @@ class UserListEditType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('region', ChoiceType::class, array(
                 'choices' => [
-                    'responsible_region.beijing' => 'beijing',
-                    'responsible_region.shanghai' => 'shanghai',
-                    'responsible_region.tianjin' => 'tianjin',
-                    'responsible_region.jiangsu' => 'jiangsu',
-                    'responsible_region.hainan' => 'hainan',
-                    'responsible_region.taiwan' => 'taiwan'
+                    'region.beijing' => 'beijing',
+                    'region.shanghai' => 'shanghai',
+                    'region.tianjin' => 'tianjin',
+                    'region.jiangsu' => 'jiangsu',
+                    'region.hainan' => 'hainan',
+                    'region.taiwan' => 'taiwan'
                 ],
                 'label' => 'user_infos.region',
                 'attr' => array(
@@ -81,19 +81,19 @@ class UserListEditType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('responsible_region', ChoiceType::class, array(
                 'choices' => [
-                    'responsible_region.nah' => null,
-                    'responsible_region.beijing' => 'beijing',
-                    'responsible_region.shanghai' => 'shanghai',
-                    'responsible_region.tianjin' => 'tianjin',
-                    'responsible_region.jiangsu' => 'jiangsu',
-                    'responsible_region.hainan' => 'hainan',
-                    'responsible_region.taiwan' => 'taiwan'
+                    'region.nah' => null,
+                    'region.beijing' => 'beijing',
+                    'region.shanghai' => 'shanghai',
+                    'region.tianjin' => 'tianjin',
+                    'region.jiangsu' => 'jiangsu',
+                    'region.hainan' => 'hainan',
+                    'region.taiwan' => 'taiwan'
                 ],
                 'expanded' => false,
                 'multiple' => true,
-                'label' => 'responsible_region.title',
+                'label' => 'region.title',
                 'attr' => array(
-                    'placeholder' => 'responsible_region.title',
+                    'placeholder' => 'region.title',
                 ),
                 'translation_domain' => 'ums'))
             ->add('enabled', ChoiceType::class, array(

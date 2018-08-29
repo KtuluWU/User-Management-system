@@ -184,13 +184,13 @@
                                                 {{ user.address }}
                                             </td>
                                             <td>
-                                                {% set user_region = 'responsible_region.'~user.region %}
+                                                {% set user_region = 'region.'~user.region %}
                                                 {{ user_region|trans }}
                                             </td>
                                             <td>
                                                 {% for r in user.responsibleregion %}
                                                     {% if r is not empty %}
-                                                        {% set rt = 'responsible_region.' ~ r %}
+                                                        {% set rt = 'region.' ~ r %}
                                                         [<span>{{ rt|trans }}</span>]
                                                     {% endif %}
                                                 {% endfor %}
