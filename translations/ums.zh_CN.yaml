@@ -56,7 +56,7 @@ sidebar:
     product_info: 产品信息
     product_source: 产品溯源
   admin:
-    users: 买家信息
+    users: 会员信息
     sellers: 销售员信息
     admins: 管理员信息
     products: 产品信息
@@ -79,6 +79,10 @@ sex:
   1: 男
   0: 女
 
+enabled:
+  1: 激活
+  0: 未激活
+
 purchase_page:
   purchase_id: 购买记录号
   activity: 选项
@@ -99,6 +103,7 @@ profile_page:
     edit: 更新个人信息
     changepwd: 更新登录密码
   info:
+    username: 用户名
     firstname: 名字
     lastname: 姓氏
     user_id: 会员号
@@ -111,7 +116,8 @@ profile_page:
     wechat: 微信号
     region: 所属地区
     register_date: 注册日期
-    responsible: 负责人
+    responsible: 负责人工号
+    responsible_region: 负责地区
   btn: 提交
   cancel: 取消
 
@@ -127,3 +133,26 @@ product_page:
   description: 商品描述
   action: 操作
   add_row: 添加产品
+
+userList_pages:
+  title_users: 会员信息
+  title_sellers: 销售人员信息
+  title_admins: 管理人员信息
+  name: 真实姓名
+  username: 昵称
+  sex: 性别
+  email: 邮箱
+  user_id: 会员号
+  employee_id: 工号
+  date_birth: 出生日期
+  id_card: 身份证号
+  phone: 电话
+  wechat: 微信号
+  address: 地址
+  region: 所属地区
+  responsible_id: 负责人工号
+  responsible_region: 负责地区
+  enabled: 账户状态
+  date_register: 注册日期
+  action: 选项
+  edit_form: 修改用户信息

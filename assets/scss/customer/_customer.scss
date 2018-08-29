@@ -10,3 +10,13 @@
   }
 }
 
+.table-userList {
+  td {
+    min-width: 95px;
+
+    a {
+      color: $col-white !important;
+    }
+  }
+}
+
