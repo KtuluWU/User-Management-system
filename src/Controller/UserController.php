@@ -39,69 +39,42 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $firstname = $user->getFirstname();
-            $lastname = $user->getLastname();
-            $username = $user->getUsername();
-            $email = $user->getEmail();
-            $plainpsw = $user->getPlainPassword();
-            $date_birth = $user->getDateBirth();
-            $sex = $user->getSex();
-            $id_card = $user->getIdCard();
-            $phone = $user->getPhone();
-            $wechat = $user->getWechat();
-            $region = $user->getRegion();
-            $address = $user->getAddress();
+            $data = $form->getData();
 
-            $roles = ["ROLE_USER"];
-            $user_id = "00000000000001";
+            $user_id = $this->user_id_generator('ROLE_USER');
             date_default_timezone_set("Europe/Paris");
             $register_date = date_create(date('Y-m-d H:i:s'));
+            $token = $this->token_generator();
+            $user->setConfirmationToken($token);
 
-            /*
-             * 用户名和邮件验证唯一
-             * 从数据库中查询是否已存在
-             * */
-            $user_db_by_username = $userManager->findUserByUsername($username);
-            $user_db_by_email = $userManager->findUserByEmail($email);
-            if (null != $user_db_by_username) {
-                return new Response("Username exist!");
-            }
-            else if (null != $user_db_by_email) {
-                return new Response("Email exist!");
-            }
-            else {
-                /*
-                 * 若不存在，用户注册成功，发送账户激活邮件
-                 * */
-                $token = $this->generate_token();
-                $user->setConfirmationToken($token);
+            $user->setEnabled(false);
+            $user->setUsername($data->getUsername());
+            $user->setFirstname($data->getFirstname());
+            $user->setLastname($data->getLastname());
+            $user->setSex($data->getSex());
+            $user->setEmail($data->getEmail());
+            $user->setDateBirth($data->getDateBirth());
+            $user->setPhone($data->getPhone());
+            $user->setWechat($data->getWechat());
+            $user->setAddress($data->getAddress());
+            $user->setRegion($data->getRegion());
+            $user->setIdCard($data->getIdCard());
+            $user->setPlainPassword($data->getPlainPassword());
+            $user->setRoles(['ROLE_USER']);
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
 
-                $user->setEnabled(false);
-                $user->setFirstname($firstname);
-                $user->setLastname($lastname);
-                $user->setUsername($username);
-                $user->setEmail($email);
-                $user->setPlainPassword($plainpsw);
-                $user->setDateBirth($date_birth);
-                $user->setSex($sex);
-                $user->setIdCard($id_card);
-                $user->setPhone($phone);
-                $user->setWechat($wechat);
-                $user->setRegion($region);
-                $user->setAddress($address);
-                $user->setUserId($user_id);
-                $user->setRoles($roles);
-                $user->setDateRegister($register_date);
+            $userManager->updateUser($user);
 
-                $userManager->updateUser($user);
+            $this->user_id_amt_setter('ROLE_USER', $user_id);
 
-                $url = $this->router->generate('registration_confirm' ,array('token' => $token),UrlGeneratorInterface::ABSOLUTE_URL );
-                $this->send_activate_email("Activate account", "no-reply@yunkun.org", $email, $url, $username); // 发送邮件
+            $url = $this->router->generate('registration_confirm' ,array('token' => $token),UrlGeneratorInterface::ABSOLUTE_URL );
+            $this->send_activate_email("Activate account", "no-reply@yunkun.org", $data->getEmail(), $url, $data->getUsername()); // 发送邮件
 
-                return $this->render('user/register_check_email.html.twig', [
-                    'email' => $email
-                ]);
-            }
+            return $this->render('user/register_check_email.html.twig', [
+                'email' => $data->getEmail()
+            ]);
+
         }
         return $this->render('user/register.html.twig', [
             'form' => $form->createView()
@@ -144,15 +117,15 @@ class UserController extends Controller
         $email = "yun@yunkun.org";
         $enable = 1;
         $plain_psw = "11111";
-        $roles = ["ROLE_SUPER_ADMIN"];
-        $user_id = "10000000001";
+        $role = ['ROLE_SUPER_ADMIN'];
+        $user_id = $this->user_id_generator('ROLE_SUPER_ADMIN');
         $firstname = "Super";
         $lastname = "ADMIN";
         $dt_birth = date_create("2000-01-01");
         $sex = 1;
         $id_card = "123456789123456789";
         $phone = "0123456789";
-        $region = "PARIS";
+        $region = "beijing";
         $address = "7 Avenue de Paris";
         $register_date = date_create(date('Y-m-d H:i:s'));
 
@@ -160,7 +133,7 @@ class UserController extends Controller
         $user->setEmail($email);
         $user->setEnabled($enable);
         $user->setPlainPassword($plain_psw);
-        $user->setRoles($roles);
+        $user->setRoles($role);
         $user->setUserId($user_id);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
@@ -173,6 +146,8 @@ class UserController extends Controller
         $user->setDateRegister($register_date);
 
         $userManager->updateUser($user);
+
+        $this->user_id_amt_setter('ROLE_SUPER_ADMIN', $user_id);
 
         return new Response("Super Admin Created !");
     }
@@ -230,6 +205,8 @@ class UserController extends Controller
 
             $userManager->updateUser($user);
 
+            $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
+
             return $this->redirectToRoute('UserListSellersPage');
         }
 
@@ -278,6 +255,8 @@ class UserController extends Controller
             $user->setDateRegister($register_date);
 
             $userManager->updateUser($user);
+
+            $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
 
             return $this->redirectToRoute('UserListAdminsPage');
         }
@@ -333,21 +312,20 @@ class UserController extends Controller
     {
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['user_id' => $user_id]);
+        $role = ($user->getRoles())[0];
         $userManager->deleteUser($user);
+        $this->user_amt_deleter($role);
         return $this->redirectToRoute('UserList'.$page.'Page');
     }
 
     /**
      * @return string
      */
-    private function generate_token()
+    private function token_generator()
     {
         return hash('sha256', md5(uniqid(md5(microtime(true)),true)));
     }
 
-    /**
-     *
-     */
     private function send_activate_email($subject_to_send, $mail_from, $mail_to, $url, $username)
     {
         $mail_to_send = (new \Swift_Message())
@@ -369,21 +347,94 @@ class UserController extends Controller
      */
     private function user_id_generator($role)
     {
-        $em_users = $this->getDoctrine()->getManager()->getConnection();
-
-        $sql_seller = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_SELLER\"%' ORDER BY user_id DESC LIMIT 1";
-        $sql_admin = "SELECT user_id FROM User WHERE roles LIKE '%\"ROLE_ADMIN\"%' ORDER BY user_id DESC LIMIT 1";
-
-        if ($role == 'ROLE_SELLER') {
-            $user_id_pre = $em_users->prepare($sql_seller);
-        } else {
-            $user_id_pre = $em_users->prepare($sql_admin);
+        switch ($role) {
+            case 'ROLE_USER':
+                $col_id_name = 'user_id';
+                break;
+            case 'ROLE_SELLER':
+                $col_id_name = 'seller_id';
+                break;
+            case 'ROLE_ADMIN'||'ROLE_SUPER_ADMIN':
+                $col_id_name = 'admin_id';
+                break;
         }
 
-        $user_id_pre->execute();
-        $user_id_last = $user_id_pre->fetchAll();
+        $em_users = $this->getDoctrine()->getManager()->getConnection();
+        $sql = "SELECT $col_id_name FROM users_infos ORDER BY $col_id_name DESC LIMIT 1";
 
-        $user_id = $user_id_last["0"]["user_id"]+1;
-        return $user_id;
+        $id_pre = $em_users->prepare($sql);
+        $id_pre->execute();
+        $id_last = $id_pre->fetchAll();
+
+        if (($id_last[0][$col_id_name]) == '') {
+            if ($col_id_name == 'user_id') {
+                $member_id = '100000001';
+            }else if ($col_id_name == 'seller_id') {
+                $member_id = '200000001';
+            }else if ($col_id_name == 'admin_id') {
+                $member_id = '300000001';
+            }
+        } else {
+            $member_id = (int)$id_last[0][$col_id_name] + 1;
+        }
+        return (string)$member_id;
+    }
+
+    private function user_id_amt_setter($role, $user_id)
+    {
+        switch ($role) {
+            case 'ROLE_USER':
+                $col_id_name = 'user_id';
+                $col_amt_name = 'user_amt';
+                break;
+            case 'ROLE_SELLER':
+                $col_id_name = 'seller_id';
+                $col_amt_name = 'seller_amt';
+                break;
+            case 'ROLE_ADMIN'||'ROLE_SUPER_ADMIN':
+                $col_id_name = 'admin_id';
+                $col_amt_name = 'admin_amt';
+                break;
+        }
+        $em_users = $this->getDoctrine()->getManager()->getConnection();
+
+        $sql_init = "SELECT * FROM users_infos LIMIT 1";
+        $stm_init = $em_users->prepare($sql_init);
+        $stm_init->execute();
+        $db = $stm_init->fetchAll();
+
+        if (empty($db)) {
+            $sql_first = "INSERT INTO users_infos VALUES (1,'','','',0,0,0)";
+            $stm_first = $em_users->prepare($sql_first);
+            $stm_first->execute();
+        }
+
+        $sql = "UPDATE users_infos SET $col_id_name = $user_id ";
+        $stm = $em_users->prepare($sql);
+        $stm->execute();
+
+        $sql2 = "UPDATE users_infos SET $col_amt_name = $col_amt_name + 1";
+        $stm2 = $em_users->prepare($sql2);
+        $stm2->execute();
+    }
+
+    private function user_amt_deleter($role)
+    {
+        switch ($role) {
+            case 'ROLE_USER':
+                $col_amt_name = 'user_amt';
+                break;
+            case 'ROLE_SELLER':
+                $col_amt_name = 'seller_amt';
+                break;
+            case 'ROLE_ADMIN'||'ROLE_SUPER_ADMIN':
+                $col_amt_name = 'admin_amt';
+                break;
+        }
+        $em_users = $this->getDoctrine()->getManager()->getConnection();
+
+        $sql = "UPDATE users_infos SET $col_amt_name = $col_amt_name - 1";
+        $stm = $em_users->prepare($sql);
+        $stm->execute();
     }
 }
