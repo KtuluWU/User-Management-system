@@ -191,7 +191,13 @@
                                                 {% for r in user.responsibleregion %}
                                                     {% if r is not empty %}
                                                         {% set rt = 'region.' ~ r %}
-                                                        [<span>{{ rt|trans }}</span>]
+                                                        {% if loop.index <= 3 %}
+                                                            [<span>{{ rt|trans }}</span>]
+                                                        {% elseif loop.index%3==0 %}
+                                                            [<span>{{ rt|trans }}</span>]<br>
+                                                        {% else %}
+                                                            [<span>{{ rt|trans }}</span>]
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
