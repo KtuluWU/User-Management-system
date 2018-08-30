@@ -90,6 +90,7 @@ profile_page:
     changepwd: 更新登录密码
 
 product_page:
+  page_title: 产品信息
   product_id: 商品编号
   product_name: 商品名
   barcode: 条形码
