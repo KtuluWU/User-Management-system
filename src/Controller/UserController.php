@@ -360,13 +360,13 @@ class UserController extends Controller
         }
 
         $em_users = $this->getDoctrine()->getManager()->getConnection();
-        $sql = "SELECT $col_id_name FROM users_infos ORDER BY $col_id_name DESC LIMIT 1";
+        $sql = "SELECT $col_id_name FROM infos ORDER BY $col_id_name DESC LIMIT 1";
 
         $id_pre = $em_users->prepare($sql);
         $id_pre->execute();
         $id_last = $id_pre->fetchAll();
 
-        if (($id_last[0][$col_id_name]) == '') {
+        if ( empty($id_last) || ($id_last[0][$col_id_name]) == '') {
             if ($col_id_name == 'user_id') {
                 $member_id = '100000001';
             }else if ($col_id_name == 'seller_id') {
@@ -398,22 +398,22 @@ class UserController extends Controller
         }
         $em_users = $this->getDoctrine()->getManager()->getConnection();
 
-        $sql_init = "SELECT * FROM users_infos LIMIT 1";
+        $sql_init = "SELECT * FROM infos LIMIT 1";
         $stm_init = $em_users->prepare($sql_init);
         $stm_init->execute();
         $db = $stm_init->fetchAll();
 
         if (empty($db)) {
-            $sql_first = "INSERT INTO users_infos VALUES (1,'','','',0,0,0)";
+            $sql_first = "INSERT INTO infos VALUES (1,'','','',0,0,0,'','','')";
             $stm_first = $em_users->prepare($sql_first);
             $stm_first->execute();
         }
 
-        $sql = "UPDATE users_infos SET $col_id_name = $user_id ";
+        $sql = "UPDATE infos SET $col_id_name = $user_id ";
         $stm = $em_users->prepare($sql);
         $stm->execute();
 
-        $sql2 = "UPDATE users_infos SET $col_amt_name = $col_amt_name + 1";
+        $sql2 = "UPDATE infos SET $col_amt_name = $col_amt_name + 1";
         $stm2 = $em_users->prepare($sql2);
         $stm2->execute();
     }
@@ -433,7 +433,7 @@ class UserController extends Controller
         }
         $em_users = $this->getDoctrine()->getManager()->getConnection();
 
-        $sql = "UPDATE users_infos SET $col_amt_name = $col_amt_name - 1";
+        $sql = "UPDATE infos SET $col_amt_name = $col_amt_name - 1";
         $stm = $em_users->prepare($sql);
         $stm->execute();
     }
