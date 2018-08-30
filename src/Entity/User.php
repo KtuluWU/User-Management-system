@@ -16,6 +16,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields={"username"},
  *     message="用户名已被注册！")
+ * @UniqueEntity(
+ *     fields={"phone"},
+ *     message="手机号已被注册！")
  *
  */
 class User extends BaseUser
