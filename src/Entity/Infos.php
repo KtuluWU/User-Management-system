@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UsersInfosRepository")
- * @ORM\Table(name="users_infos")
+ * @ORM\Entity(repositoryClass="App\Repository\InfosRepository")
+ * @ORM\Table(name="infos")
  */
-class UsersInfos
+class Infos
 {
     /**
      * @ORM\Id()
@@ -55,11 +54,22 @@ class UsersInfos
     private $admin_amt;
 
     /**
-     * UsersInfos constructor.
+     * @var string
+     * @ORM\Column(name="product_id", type="string", length=70, nullable=false)
      */
-    public function __construct() {
+    private $product_id;
 
-    }
+    /**
+     * @var string
+     * @ORM\Column(name="purchase_id", type="string", length=70, nullable=false)
+     */
+    private $purchase_id;
+
+    /**
+     * @var string
+     * @ORM\Column(name="tracking_id", type="string", length=70, nullable=false)
+     */
+    private $tracking_id;
 
     public function getId(): ?int
     {
@@ -102,38 +112,74 @@ class UsersInfos
         return $this;
     }
 
-    public function getUserAmt(): ?string
+    public function getUserAmt(): ?int
     {
         return $this->user_amt;
     }
 
-    public function setUserAmt(string $user_amt): self
+    public function setUserAmt(int $user_amt): self
     {
         $this->user_amt = $user_amt;
 
         return $this;
     }
 
-    public function getSellerAmt(): ?string
+    public function getSellerAmt(): ?int
     {
         return $this->seller_amt;
     }
 
-    public function setSellerAmt(string $seller_amt): self
+    public function setSellerAmt(int $seller_amt): self
     {
         $this->seller_amt = $seller_amt;
 
         return $this;
     }
 
-    public function getAdminAmt(): ?string
+    public function getAdminAmt(): ?int
     {
         return $this->admin_amt;
     }
 
-    public function setAdminAmt(string $admin_amt): self
+    public function setAdminAmt(int $admin_amt): self
     {
         $this->admin_amt = $admin_amt;
+
+        return $this;
+    }
+
+    public function getProductId(): ?string
+    {
+        return $this->product_id;
+    }
+
+    public function setProductId(string $product_id): self
+    {
+        $this->product_id = $product_id;
+
+        return $this;
+    }
+
+    public function getPurchaseId(): ?string
+    {
+        return $this->purchase_id;
+    }
+
+    public function setPurchaseId(string $purchase_id): self
+    {
+        $this->purchase_id = $purchase_id;
+
+        return $this;
+    }
+
+    public function getTrackingId(): ?string
+    {
+        return $this->tracking_id;
+    }
+
+    public function setTrackingId(string $tracking_id): self
+    {
+        $this->tracking_id = $tracking_id;
 
         return $this;
     }
