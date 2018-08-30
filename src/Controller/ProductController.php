@@ -79,6 +79,11 @@ class ProductController extends AbstractController
             $product_manager->remove($product);
             $product_manager->flush();
         }
+        $image_path = $product->getImagePath();
+        $original_image = $this->getParameter('upload_directory')."/".$image_path;
+        if (file_exists($original_image)) {
+            unlink($original_image);
+        }
 
         return $this->redirectToRoute("ProductProductPage");
     }
