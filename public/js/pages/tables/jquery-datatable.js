@@ -2,6 +2,13 @@ $(function () {
     $('.js-basic-example').DataTable({
         "language": {
             "info": "第 _PAGE_ 页 / 共 _PAGES_ 页",
+            "emptyTable": "无人员数据",
+            "infoFiltered": " ",
+            "sLoadingRecords": "载入中...",
+            "sProcessing": "正在处理...",
+            "search": "搜索: ",
+            "zeroRecords": "搜索无结果",
+            "infoEmpty": "无页面",
             "paginate": {
                 "first": "首页",
                 "last": "尾页",
@@ -19,7 +26,7 @@ $(function () {
                 '<option value="200">200</option>'+
                 '</select> 行'
         },
-        "searching": false
+        "searching": true
 
     });
 
