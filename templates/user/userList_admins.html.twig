@@ -52,7 +52,7 @@
                 <hr>
                 <small class="text-muted">{{ form_label(form.phone) }} *</small>
                 <p>{{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}</p>
-                <div class="form-control-errors">{{ form_errors(form.phone) }}</div>
+                <div class="form-control-errors" id="error_phone">{{ form_errors(form.phone) }}</div>
                 <hr>
                 <small class="text-muted">{{ form_label(form.wechat) }}</small>
                 <p>{{ form_widget(form.wechat, {'attr': {'class': 'form-control'}}) }}</p>
@@ -191,7 +191,13 @@
                                                 {% for r in user.responsibleregion %}
                                                     {% if r is not empty %}
                                                         {% set rt = 'region.' ~ r %}
-                                                        [<span>{{ rt|trans }}</span>]
+                                                        {% if loop.index <= 3 %}
+                                                            [<span>{{ rt|trans }}</span>]
+                                                        {% elseif loop.index%3==0 %}
+                                                            [<span>{{ rt|trans }}</span>]<br>
+                                                        {% else %}
+                                                            [<span>{{ rt|trans }}</span>]
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             </td>
@@ -277,6 +283,14 @@
                 swal({
                     title: "出错啦",
                     text: "该邮箱已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
+            if ( $('#error_phone').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该手机号已被注册！",
                     type: "error"
                 });
                 $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
