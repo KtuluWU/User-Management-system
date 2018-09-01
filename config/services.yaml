@@ -4,8 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
-
+    locale: 'zh_CN'
+    uploads_images_products: '../public/uploads/images/products'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -29,3 +29,29 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    app.form.registration:
+        class: App\Form\RegistrationType
+        tags:
+        - { name: form.type, alias: app_user_registration }
+
+    app.form.pruchasehistroy:
+        class: App\Form\PurchaseType
+        tags:
+        - { name: form.type, alias: app_purchasehistory }
+
+    app.form.profile:
+        class: App\Form\ProfileType
+        tags:
+        - { name: form.type, alis: app_user_profile }
+
+    app.form.userListEdit:
+        class: App\Form\UserListEditType
+        tags:
+        - { name: form.type, alis: app_userList_edit }
+
+    app.form.userListAdd:
+        class: App\Form\UserListAddType
+        tags:
+        - { name: form.type, alis: app_userList_add }

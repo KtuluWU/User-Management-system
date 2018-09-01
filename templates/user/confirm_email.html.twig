@@ -1,0 +1,11 @@
+{% trans_default_domain 'ums' %}
+<h2>UMS TEST</h2>
+<br>
+<h4>{{ 'registration_page.email_to_send.message1'|trans({'%username%': username}) }}</h4>
+<br>
+{{ 'registration_page.email_to_send.message2'|trans({'%confirmationUrl%': url}) }}
+<br>
+<br>
+{{ 'registration_page.email_to_send.message3'|trans() }}
+<br>
+{{ 'registration_page.email_to_send.message4'|trans() }}

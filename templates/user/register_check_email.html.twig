@@ -1,0 +1,7 @@
+{% trans_default_domain 'ums' %}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="register-check-email">
+{{ 'registration_page.check_email'|trans({'%email%': email}) }}
+</div>
+{% endblock %}

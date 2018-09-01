@@ -1,0 +1,294 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'ums' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+{% endblock %}
+
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "", "", "active", "", "", "active" %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main_content %}
+    <div id="overlay"></div>
+    <div id="popupBox" class="animated flipInY">
+        <div id="popupContent">
+            <div class="header">
+                <h2>{{ 'userList_pages.add_seller_admin'|trans }}</h2>
+            </div>
+            <div class="body">
+                {{ form_start(form) }}
+                <small class="text-muted">{{ form_label(form.username) }} *</small>
+                <p>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors" id="error_username">{{ form_errors(form.username) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.firstname) }}</small>
+                <p>{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.lastname) }} *</small>
+                <p>{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.lastname) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.sex) }} *</small>
+                <p>{{ form_widget(form.sex, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.email) }} *</small>
+                <p>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors" id="error_email">{{ form_errors(form.email) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.id_card) }} *</small>
+                <p>{{ form_widget(form.id_card, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.id_card) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.date_birth) }}</small>
+                <p>{{ form_widget(form.date_birth) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.phone) }} *</small>
+                <p>{{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors" id="error_phone">{{ form_errors(form.phone) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.wechat) }}</small>
+                <p>{{ form_widget(form.wechat, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.address) }} *</small>
+                <p>{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.address) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.region) }} *</small>
+                <p>{{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.region) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.plainPassword) }} *</small>
+                <p>{{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.plainPassword) }}</div>
+                <hr>
+                <small class="text-muted">{{ form_label(form.enabled) }} *</small>
+                <p>{{ form_widget(form.enabled, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.roles) }} *</small>
+                <p>{{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="form-control-errors">{{ form_errors(form.roles) }}</div>
+                <hr>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">&nbsp;&nbsp;
+                    <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'user_infos.btn.cancel'|trans }}</a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="profilepage_2">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'userList_pages.title_admins'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'userList_pages.title_admins'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15 text-white">{{ 'userList_pages.add_admin'|trans }}</a>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-left">{{ 'user_infos.name'|trans }}</th>
+                                        <th>{{ 'user_infos.username'|trans }}</th>
+                                        <th>{{ 'user_infos.sex.title'|trans }}</th>
+                                        <th>{{ 'user_infos.email'|trans }}</th>
+                                        <th>{{ 'user_infos.employee_id'|trans }}</th>
+                                        <th>{{ 'user_infos.date_birth'|trans }}</th>
+                                        <th>{{ 'user_infos.id_card'|trans }}</th>
+                                        <th>{{ 'user_infos.phone'|trans }}</th>
+                                        <th>{{ 'user_infos.wechat'|trans }}</th>
+                                        <th>{{ 'user_infos.address'|trans }}</th>
+                                        <th>{{ 'user_infos.region'|trans }}</th>
+                                        <th>{{ 'user_infos.responsible_region'|trans }}</th>
+                                        <th>{{ 'user_infos.enabled.title'|trans }}</th>
+                                        <th>{{ 'user_infos.date_register'|trans }}</th>
+                                        <th>{{ 'userList_pages.action'|trans }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td class="text-left">
+                                                <span class="font-weight-bold">{{ user.firstname ~ " " ~ user.lastname }}</span>
+                                            </td>
+                                            <td>
+                                                {{ user.username }}
+                                            </td>
+                                            <td>
+                                                {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
+                                                {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
+                                                {{ user_sex|trans }}
+                                            </td>
+                                            <td>
+                                                {{ user.email }}
+                                            </td>
+                                            <td>
+                                                {{ user.userid }}
+                                            </td>
+                                            <td>
+                                                {{ user.datebirth|date('Y年m月d日') }}
+                                            </td>
+                                            <td>
+                                                {{ user.idcard }}
+                                            </td>
+                                            <td>
+                                                {{ user.phone }}
+                                            </td>
+                                            <td>
+                                                {{ user.wechat }}
+                                            </td>
+                                            <td>
+                                                {{ user.address }}
+                                            </td>
+                                            <td>
+                                                {% set user_region = 'region.'~user.region %}
+                                                {{ user_region|trans }}
+                                            </td>
+                                            <td>
+                                                {% for r in user.responsibleregion %}
+                                                    {% if r is not empty %}
+                                                        {% set rt = 'region.' ~ r %}
+                                                        [<span>{{ rt|trans }}</span>]
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                {% if user.enabled %}{% set user_enabeld = 'user_infos.enabled.' ~ user.enabled %}
+                                                {% else %}{% set user_enabeld = 'user_infos.enabled.0' %}{% endif %}
+                                                {{ user_enabeld|trans }}
+                                            </td>
+                                            <td>
+                                                {{ user.dateregister|date('Y年m月d日') }}
+                                            </td>
+                                            <td>
+                                                <a href="/userList/edit/{{ user.userid }}&Admins" class="btn btn-info" title="Edit"><i
+                                                            class="fa fa-edit"></i></a>
+                                                <a href="/userList/delete/{{ user.userid }}&Admins" class="btn btn-danger delete_user_confirm" title="Delete"><i
+                                                            class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#app_userList_add_roles').removeAttr("multiple");
+            $('.delete_user_confirm').click(function(e) {
+                e.preventDefault();
+                var linkURL = $(this).attr("href");
+                confirmBeforeRedirect(linkURL);
+            });
+            function confirmBeforeRedirect(linkURL) {
+                swal({
+                    title: "确定删除该管理员吗？",
+                    text: "该操作无法恢复！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#dc3545",
+                    confirmButtonText: "确定删除！",
+                    cancelButtonText: "取消"
+                }, function() {
+                    window.location.href = linkURL;
+                });
+            };
+            $('#addRow').click(function () {
+                $('#overlay').fadeIn('fast');
+                $('#popupBox').fadeIn('fast');
+                $('#popupContent').fadeIn('fast');
+            });
+
+            $('#overlay, #popupCancel').click(function () {
+                $('#overlay').fadeOut('fast');
+                $('#popupBox').fadeOut('fast');
+                $('#popupContent').fadeOut('fast');
+            });
+
+            if ( $('#error_username').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该用户名已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
+            if ( $('#error_email').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该邮箱已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
+            if ( $('#error_phone').html().length > 0 ) {
+                swal({
+                    title: "出错啦",
+                    text: "该手机号已被注册！",
+                    type: "error"
+                });
+                $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+            }
+        })
+    </script>
+{% endblock %}

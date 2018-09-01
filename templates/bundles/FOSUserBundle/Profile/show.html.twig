@@ -1,0 +1,131 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'ums' %}
+
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "active", "", "", "", "", "", "", "active", "" %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main_content %}
+    <div id="main-content" class="profilepage_2">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'profile_page.title'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'profile_page.title'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-8 col-md-12 m-auto">
+                <div class="card profile-header">
+                    <div class="body">
+                        <div class="profile-image"><img src="{{ asset('images/user.png') }}" class="rounded-circle"
+                                                        alt=""></div>
+                        <div>
+                            <h4 class="m-b-0"><strong>{{ user.firstname }}</strong> {{ user.lastname }}</h4>
+                            <h5 class="m-b-0">{{ user.username }}</h5>
+                            {% set user_role = 'user_infos.roles.' ~ user.roles[0] %}
+                            <span>{{ user_role|trans }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="header">
+                        <h2>{{ 'profile_page.title'|trans }}</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                <ul class="dropdown-menu dropdown-menu-right animated bounceIn">
+                                    <li><a href="./edit">{{ 'profile_page.action.edit'|trans }}</a></li>
+                                    <li><a href="./change-password">{{ 'profile_page.action.changepwd'|trans }}</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <small class="text-muted">{{ 'user_infos.user_id'|trans }}:</small>
+                        <p>{{ user.UserId }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.sex.title'|trans }}:</small>
+                        {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
+                        {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
+                        <p>{{ user_sex|trans }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.email'|trans }}:</small>
+                        <p>{{ user.email }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.phone'|trans }}:</small>
+                        <p>{{ user.phone }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.date_birth'|trans }}:</small>
+                        <p class="m-b-0">{{ user.DateBirth|date('Y年m月d日') }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.id_card'|trans }}:</small>
+                        <p>{{ user.IdCard }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.wechat'|trans }}:</small>
+                        <p>{{ user.wechat }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.address'|trans }}:</small>
+                        <p>{{ user.address }}</p>
+                        <hr>
+                        <small class="text-muted">{{ 'user_infos.region'|trans }}:</small>
+                        {% set user_region = 'region.'~user.region %}
+                        <p>{{ user_region|trans }}</p>
+                        <hr>
+                        {% if is_granted('ROLE_ADMIN') == false %}
+                        <small class="text-muted">{{ 'user_infos.responsible_id'|trans }}:</small>
+                        <p>{{ user.ResponsibleId }}</p>
+                        <hr>
+                        {% endif %}
+                        {% if is_granted('ROLE_SELLER') %}
+                            <small class="text-muted">{{ 'user_infos.region'|trans }}:</small>
+                            <br>
+                            {% for r in user.responsibleregion %}
+                                {% if r is not empty %}
+                                    {% set rt = 'region.' ~ r %}
+                                    [<span>{{ rt|trans }}</span>]&nbsp;
+                                {% endif %}
+                            {% endfor %}
+                            <hr>
+                        {% endif %}
+                        <small class="text-muted">{{ 'user_infos.date_register'|trans }}:</small>
+                        <p>{{ user.DateRegister|date('Y年m月d日') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
