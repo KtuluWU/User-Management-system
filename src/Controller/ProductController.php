@@ -42,7 +42,7 @@ class ProductController extends AbstractController
             $product_manager->persist($product);
             $product_manager->flush();
             $image->move(
-                $this->getParameter('upload_directory'),
+                $this->getParameter('uploads_images_products'),
                 $image_path
             );
             unset($purchase);
@@ -80,7 +80,7 @@ class ProductController extends AbstractController
             $product_manager->flush();
         }
         $image_path = $product->getImagePath();
-        $original_image = $this->getParameter('upload_directory')."/".$image_path;
+        $original_image = $this->getParameter('uploads_images_products')."/".$image_path;
         if (file_exists($original_image)) {
             unlink($original_image);
         }
@@ -119,12 +119,12 @@ class ProductController extends AbstractController
             $image_file = $form->get('image_path')->getData();
             $new_image_path = md5(uniqid()).'.'.$image_file->guessExtension();
             $image_file->move(
-                $this->getParameter('upload_directory'),
+                $this->getParameter('uploads_images_products'),
                 $new_image_path
             );
             //delete original image and save new image
             $image_path = $product->getImagePath();
-            $original_image = $this->getParameter('upload_directory')."/".$image_path;
+            $original_image = $this->getParameter('uploads_images_products')."/".$image_path;
             if (file_exists($original_image)) {
                 unlink($original_image);
             }

@@ -59,7 +59,7 @@
                         <hr>
                         <small class="text-muted">{{ form_label(form.image_path) }}</small>
                         <p></p>
-                        <img src="{{ asset('/upload-images/' ~ image_path)}}" height="100" width="100"/>
+                        <img src="{{ asset('/uploads/images/products/' ~ image_path)}}" height="100" width="100"/>
                         <p></p>
                         <p>{{ form_widget(form.image_path, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
