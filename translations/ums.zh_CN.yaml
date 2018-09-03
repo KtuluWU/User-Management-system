@@ -90,6 +90,7 @@ profile_page:
     changepwd: 更新登录密码
 
 product_page:
+  page_title: 产品信息
   product_id: 商品编号
   product_name: 商品名
   barcode: 条形码
@@ -100,7 +101,12 @@ product_page:
   stock: 库存
   description: 商品描述
   action: 操作
-  add_row: 添加产品
+  add_row: 添加商品
+  btn: 保存
+  return: 返回
+  title: 请输入您的新产品
+  edit_form: 修改产品信息
+
 
 userList_pages:
   title_users: 会员信息
