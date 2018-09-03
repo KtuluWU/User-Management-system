@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 class UserController extends Controller
@@ -155,13 +161,35 @@ class UserController extends Controller
     /**
      * @Route("/userList/users", name="UserListUsersPage")
      */
-    public function userList_users()
+    public function userList_users(Request $request)
     {
         $em = $this->getDoctrine()->getRepository(User::class);
         $users = $em->findMembers();
 
+        date_default_timezone_set("Europe/Paris");
+
+        $form_file = $this->createFormBuilder()
+            ->add('submitFile', FileType::class, array('label' => '上传文件'))
+            ->getForm();
+        $form_file->handleRequest($request);
+
+        if ( $form_file->isSubmitted() && $form_file->isValid() ) {
+            $fileSystem = new Filesystem();
+            $file = $form_file->get('submitFile');
+            $users_file = $file->getData();
+
+            $file_name = md5(uniqid()).'.'.$users_file->guessExtension();
+            $users_file->move($this->getParameter('users_file'), $file_name);
+
+            $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+            $data = $serializer->decode(file_get_contents(($this->getParameter('users_file'))."/".$file_name), 'csv');
+            $fileSystem->remove(($this->getParameter('users_file'))."/".$file_name);
+            return new Response(var_dump($data));
+        }
+
         return $this->render('user/userList_users.html.twig', [
-            'users' => $users
+            'users' => $users,
+            'form_file' => $form_file->createView()
         ]);
     }
 
@@ -176,10 +204,19 @@ class UserController extends Controller
         $users_obj = $this->getDoctrine()->getRepository(User::class);
         $users = $users_obj->findUserByRole('ROLE_SELLER');
 
+        date_default_timezone_set("Europe/Paris");
+
         $form = $this->createForm(UserListAddType::class, $user);
         $form->handleRequest($request);
 
-        date_default_timezone_set("Europe/Paris");
+        $form_file = $this->createFormBuilder()
+                        ->add('submitFile', FileType::class, array('label' => '上传文件'))
+                        ->getForm();
+        $form_file->handleRequest($request);
+
+        if ( $form_file->isSubmitted() && $form_file->isValid() ) {
+            return new Response("Yes!!!");
+        }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data = $form->getData();
@@ -213,6 +250,7 @@ class UserController extends Controller
         return $this->render('user/userList_sellers.html.twig', [
             'users' => $users,
             'form' => $form->createView(),
+            'form_file' => $form_file->createView()
         ]);
     }
 
@@ -227,10 +265,19 @@ class UserController extends Controller
         $users_obj = $this->getDoctrine()->getRepository(User::class);
         $users = $users_obj->findUserByRole('ROLE_ADMIN');
 
+        date_default_timezone_set("Europe/Paris");
+
         $form = $this->createForm(UserListAddType::class, $user);
         $form->handleRequest($request);
 
-        date_default_timezone_set("Europe/Paris");
+        $form_file = $this->createFormBuilder()
+            ->add('submitFile', FileType::class, array('label' => '上传文件'))
+            ->getForm();
+        $form_file->handleRequest($request);
+
+        if ( $form_file->isSubmitted() && $form_file->isValid() ) {
+            return new Response("Yes!!!");
+        }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data = $form->getData();
@@ -264,6 +311,7 @@ class UserController extends Controller
         return $this->render('user/userList_admins.html.twig', [
             'users' => $users,
             'form' => $form->createView(),
+            'form_file' => $form_file->createView()
         ]);
     }
 

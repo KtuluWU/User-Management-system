@@ -223,6 +223,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <h4>{{ 'userList_pages.add_user_by_file'|trans }}</h4>
+                            <hr>
+                            <div>
+                                {{ form_start(form_file) }}
+                                {{ form_widget(form_file) }}
+                                <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">
+                                {{ form_end(form_file) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
