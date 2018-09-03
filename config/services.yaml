@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'zh_CN'
+    uploads_images_products: '../public/uploads/images/products'
     users_file: '%kernel.project_dir%/public/uploads/files/users'
 
 services:

@@ -1,0 +1,64 @@
+{% trans_default_domain 'ums' %}
+{% extends 'layout.html.twig' %}
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "", "", "", "active", "", "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block main_content %}
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="auth-box">
+                <div class="card">
+                    <div class="header">
+                        <p class="lead">{{ 'product_page.title'|trans }}</p>
+                    </div>
+                    <div class="body">
+                        {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
+                        <div class="form-group">
+                            {{ form_widget(form.product_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.product_id) }}
+                        </div>
+                        <div class="form-group">
+
+                            {{ form_widget(form.product_name, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.barcode, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.barcode) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.image_path, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.image_path) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.category, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.category) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.shelf_life, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.shelf_life) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.promotion, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.promotion) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.stock) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'product_page.btn'|trans }}">
+                        {{ form_end(form) }}
+                        <p></p>
+                        <a href="/product"  class="btn btn-primary btn-lg btn-block">
+                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'product_page.return'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
