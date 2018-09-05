@@ -24,9 +24,9 @@ class PurchaseHistory
 
     /**
     * @var string
-    * @ORM\Column(name="user_id", type="string", length=70, nullable=false)
+    * @ORM\Column(name="user_phone", type="string", length=70, nullable=false)
     */
-    private $user_id;
+    private $user_phone;
 
     /**
     * @var string
@@ -53,8 +53,6 @@ class PurchaseHistory
     */
     private $quantity;
 
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -72,14 +70,26 @@ class PurchaseHistory
         return $this;
     }
 
-    public function getUserId(): ?string
+    public function getUserPhone(): ?string
     {
-        return $this->user_id;
+        return $this->user_phone;
     }
 
-    public function setUserId(string $user_id): self
+    public function setUserPhone(string $user_phone): self
     {
-        $this->user_id = $user_id;
+        $this->user_phone = $user_phone;
+
+        return $this;
+    }
+
+    public function getProductId(): ?string
+    {
+        return $this->product_id;
+    }
+
+    public function setProductId(string $product_id): self
+    {
+        $this->product_id = $product_id;
 
         return $this;
     }
@@ -108,7 +118,6 @@ class PurchaseHistory
         return $this;
     }
 
-
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -121,15 +130,7 @@ class PurchaseHistory
         return $this;
     }
 
-    public function getProductId(): ?string
-    {
-        return $this->product_id;
-    }
 
-    public function setProductId(string $product_id): self
-    {
-        $this->product_id = $product_id;
 
-        return $this;
-    }
+    
 }
