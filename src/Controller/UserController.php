@@ -219,30 +219,7 @@ class UserController extends Controller
         }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $data = $form->getData();
-            $user_id = $this->user_id_generator(($data->getRoles())[0]);
-            $register_date = date_create(date('Y-m-d H:i:s'));
-
-            $user->setUsername($data->getUsername());
-            $user->setFirstname($data->getFirstname());
-            $user->setLastname($data->getLastname());
-            $user->setSex($data->getSex());
-            $user->setEmail($data->getEmail());
-            $user->setDateBirth($data->getDateBirth());
-            $user->setPhone($data->getPhone());
-            $user->setWechat($data->getWechat());
-            $user->setAddress($data->getAddress());
-            $user->setRegion($data->getRegion());
-            $user->setIdCard($data->getIdCard());
-            $user->setEnabled($data->isEnabled());
-            $user->setRoles($data->getRoles());
-            $user->setPlainPassword($data->getPlainPassword());
-            $user->setUserId($user_id);
-            $user->setDateRegister($register_date);
-
-            $userManager->updateUser($user);
-
-            $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
+            $this->addUserSetData($form, $user, $userManager);
 
             return $this->redirectToRoute('UserListSellersPage');
         }
@@ -280,30 +257,7 @@ class UserController extends Controller
         }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $data = $form->getData();
-            $user_id = $this->user_id_generator(($data->getRoles())[0]);
-            $register_date = date_create(date('Y-m-d H:i:s'));
-
-            $user->setUsername($data->getUsername());
-            $user->setFirstname($data->getFirstname());
-            $user->setLastname($data->getLastname());
-            $user->setSex($data->getSex());
-            $user->setEmail($data->getEmail());
-            $user->setDateBirth($data->getDateBirth());
-            $user->setPhone($data->getPhone());
-            $user->setWechat($data->getWechat());
-            $user->setAddress($data->getAddress());
-            $user->setRegion($data->getRegion());
-            $user->setIdCard($data->getIdCard());
-            $user->setEnabled($data->isEnabled());
-            $user->setRoles($data->getRoles());
-            $user->setPlainPassword($data->getPlainPassword());
-            $user->setUserId($user_id);
-            $user->setDateRegister($register_date);
-
-            $userManager->updateUser($user);
-
-            $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
+            $this->addUserSetData($form, $user, $userManager);
 
             return $this->redirectToRoute('UserListAdminsPage');
         }
@@ -484,5 +438,34 @@ class UserController extends Controller
         $sql = "UPDATE infos SET $col_amt_name = $col_amt_name - 1";
         $stm = $em_users->prepare($sql);
         $stm->execute();
+    }
+
+    private function addUserSetData($form, $user, $userManager)
+    {
+        $data = $form->getData();
+        $user_id = $this->user_id_generator(($data->getRoles())[0]);
+        date_default_timezone_set("Europe/Paris");
+        $register_date = date_create(date('Y-m-d H:i:s'));
+
+        $user->setUsername($data->getUsername());
+        $user->setFirstname($data->getFirstname());
+        $user->setLastname($data->getLastname());
+        $user->setSex($data->getSex());
+        $user->setEmail($data->getEmail());
+        $user->setDateBirth($data->getDateBirth());
+        $user->setPhone($data->getPhone());
+        $user->setWechat($data->getWechat());
+        $user->setAddress($data->getAddress());
+        $user->setRegion($data->getRegion());
+        $user->setIdCard($data->getIdCard());
+        $user->setEnabled($data->isEnabled());
+        $user->setRoles($data->getRoles());
+        $user->setPlainPassword($data->getPlainPassword());
+        $user->setUserId($user_id);
+        $user->setDateRegister($register_date);
+
+        $userManager->updateUser($user);
+
+        $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
     }
 }
