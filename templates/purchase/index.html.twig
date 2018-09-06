@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 {% endblock %}
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "active", "", "", "", "", "", "active", "" %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "", "", "", "", "active", "", "active" %}
     {{ parent() }}
 {% endblock %}
 {% block main_content %}
@@ -17,31 +17,27 @@
     <div id="popupBox" class="animated flipInY">
         <div id="popupContent">
             <div class="header">
-                <p class="lead">{{ 'purchase_page.title'|trans }}</p>
+                <p class="lead" id="purchase_form_title">{{ 'purchase_page.register'|trans }}</p>
             </div>
             <div class="body">
-                {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
-                <div class="form-group">
-                    {{ form_widget(form.user_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.user_id) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.product_id, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
-                </div>
-                <div class="form-group">
-                    {{ form_label(form.date_purchase) }}
-                    {{ form_widget(form.date_purchase, {'attr': {'class': 'form-control-select', 'id': 'signup-date_birth'}}) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.purchase_tracking_id, {'attr': {'class': 'form-control', 'id': 'signup-id_card'}}) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.quantity, {'attr': {'class': 'form-control', 'id': 'signup-region'}}) }}
-                </div>
+                {{ form_start(form) }}
+                <small class="text-muted">{{ form_label(form.user_phone) }} *</small>
+                <p>{{ form_widget(form.user_phone, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
+                <small class="text-muted">{{ form_label(form.product_id) }} *</small>
+                <p>{{ form_widget(form.product_id, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.date_purchase) }} *</small>
+                <p>{{ form_widget(form.date_purchase, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.purchase_tracking_id) }} *</small>
+                <p>{{ form_widget(form.purchase_tracking_id, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.quantity) }}</small>
+                <p>{{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}</p>
                 <div class="text-center">
-                    <input type="submit" class="btn btn-primary" value="{{ 'registration_page.btn'|trans }}">
-                    <a href="javascript:void(0)" id="popupCancel"  class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
+                    <input type="submit" class="btn btn-primary" value="{{ 'purchase_page.btn'|trans }}">&nbsp;&nbsp;
+                    <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
                 </div>
                 {{ form_end(form) }}
             </div>
@@ -62,7 +58,7 @@
                                     <thead>
                                     <tr>
                                         <th>{{ 'purchase_page.purchase_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.user_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.phone'|trans }}</th>
                                         <th>{{ 'purchase_page.product_id'|trans }}</th>
                                         <th>{{ 'purchase_page.date_purchase'|trans }}</th>
                                         <th>{{ 'purchase_page.purchase_tracking_id'|trans }}</th>
@@ -73,7 +69,7 @@
                                     <tfoot>
                                     <tr>
                                         <th>{{ 'purchase_page.purchase_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.user_id'|trans }}</th>
+                                        <th>{{ 'purchase_page.phone'|trans }}</th>
                                         <th>{{ 'purchase_page.product_id'|trans }}</th>
                                         <th>{{ 'purchase_page.date_purchase'|trans }}</th>
                                         <th>{{ 'purchase_page.purchase_tracking_id'|trans }}</th>
@@ -85,17 +81,18 @@
                                     {% for p in purchase %}
                                         <tr class="gradeA">
                                             <td>{{ p.PurchaseId }}</td>
-                                            <td>{{ p.UserId }}</td>
+                                            <td>{{ p.UserPhone }}</td>
                                             <td>{{ p.ProductId }}</td>
                                             <td>{{ p.DatePurchase|date('Y-m-d') }}</td>
                                             <td>{{ p.PurchaseTrackingId }}</td>
                                             <td>{{ p.Quantity }}</td>
                                             <td class="actions">
-                                                <button >
-                                                        <a href="/purchasehistory/register"><i class="icon-pencil"></i></a>
+                                                <button class="modify_btn">
+                                                    <a href="javascript:void(0)"><i class="icon-pencil"></i></a>
                                                 </button>
-                                                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove"
-                                                        data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i>
+                                                <button class="remove_btn btn btn-sm btn-icon btn-pure btn-default on-default button-remove"
+                                                        data-toggle="tooltip" data-original-title="Remove"><a href="javascript:void(0)">
+                                                        <i class="icon-trash" aria-hidden="true"></i></a>
                                                 </button>
                                             </td>
                                         </tr>
@@ -124,6 +121,15 @@
 
     <script>
         $('#addRow').click(function () {
+            $('#purchase_form_title').text('{{ 'purchase_page.register'|trans }}');
+            $('#purchase_purchase_id').val('');
+            $('#purchase_user_phone').val('');
+            $('#purchase_product_id').val('');
+            $('#purchase_purchase_tracking_id').val('');
+            $('#purchase_quantity').val('');
+            $('#purchase_date_purchase select').each(function (i) {
+                $(this).find('option:first-child').attr('selected', true);
+            });
             $('#overlay').fadeIn('fast');
             $('#popupBox').fadeIn('fast');
             $('#popupContent').fadeIn('fast');
@@ -133,6 +139,82 @@
             $('#overlay').fadeOut('fast');
             $('#popupBox').fadeOut('fast');
             $('#popupContent').fadeOut('fast');
+        });
+
+        {% if not user_existance %}
+            swal({
+                title: "出错啦",
+                text: "该手机号不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+        {% if not product_existance %}
+            swal({
+                title: "出错啦",
+                text: "商品编号不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+        {% if not purchase_existance %}
+            swal({
+                title: "出错啦",
+                text: "该购买记录不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+
+        $('.modify_btn').click(function (e) {
+            data = {"purchase_id": $('td:first-child', $(e.target).parents('tr')).text()};
+            $.ajax({
+                url: '/purchasehistory/modify',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (purchaseHistory) {
+                    $('#purchase_purchase_id').val(purchaseHistory['purchase_id']);
+                    $('#purchase_form_title').text('{{ 'purchase_page.modify'|trans }}');
+                    $('#purchase_user_phone').val(purchaseHistory['user_phone']);
+                    $('#purchase_product_id').val(purchaseHistory['product_id']);
+                    $('#purchase_purchase_tracking_id').val(purchaseHistory['purchase_tracking_id']);
+                    $('#purchase_quantity').val(purchaseHistory['quantity']);
+                    $date_time = purchaseHistory['date_purchase'].split('-');
+                    $('#purchase_date_purchase select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+                    $('#overlay').fadeIn('fast');
+                    $('#popupBox').fadeIn('fast');
+                    $('#popupContent').fadeIn('fast');
+                }
+            });
+        });
+
+        $('.remove_btn').click(function(e) {
+            swal({
+                title: "确定删除该购买记录吗？",
+                text: "该操作无法恢复！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#dc3545",
+                confirmButtonText: "确定删除！",
+                cancelButtonText: "取消"
+            }, function() {
+                data = {"purchase_id": $('td:first-child', $(e.target).parents('tr')).text()};
+                $.ajax({
+                    url: '/purchasehistory/remove',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                });
+                location.reload();
+            });
         });
 
     </script>
