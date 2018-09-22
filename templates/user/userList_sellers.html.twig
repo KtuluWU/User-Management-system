@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, nav_menu, nav_admin = "", "", "", "", "", "active", "", "", "", "active" %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "", "active", "", "", "", "", "active" %}
     {{ parent() }}
 {% endblock %}
 
@@ -128,7 +128,7 @@
                         <div class="body">
                             <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15 text-white">{{ 'userList_pages.add_seller'|trans }}</a>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
+                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
                                         <th class="text-left">{{ 'user_infos.name'|trans }}</th>
@@ -219,6 +219,20 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                         <div class="body">
+                             <h4>{{ 'userList_pages.add_user_by_file'|trans }}</h4>
+                             <hr>
+                             <div>
+                                 {{ form_start(form_file) }}
+                                 {{ form_widget(form_file) }}
+                                 <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">
+                                 {{ form_end(form_file) }}
+                             </div>
+                         </div>
                     </div>
                 </div>
             </div>

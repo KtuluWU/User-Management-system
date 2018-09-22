@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Entity\PurchaseHistory;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\PurchaseType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/purchasehistory")
@@ -21,54 +23,136 @@ class PurchaseController extends AbstractController
     public function purchase_show(Request $request)
     {
         $purchase = new PurchaseHistory();
+        $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(PurchaseType::class, $purchase);
         $form->handleRequest($request);
+        $repository = $em->getRepository(PurchaseHistory::class);
+        $purchase_history = $repository->findAll();
+
+        $user_existance = true;
+        $product_existance = true;
+        $purchase_existance = true;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // refresh CSRF token (form_intention)
-            $num = 2222;
-            $purchase_id = '000000000000000000'.$num;
-            $user_id = $purchase->getUserId();
+            $purchase_id = $purchase->getPurchaseId();
+            $user_phone = $purchase->getUserPhone();
             $date_purchase = $purchase->getDatePurchase();
             $purchase_tracking_id = $purchase->getPurchaseTrackingId();
-            $product = $purchase->getProductId();
+            $product_id = $purchase->getProductId();
             $quantity = $purchase->getQuantity();
 
-            $purchase_manager = $this->getDoctrine()->getManager();
-            $user_comfirmation = $purchase_manager->getRepository(User::class)->findBy(array('username' => $user_id));
+            $user_existance = $em->getRepository(User::class)->findBy(['phone' => $user_phone]) != null;
+            $product_existance = $em->getRepository(Product::class)->findBy(['product_id' => $product_id]) != null;
 
-            if (null == $user_comfirmation) {
-                return new Response("User does not exist!");
-            }
+            if($purchase_id == '') {
+                if (!$user_existance || !$product_existance) {
+                    return $this->render('purchase/index.html.twig', [
+                        'purchase' => $purchase_history,
+                        'form' => $form->createView(),
+                        'user_existance' => $user_existance,
+                        'product_existance' => $product_existance,
+                        'purchase_existance' => $purchase_existance]);
+                } else {
+                    $purchase->setPurchaseId($this->generate_purchase_id());
+                    $purchase->setUserPhone($user_phone);
+                    $purchase->setDatePurchase($date_purchase);
+                    $purchase->setPurchaseTrackingId($purchase_tracking_id);
+                    $purchase->setProductId($product_id);
+                    $purchase->setQuantity($quantity);
+                    $em->persist($purchase);
+                    $em->flush();
 
-            else {
-                $purchase->setPurchaseId($purchase_id);
-                $purchase->setUserId($user_id);
-                $purchase->setDatePurchase($date_purchase);
-                $purchase->setPurchaseTrackingId($purchase_tracking_id);
-                $purchase->setProductId($product);
-                $purchase->setQuantity($quantity);
-                $purchase_manager->persist($purchase);
-                $purchase_manager->flush();
-                unset($purchase);
-                unset($form);
-                $purchase = new PurchaseHistory();
-                $form = $this->createForm(PurchaseType::class, $purchase);
-                $repository = $this->getDoctrine()->getRepository(PurchaseHistory::class);
-                $purchase_history = $repository->findAll();
-                $this->get("security.csrf.token_manager")->refreshToken("form_intention");
-                return $this->render('purchase/index.html.twig', [
-                    'purchase' => $purchase_history,
-                    'form' => $form->createView()
-                ]);
+                    return $this->redirectToRoute('PurchaseHistoryPage');
+                }
+            }else{
+                $purchase = $em->getRepository(PurchaseHistory::class)->findBy(['purchase_id' => $purchase_id])[0];
+                $purchase_existance = $purchase != null;
+
+                if (!$purchase_existance || !$user_existance || !$product_existance) {
+                    return $this->render('purchase/index.html.twig', [
+                        'purchase' => $purchase_history,
+                        'form' => $form->createView(),
+                        'user_existance' => $user_existance,
+                        'product_existance' => $product_existance,
+                        'purchase_existance' => $purchase_existance]);
+                } else {
+                    $purchase->setUserPhone($user_phone);
+                    $purchase->setDatePurchase($date_purchase);
+                    $purchase->setPurchaseTrackingId($purchase_tracking_id);
+                    $purchase->setProductId($product_id);
+                    $purchase->setQuantity($quantity);
+                    $em->persist($purchase);
+                    $em->flush();
+
+                    return $this->redirectToRoute('PurchaseHistoryPage');
+                }
             }
         }
+        return $this->render('purchase/index.html.twig',[
+            'purchase' => $purchase_history,
+            'form' => $form->createView(),
+            'user_existance' => $user_existance,
+            'product_existance' => $product_existance,
+            'purchase_existance' => $purchase_existance]);
+    }
 
-        $repository = $this->getDoctrine()->getRepository(PurchaseHistory::class);
-        $purchase_history = $repository->findAll();
-        return $this->render('purchase/index.html.twig',['purchase' => $purchase_history,
-            'form' => $form->createView()]);
+    /**
+     * @Route("/modify", name="PurchaseHistoryModifyPage", methods="POST")
+     */
+    public function purchase_modify(Request $request)
+    {
+        if ($request->isXmlHttpRequest()){
+            $content = $request->getContent();
+            if (!empty($content)){
+                $params = json_decode($content, true);
+                $purchase_id = $params['purchase_id'];
+                $em = $this->getDoctrine()->getManager();
+                $purchase = $em->getRepository(PurchaseHistory::class)->findBy(['purchase_id' => $purchase_id])[0];
+            }
+            return new JsonResponse([
+                    'purchase_id' => $purchase_id,
+                    'user_phone' => $purchase->getUserPhone(),
+                    'product_id' => $purchase->getProductId(),
+                    'date_purchase' => $purchase->getDatePurchase()->format('Y-m-d-H-i-s'),
+                    'purchase_tracking_id' => $purchase->getPurchaseTrackingId(),
+                    'quantity' => $purchase->getQuantity()
+                ]);
+        }
+    }
+
+    /**
+     * @Route("/remove", name="PurchaseHistoryRemovePage", methods="POST")
+     */
+    public function purchase_remove(Request $request)
+    {
+        if ($request->isXmlHttpRequest()){
+            $content = $request->getContent();
+            if (!empty($content)){
+                $params = json_decode($content, true);
+                $purchase_id = $params['purchase_id'];
+                $em = $this->getDoctrine()->getManager();
+                $purchase = $em->getRepository(PurchaseHistory::class)->findBy(['purchase_id' => $purchase_id])[0];
+                $em->remove($purchase);
+                $em->flush();
+            }
+        }
+    }
+
+
+    private function generate_purchase_id(){
+        $conn = $this->getDoctrine()->getManager()->getConnection();
+        $sql = "SELECT purchase_id FROM infos";
+        $id_pre = $conn->prepare($sql);
+        $id_pre->execute();
+        $purchase_id_last = $id_pre->fetchAll()[0]["purchase_id"];
+        if ( empty($purchase_id_last) || ($purchase_id_last) == '') {
+            $purchase_id = str_pad("1", 10, "0", STR_PAD_LEFT);
+        }else{
+            $purchase_id = str_pad((int) $purchase_id_last+1, 10, "0", STR_PAD_LEFT);
+        }
+        $conn->prepare("UPDATE infos SET purchase_id = $purchase_id")->execute();
+        return $purchase_id;
     }
 
 }

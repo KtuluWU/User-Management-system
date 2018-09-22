@@ -1,5 +1,5 @@
 $(function () {
-    $('.js-basic-example').DataTable({
+    $('.js-basic').DataTable({
         "language": {
             "info": "第 _PAGE_ 页 / 共 _PAGES_ 页",
             "emptyTable": "无人员数据",
