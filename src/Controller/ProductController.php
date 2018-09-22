@@ -31,20 +31,24 @@ class ProductController extends AbstractController
             $product->setProductId($product_id);
             $product->setProductName($data->getProductName());
             $product->setBarcode($data->getBarcode());
-            $image = $form->get('image_path')->getData();
-            $image_path = md5(uniqid()).'.'.$image->guessExtension();
-            $product->setImagePath($image_path);
             $product->setCategory($data->getCategory());
             $product->setShelfLife($data->getShelfLife());
             $product->setPromotion($data->getPromotion());
             $product->setStock($data->getStock());
             $product->setDescription($data->getDescription());
+            $image = $form->get('image_path')->getData();
+            if(null==$image) {
+                $image_path="example.jpg";}
+            else{
+                $image_path = md5(uniqid()).'.'.$image->guessExtension();
+                $image->move(
+                    $this->getParameter('uploads_images_products'),
+                    $image_path
+                );
+            }
+            $product->setImagePath($image_path);
             $product_manager->persist($product);
             $product_manager->flush();
-            $image->move(
-                $this->getParameter('uploads_images_products'),
-                $image_path
-            );
             unset($purchase);
             unset($form);
             $purchase = new Product();
@@ -117,17 +121,24 @@ class ProductController extends AbstractController
 
             //save new image
             $image_file = $form->get('image_path')->getData();
-            $new_image_path = md5(uniqid()).'.'.$image_file->guessExtension();
-            $image_file->move(
-                $this->getParameter('uploads_images_products'),
-                $new_image_path
-            );
-            //delete original image and save new image
-            $image_path = $product->getImagePath();
-            $original_image = $this->getParameter('uploads_images_products')."/".$image_path;
-            if (file_exists($original_image)) {
-                unlink($original_image);
+            if(null==$image_file){
+                $new_image_path=  $product->getImagePath();
             }
+            else{
+                $new_image_path = md5(uniqid()).'.'.$image_file->guessExtension();
+                $image_file->move(
+                    $this->getParameter('uploads_images_products'),
+                    $new_image_path
+                );
+                //delete original image and save new image
+                $image_path = $product->getImagePath();
+                $original_image = $this->getParameter('uploads_images_products')."/".$image_path;
+                if (file_exists($original_image)) {
+                    unlink($original_image);
+                }
+            }
+
+
             $product->setImagePath($new_image_path);
             //update product
             $product_manager->persist($product);
