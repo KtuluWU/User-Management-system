@@ -54,7 +54,7 @@
                                 <i class="icon wb-plus" aria-hidden="false"></i>{{ 'purchase_page.index.add_row'|trans }}
                             </a>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped" cellspacing="0" id="addrowExample">
+                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
                                     <thead>
                                     <tr>
                                         <th>{{ 'purchase_page.purchase_id'|trans }}</th>
@@ -87,13 +87,12 @@
                                             <td>{{ p.PurchaseTrackingId }}</td>
                                             <td>{{ p.Quantity }}</td>
                                             <td class="actions">
-                                                <button class="modify_btn">
-                                                    <a href="javascript:void(0)"><i class="icon-pencil"></i></a>
-                                                </button>
-                                                <button class="remove_btn btn btn-sm btn-icon btn-pure btn-default on-default button-remove"
-                                                        data-toggle="tooltip" data-original-title="Remove"><a href="javascript:void(0)">
-                                                        <i class="icon-trash" aria-hidden="true"></i></a>
-                                                </button>
+                                                <a href="javascript:void(0)" class="btn btn-info modify_btn">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a class="remove_btn btn btn-danger delete_user_confirm">
+                                                        <i class="fa fa-trash-o"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     {% endfor %}

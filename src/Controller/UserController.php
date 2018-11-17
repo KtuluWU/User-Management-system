@@ -187,9 +187,12 @@ class UserController extends Controller
             return new Response(var_dump($data));
         }
 
+        $month_count = $this->get_register_month_distribution($users);
+
         return $this->render('user/userList_users.html.twig', [
             'users' => $users,
-            'form_file' => $form_file->createView()
+            'form_file' => $form_file->createView(),
+            'month_count' => $month_count
         ]);
     }
 
@@ -484,5 +487,14 @@ class UserController extends Controller
         $sql = "UPDATE infos SET $col_amt_name = $col_amt_name - 1";
         $stm = $em_users->prepare($sql);
         $stm->execute();
+    }
+
+    private function get_register_month_distribution($users){
+        $month_count = array_fill_keys(range(1, 12), 0);
+        foreach ($users as $user){
+            $month = intval($user->getDateRegister()->format('m'));
+            $month_count[$month] += 1;
+        }
+        return $month_count;
     }
 }
