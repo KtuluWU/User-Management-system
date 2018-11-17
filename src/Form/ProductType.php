@@ -26,6 +26,7 @@ class ProductType extends AbstractType
                 ),
                 'translation_domain' => 'ums'))
             ->add('image_path', FileType::class, array(
+                'required' => false,
                 'label' => 'product_page.image_path',
                 'attr' => array(
                     'placeholder' => 'product_page.image_path',

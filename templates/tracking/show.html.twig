@@ -1,0 +1,162 @@
+{% trans_default_domain 'ums' %}
+{% extends 'layout.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/popup_box.css') }}"/>
+{% endblock %}
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "active", "", "", "", "", "", "", "active" %}
+    {{ parent() }}
+{% endblock %}
+{% block main_content %}
+<div id="overlay"></div>
+    <div id="popupBox">
+        <div id="popupContent">
+            <div class="header">
+                <p class="lead">{{ 'tracking_page.title'|trans }}</p>
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="profilepage_2">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'tracking_page.page_title'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'tracking_page.page_title'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="timeline-item animated fadeIn faster green">
+                                <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5> {{ tracking_product }}{{ 'tracking_page.phrase_1'| trans }}</h5>
+                                <img src="{{ asset('/images/blog/1.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower warning">
+                                <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_2.1'| trans }}{{ tracking.RanchId }}{{ 'tracking_page.phrase_2.2'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_2.3'| trans }} <a href="javascript:void(0);" title="">{{ tracking.RanchResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/2.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower blue">
+                                <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_3.1'| trans }}{{ tracking.Factory }}{{ 'tracking_page.phrase_3.2'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_3.3'| trans }} <a href="javascript:void(0);" title="">{{ tracking.FactoryResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/3.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower green">
+                                <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_4.1'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_4.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.FactoryDeliveryResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/4.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower warning">
+                                <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_5.1'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_5.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ExportResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/05-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower blue">
+                                <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_6.1'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_6.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ImportResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/06-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower green">
+                                <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_7.1'| trans }}</h5>
+                                <h5>{{ 'tracking_page.phrase_7.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ArrivalResponsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/07-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower warning">
+                                <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_8.1'| trans }} {{ tracking.Site1 }}</h5>
+                                <h5>{{ 'tracking_page.phrase_8.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site1Responsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/08-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower blue">
+                                <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_9.1'| trans }} {{ tracking.Site2 }}</h5>
+                                <h5>{{ 'tracking_page.phrase_9.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site2Responsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/09-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower green">
+                                <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_10.1'| trans }} {{ tracking.Site3 }}</h5>
+                                <h5>{{ 'tracking_page.phrase_10.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site3Responsible }}</a> </h5>
+                                <img src="{{ asset('/images/blog/10-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+                            <div class="timeline-item animated fadeIn slower warning">
+                                <span class="date">{{ tracking.PurchaseTime|date('Y年m月d日h:m:s') }}</span>
+                                <h5>{{ 'tracking_page.phrase_11.1'| trans }} </h5>
+                                <h5>{{ 'tracking_page.phrase_11.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.SellerId }}</a> </h5>
+                                <img src="{{ asset('/images/blog/11-img.jpg')}}" height="300" width="300"/>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+
+
+{% endblock %}
