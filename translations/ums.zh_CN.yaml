@@ -180,6 +180,7 @@ userList_pages:
   add_seller_admin: 添加销售/管理人员
   action: 选项
   edit_form: 修改用户信息
+  user_number_chart: 用户数量变化图
 
 user_infos:
   username: 用户名
