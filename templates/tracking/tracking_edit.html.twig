@@ -1,0 +1,216 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'ums' %}
+
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "", "", "", "", "active", "", "", "active" %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main_content %}
+    <div id="main-content" class="product">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'product_page.page_title'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'product_page.page_title'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12 m-auto">
+                <div class="card">
+                    <div class="header">
+                        <h2>{{ 'product_page.edit_form'|trans }}</h2>
+                    </div>
+                    <div class="body">
+                        {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
+                        <div class="form-group">
+                            {{ form_label(form.product_id) }}
+                            {{ form_widget(form.product_id, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.production_date) }}
+                            {{ form_widget(form.production_date, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.production_date) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.batch_id) }}
+                            {{ form_widget(form.batch_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.batch_id) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.starting_time) }}
+                            {{ form_widget(form.starting_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.starting_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.ranch_id) }}
+                            {{ form_widget(form.ranch_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.ranch_id) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.milk_collection_time) }}
+                            {{ form_widget(form.milk_collection_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.milk_collection_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.ranch_responsible) }}
+                            {{ form_widget(form.ranch_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.ranch_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.factory) }}
+                            {{ form_widget(form.factory, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.factory) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.factory_processing_time) }}
+                            {{ form_widget(form.factory_processing_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.factory_processing_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.factory_responsible) }}
+                            {{ form_widget(form.factory_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.factory_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.factory_delivery_time) }}
+                            {{ form_widget(form.factory_delivery_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.factory_delivery_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.factory_delivery_responsible) }}
+                            {{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.factory_delivery_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.export_time) }}
+                            {{ form_widget(form.export_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.export_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.export_responsible) }}
+                            {{ form_widget(form.export_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.export_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.import_time) }}
+                            {{ form_widget(form.import_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.import_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.import_responsible) }}
+                            {{ form_widget(form.import_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.import_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.center_arrival_time) }}
+                            {{ form_widget(form.center_arrival_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.center_arrival_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.arrival_responsible) }}
+                            {{ form_widget(form.arrival_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.arrival_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_1) }}
+                            {{ form_widget(form.site_1, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_1_delivery_time) }}
+                            {{ form_widget(form.site_1_delivery_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_1_delivery_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_1_responsible) }}
+                            {{ form_widget(form.site_1_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_1_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_2) }}
+                            {{ form_widget(form.site_2, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_2) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_2_delivery_time) }}
+                            {{ form_widget(form.site_2_delivery_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_2_delivery_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_2_responsible) }}
+                            {{ form_widget(form.site_2_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_2_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_3) }}
+                            {{ form_widget(form.site_3, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_3) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_3_delivery_time) }}
+                            {{ form_widget(form.site_3_delivery_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_3_delivery_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.site_3_responsible) }}
+                            {{ form_widget(form.site_3_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.site_3_responsible) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.client_id) }}
+                            {{ form_widget(form.client_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.client_id) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.purchase_time) }}
+                            {{ form_widget(form.purchase_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.purchase_time) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.seller_id) }}
+                            {{ form_widget(form.seller_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
+                            {{ form_errors(form.seller_id) }}
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'tracking_page.btn'|trans }}">
+
+                        <p></p>
+                        <a href="/tracking/data"  class="btn btn-primary btn-lg btn-block">
+                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.return'|trans }}
+                        </a>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
