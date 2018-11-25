@@ -48,7 +48,7 @@ class GenerateFakeUsers extends Controller
             $phone = $this->generateRandomNumber(11);
             $region = "beijing";
             $address = "7 Avenue de Paris";
-            $register_date = date_create("2017-".$this->generateRandomMonthDay());
+            $register_date = date_create("2018-".$this->generateRandomMonthDay());
 
             $user->setUsername($username);
             $user->setEmail($email);
