@@ -141,6 +141,25 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div style="margin: 20px;">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="date_by_day" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true">最近30天</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="date_by_week" data-toggle="pill" role="tab" aria-controls="pills-profile" aria-selected="false">最近10周</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="date_by_month" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">最近6月</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="date_by_year" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">最近一年</a>
+                        </li>
+                    </ul>
+                </div>
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -155,7 +174,75 @@
     <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('vendor/chart.js/dist/Chart.js') }}"></script>
+    <script src="{{ asset('js/tools.js') }}"></script>
     <script>
+        let chart;
+
+        function create_chart(chart_labels, chart_data) {
+            chart = new Chart(document.getElementById("myChart"), {
+                "type": "line",
+                "data": {
+                    "labels": chart_labels,
+                    "datasets": [{
+                        "label": "用户总数",
+                        "data": chart_data,
+                        "fill": false,
+                        "borderColor": "rgb(75, 192, 192)",
+                        "lineTension": 0.1
+                    }]
+                },
+                "options": {animation: false}
+            });
+        }
+
+        function update_chart(chart_labels, chart_data){
+            chart.reset();
+            chart.data.labels = chart_labels;
+            chart.data.datasets[0].data = chart_data;
+            chart.update();
+        }
+
+        function op_chart(by, op){
+            // 用户趋势数据读取
+            $.ajax({
+                url: '/service/get_user_count',
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({'date_by': by}),
+                success: function(data) {
+                    let chart_labels = [];
+                    let chart_data = [];
+                    let dict = JSON.parse(data);
+                    let accumulated_user_count = dict['accumulated_user_count'];
+                    let filtered_users = dict['filtered_users'];
+                    let filtered_user_count = Counter(filtered_users);
+                    let date_cursor = new Date(dict['starting_date']);
+                    let ending_date = new Date();
+                    let count_acc = accumulated_user_count;
+                    let tmp = [];
+                    while(date_cursor <= ending_date){
+                        let date_string = dateToYms(date_cursor);
+                        if (date_string in filtered_user_count){
+                            tmp.push(date_string);
+                            count_acc += filtered_user_count[date_string];
+                        }
+                        chart_labels.push(date_string);
+                        chart_data.push(count_acc);
+                        date_cursor.setDate(date_cursor.getDate()+1);
+                    }
+                    if (op === 'create'){
+                        create_chart(chart_labels, chart_data);
+                    }else if(op === 'update'){
+                        update_chart(chart_labels, chart_data);
+                    }
+                },
+            });
+        }
+
+
+
         $(document).ready(function () {
             $('.delete_user_confirm').click(function (e) {
                 e.preventDefault();
@@ -175,7 +262,25 @@
                 }, function () {
                     window.location.href = linkURL;
                 });
-            };
-        })
+            }
+
+            op_chart('day', 'create');
+
+            $('#date_by_day').on('click', function () {
+                op_chart('day', 'update');
+            });
+            $('#date_by_week').on('click', function () {
+                op_chart('week', 'update');
+            });
+            $('#date_by_month').on('click', function () {
+                op_chart('month', 'update');
+            });
+            $('#date_by_year').on('click', function () {
+                op_chart('year', 'update');
+            });
+        });
+
+
+
     </script>
 {% endblock %}
