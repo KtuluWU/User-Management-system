@@ -37,7 +37,7 @@ class UserController extends Controller
     /**
      * @Route("/registration/user_register", name="UserRegisterPage")
      */
-    public function  user_register( Request $request)
+    public function  user_register(Request $request)
     {
 
         $userManager = $this->get('fos_user.user_manager');

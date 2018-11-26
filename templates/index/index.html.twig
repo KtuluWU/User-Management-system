@@ -16,10 +16,98 @@
 {% block main_content %}
     <div id="main-content">
         <div class="container-fluid">
-            <video width="600" height="450" controls>
-                <source src="{{ asset('video/test.mp4') }}" type="video/mp4">
-            </video>
-        </div>
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'index_page.title'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'index_page.title'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card top_counter">
+                        <div class="body">
+                            <div class="icon"><i class="fa fa-user"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.new_users'|trans }}</div>
+                                <h5 class="number">{{ new_users }}</h5>
+                            </div>
+                            <hr>
+                            <div class="icon"><i class="fa fa-users"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.total_users'|trans }}</div>
+                                <h5 class="number">{{ total_user }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card top_counter">
+                        <div class="body">
+                            <div class="icon"><i class="fa fa-user"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.new_sellers'|trans }}</div>
+                                <h5 class="number">{{ new_sellers }}</h5>
+                            </div>
+                            <hr>
+                            <div class="icon"><i class="fa fa-users"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.total_sellers'|trans }}</div>
+                                <h5 class="number">{{ total_sellers }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card top_counter">
+                        <div class="body">
+                            <div class="icon"><i class="fa fa-diamond"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.new_admins'|trans }}</div>
+                                <h5 class="number">{{ new_admins }}</h5>
+                            </div>
+                            <hr>
+                            <div class="icon"><i class="fa fa-diamond"></i> </div>
+                            <div class="content">
+                                <div class="text">{{ 'index_page.admin_page.total_admins'|trans }}</div>
+                                <h5 class="number">{{ total_admins }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </div>
 {% endblock %}
 
