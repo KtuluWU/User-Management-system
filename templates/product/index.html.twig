@@ -16,91 +16,47 @@
 {% endblock %}
 {% block main_content %}
 <div id="overlay"></div>
-    <div id="popupBox">
+    <div id="popupBox" class="animated flipInY">
         <div id="popupContent">
             <div class="header">
-                <p class="lead">{{ 'product_page.title'|trans }}</p>
+                <p class="lead" id="product_form_title">{{ 'product_page.register'|trans }}</p>
             </div>
             <div class="body">
-                {{ form_start(form, {'attr': {'class': 'form-auth-small'}}) }}
-                <div class="form-group">
-                    {{ form_widget(form.product_name, {'attr': {'class': 'form-control', 'id': 'signup-phone'}}) }}
+                {{ form_start(form) }}
+                <small class="text-muted">{{ form_label(form.product_name) }} *</small>
+                <p>{{ form_widget(form.product_name, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.barcode) }} *</small>
+                <p>{{ form_widget(form.barcode, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.image_path) }}</small>
+                <p>{{ form_widget(form.image_path, {'attr': {'class': 'form-control'}}) }}</p>
+                <img id="img_prev" src="{{ asset('uploads/images/preview.png') }}" alt="your image" width="264" height="264"/>
+                <hr>
+                <small class="text-muted">{{ form_label(form.category) }} *</small>
+                <p>{{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.shelf_life) }} *</small>
+                <p>{{ form_widget(form.shelf_life, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.promotion) }}</small>
+                <p>{{ form_widget(form.promotion, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.stock) }}</small>
+                <p>{{ form_widget(form.stock, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.description) }}</small>
+                <p>{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}</p>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="{{ 'product_page.btn'|trans }}">&nbsp;&nbsp;
+                    <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
                 </div>
-                <div class="form-group">
-                    {{ form_widget(form.barcode, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.barcode) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.image_path, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.image_path) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.category, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.category) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.shelf_life, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.shelf_life) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.promotion, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.promotion) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.stock) }}
-                </div>
-                <div class="form-group">
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.description) }}
-                </div>
-                <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'product_page.btn'|trans }}">
                 {{ form_end(form) }}
-                <p></p>
-                <a href="/product"  class="btn btn-primary btn-lg btn-block">
-                    <i class="icon wb-plus" aria-hidden="false"></i>{{ 'product_page.return'|trans }}
-                </a>
             </div>
         </div>
     </div>
-    <div id="main-content" class="profilepage_2">
+    <div id="main-content">
         <div class="container-fluid">
-            <div class="block-header">
-                <div class="row">
-                    <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>{{ 'product_page.page_title'|trans }}</h2>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
-                            <li class="breadcrumb-item active">{{ 'product_page.page_title'|trans }}</li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
-                        <div class="bh_chart hidden-xs">
-                            <div class="float-left m-r-15">
-                                <small>Visitors</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
-                            </div>
-                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
-                        </div>
-                        <div class="bh_chart hidden-sm">
-                            <div class="float-left m-r-15">
-                                <small>Visits</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
-                            </div>
-                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
-                        </div>
-                        <div class="bh_chart hidden-sm">
-                            <div class="float-left m-r-15">
-                                <small>Chats</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
-                            </div>
-                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
@@ -109,59 +65,59 @@
                             <i class="icon wb-plus" aria-hidden="false"></i>{{ 'product_page.add_row'|trans }}
                         </a>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable table-custom table-userList text-center">
-                                <thead>
-                                <tr>
-                                    <th>{{ 'product_page.product_id' | trans }}</th>
-                                    <th>{{ 'product_page.product_name' | trans }}</th>
-                                    <th>{{ 'product_page.barcode' | trans }}</th>
-                                    <th>{{ 'product_page.image_path' | trans }}</th>
-                                    <th>{{ 'product_page.category' | trans }}</th>
-                                    <th>{{ 'product_page.shelf_life' | trans }}</th>
-                                    <th>{{ 'product_page.promotion' | trans }}</th>
-                                    <th>{{ 'product_page.stock' | trans }}</th>
-                                    <th>{{ 'product_page.description' | trans }}</th>
-                                    <th>{{ 'product_page.action' | trans }}</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>{{ 'product_page.product_id' | trans }}</th>
-                                    <th>{{ 'product_page.product_name' | trans }}</th>
-                                    <th>{{ 'product_page.barcode' | trans }}</th>
-                                    <th>{{ 'product_page.image_path' | trans }}</th>
-                                    <th>{{ 'product_page.category' | trans }}</th>
-                                    <th>{{ 'product_page.shelf_life' | trans }}</th>
-                                    <th>{{ 'product_page.promotion' | trans }}</th>
-                                    <th>{{ 'product_page.stock' | trans }}</th>
-                                    <th>{{ 'product_page.description' | trans }}</th>
-                                    <th>{{ 'product_page.action' | trans }}</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                {% for p in products %}
-                                    <tr class="gradeA">
-                                        <td>{{ p.ProductId }}</td>
-                                        <td>{{ p.ProductName }}</td>
-                                        <td>{{ p.Barcode }}</td>
-                                        <td>
-                                            <img src="{{ asset('/uploads/images/products/' ~ p.ImagePath)}}" height="42" width="42"/>
-                                        </td>
-                                        <td>{{ p.Category }}</td>
-                                        <td>{{ p.ShelfLife }}</td>
-                                        <td>{{ p.Promotion }}</td>
-                                        <td>{{ p.Stock }}</td>
-                                        <td>{{ p.Description }}</td>
-                                        <td class="actions">
-                                            <a href="/product/edit/{{ p.ProductId }}&product" class="btn btn-info" title="edit">
-                                                <i class="fa fa-edit"></i></a>
-                                            <a href="/product/delete/{{ p.ProductId }}&product" class="btn btn-danger delete_product_confirm" title="Delete">
-                                                <i class="fa fa-trash-o"></i></a>
-                                        </td>
+                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ 'product_page.product_id' | trans }}</th>
+                                        <th>{{ 'product_page.product_name' | trans }}</th>
+                                        <th>{{ 'product_page.barcode' | trans }}</th>
+                                        <th>{{ 'product_page.image_path' | trans }}</th>
+                                        <th>{{ 'product_page.category' | trans }}</th>
+                                        <th>{{ 'product_page.shelf_life' | trans }}</th>
+                                        <th>{{ 'product_page.promotion' | trans }}</th>
+                                        <th>{{ 'product_page.stock' | trans }}</th>
+                                        <th>{{ 'product_page.description' | trans }}</th>
+                                        <th>{{ 'product_page.action' | trans }}</th>
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>{{ 'product_page.product_id' | trans }}</th>
+                                        <th>{{ 'product_page.product_name' | trans }}</th>
+                                        <th>{{ 'product_page.barcode' | trans }}</th>
+                                        <th>{{ 'product_page.image_path' | trans }}</th>
+                                        <th>{{ 'product_page.category' | trans }}</th>
+                                        <th>{{ 'product_page.shelf_life' | trans }}</th>
+                                        <th>{{ 'product_page.promotion' | trans }}</th>
+                                        <th>{{ 'product_page.stock' | trans }}</th>
+                                        <th>{{ 'product_page.description' | trans }}</th>
+                                        <th>{{ 'product_page.action' | trans }}</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    {% for p in products %}
+                                        <tr class="gradeA">
+                                            <td>{{ p.ProductId }}</td>
+                                            <td>{{ p.ProductName }}</td>
+                                            <td>{{ p.Barcode }}</td>
+                                            <td>
+                                                <img src="{{ asset('/uploads/images/products/' ~ p.ImagePath)}}" height="42" width="42"/>
+                                            </td>
+                                            <td>{{ p.Category }}</td>
+                                            <td>{{ p.ShelfLife }}</td>
+                                            <td>{{ p.Promotion }}</td>
+                                            <td>{{ p.Stock }}</td>
+                                            <td>{{ p.Description }}</td>
+                                            <td class="actions">
+                                                <a class="btn btn-info modify_btn">
+                                                    <i class="fa fa-edit"></i></a>
+                                                <a class="remove_btn btn btn-danger delete_user_confirm">
+                                                    <i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </button>
                         </div>
                     </div>
@@ -180,33 +136,30 @@
     <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
-
     <script>
-        $(document).ready(function () {
-            $('.delete_product_confirm').click(function (e) {
-                e.preventDefault();
-                var linkURL = $(this).attr("href");
-                confirmBeforeRedirect(linkURL);
-            });
-
-            function confirmBeforeRedirect(linkURL) {
-                swal({
-                    title: "确定删除该产品吗？",
-                    text: "该操作无法恢复！",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#dc3545",
-                    confirmButtonText: "确定删除",
-                    cancelButtonText: "取消"
-                }, function () {
-                    window.location.href = linkURL;
-                });
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              $('#img_prev').attr('src', e.target.result);
             };
-        })
-    </script>
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+        $("#product_image_path").change(function() {
+          readURL(this);
+        });
 
-    <script>
         $('#addRow').click(function () {
+            $('#product_form_title').text('{{ 'product_page.register'|trans }}');
+            $('#product_product_name').val('');
+            $('#product_barcode').val('');
+            $('#product_image_path').val('');
+            $('#product_category').val('');
+            $('#product_shelf_life').val('');
+            $('#product_promotion').val('');
+            $('#product_stock').val('');
+            $('#product_description').val('');
             $('#overlay').fadeIn('fast');
             $('#popupBox').fadeIn('fast');
             $('#popupContent').fadeIn('fast');
@@ -216,6 +169,68 @@
             $('#overlay').fadeOut('fast');
             $('#popupBox').fadeOut('fast');
             $('#popupContent').fadeOut('fast');
+            $('#img_prev').attr('src', "{{ asset('uploads/images/preview.png') }}");
+        });
+
+        {% if not product_existance %}
+            swal({
+                title: "出错啦",
+                text: "商品编号不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+
+        $('.modify_btn').click(function (e) {
+            data = {"product_id": $('td:first-child', $(e.target).parents('tr')).text()};
+            $.ajax({
+                url: '/product/modify',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (product) {
+                    $('#product_form_title').text('{{ 'product_page.modify'|trans }}');
+                    $('#product_product_id').val(product['product_id']);
+                    $('#product_product_name').val(product['product_name']);
+                    $('#product_barcode').val(product['barcode']);
+                    alert(product['image_path'])
+                    if (product['image_path'] === '' || product['image_path'] === null){
+                        $('#img_prev').attr('src', "{{ asset('uploads/images/preview.png') }}");
+                    }else{
+                        $('#img_prev').attr('src', "{{ asset('uploads/images/products/') }}"+product['image_path']);
+                    }
+                    $('#product_category').val(product['category']);
+                    $('#product_shelf_life').val(product['shelf_life']);
+                    $('#product_promotion').val(product['promotion']);
+                    $('#product_stock').val(product['stock']);
+                    $('#product_description').val(product['description']);
+                    $('#overlay').fadeIn('fast');
+                    $('#popupBox').fadeIn('fast');
+                    $('#popupContent').fadeIn('fast');
+                }
+            });
+        });
+
+        $('.remove_btn').click(function(e) {
+            swal({
+                title: "确定删除该购买记录吗？",
+                text: "该操作无法恢复！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#dc3545",
+                confirmButtonText: "确定删除！",
+                cancelButtonText: "取消"
+            }, function() {
+                data = {"product_id": $('td:first-child', $(e.target).parents('tr')).text()};
+                $.ajax({
+                    url: '/product/remove',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                });
+                location.reload();
+            });
         });
 
     </script>
