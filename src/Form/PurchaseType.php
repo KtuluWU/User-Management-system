@@ -38,6 +38,7 @@ class PurchaseType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('quantity',NumberType::class, array(
                 'label' => 'purchase_page.quantity',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'purchase_page.quantity',
                 ),

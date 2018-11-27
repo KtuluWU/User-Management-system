@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -28,6 +30,7 @@ class ProductType extends AbstractType
             ->add('image_path', FileType::class, array(
                 'required' => false,
                 'label' => 'product_page.image_path',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'product_page.image_path',
                 ),
@@ -46,22 +49,26 @@ class ProductType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('promotion', null, array(
                 'label' => 'product_page.promotion',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'product_page.promotion',
                 ),
                 'translation_domain' => 'ums'))
             ->add('stock', NumberType::class, array(
                 'label' => 'product_page.stock',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'product_page.stock',
                 ),
                 'translation_domain' => 'ums'))
             ->add('description', TextType::class, array(
                 'label' => 'product_page.description',
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'product_page.description',
                 ),
-                'translation_domain' => 'ums'));
+                'translation_domain' => 'ums'))
+            ->add('product_id', HiddenType::class);
     }
 
     public function getName(){

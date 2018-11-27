@@ -103,11 +103,11 @@ product_page:
   stock: 库存
   description: 商品描述
   action: 操作
-  add_row: 添加商品
+  add_row: 添加
   btn: 保存
   return: 返回
-  title: 请输入您的新产品
-  edit_form: 修改产品信息
+  register: 输入产品信息
+  modify: 修改产品信息
 
 tracking_page:
   add_row: 添加
