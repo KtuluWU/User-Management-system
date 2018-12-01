@@ -257,5 +257,15 @@ region:
   71: 台湾省
   99: 海外
 
+index_page:
+  title: 首页
+  admin_page:
+    new_users: 新客户
+    total_users: 总客户
+    new_sellers: 新销售员
+    total_sellers: 总销售员
+    new_admins: 新管理员
+    total_admins: 总管理员
+
 
 
