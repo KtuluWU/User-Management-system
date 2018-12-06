@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('vendor/chartist/css/chartist.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/slick/slick.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/slick/slick-theme.css') }}"/>
 {% endblock %}
 
 {% block sidebar %}
@@ -53,59 +55,14 @@
             </div>
 
             <div class="row clearfix">
-                <div class="col-lg-4 col-md-6">
-                    <div class="card top_counter">
-                        <div class="body">
-                            <div class="icon"><i class="fa fa-user"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.new_users'|trans }}</div>
-                                <h5 class="number">{{ new_users }}</h5>
-                            </div>
-                            <hr>
-                            <div class="icon"><i class="fa fa-users"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.total_users'|trans }}</div>
-                                <h5 class="number">{{ total_user }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card top_counter">
-                        <div class="body">
-                            <div class="icon"><i class="fa fa-user"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.new_sellers'|trans }}</div>
-                                <h5 class="number">{{ new_sellers }}</h5>
-                            </div>
-                            <hr>
-                            <div class="icon"><i class="fa fa-users"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.total_sellers'|trans }}</div>
-                                <h5 class="number">{{ total_sellers }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="card top_counter">
-                        <div class="body">
-                            <div class="icon"><i class="fa fa-diamond"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.new_admins'|trans }}</div>
-                                <h5 class="number">{{ new_admins }}</h5>
-                            </div>
-                            <hr>
-                            <div class="icon"><i class="fa fa-diamond"></i> </div>
-                            <div class="content">
-                                <div class="text">{{ 'index_page.admin_page.total_admins'|trans }}</div>
-                                <h5 class="number">{{ total_admins }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% block main_body %}
+                    {% if role == 'User' %}
+                        {% include 'index/user_index.html.twig' %}
+                    {% endif %}
+                    {% if role == 'Admin' %}
+                        {% include 'index/admin_index.html.twig' %}
+                    {% endif %}
+                {% endblock %}
             </div>
 
     </div>
@@ -117,4 +74,16 @@
     <script src="{{ asset('bundles_js/chartist.bundle.js') }}"></script>
     <script src="{{ asset('bundles_js/knob.bundle.js') }}"></script>
     <script src="{{ asset('js/index.js') }}"></script>
+    <script src="{{ asset('vendor/slick/slick.min.js') }}"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          $('.slider').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 4000,
+          });
+        });
+    </script>
 {% endblock %}

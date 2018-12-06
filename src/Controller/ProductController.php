@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+error_reporting(E_ALL);
 
 
 /**
@@ -61,6 +62,7 @@ class ProductController extends AbstractController
                 $product->setPromotion($promotion);
                 $product->setStock($stock);
                 $product->setDescription($description);
+                $product->setImagePath($image_path);
                 $em->persist($product);
                 $em->flush();
 
@@ -78,17 +80,14 @@ class ProductController extends AbstractController
                     $product->setProductName($product_name);
                     $product->setBarcode($barcode);
                     $image = $form->get('image_path')->getData();
-                    if($image === null or $image === '') {
-                        $image_path="example.jpg";
-                    }
-                    else{
+                    if($image) {
                         $image_path = md5(file_get_contents($image)).'.'.$image->guessExtension();
                         $image->move(
                             $this->getParameter('uploads_images_products'),
                             $image_path
                         );
+                        $product->setImagePath($image_path);
                     }
-                    $product->setImagePath($image_path);
                     $product->setCategory($category);
                     $product->setShelfLife($shelf_life);
                     $product->setPromotion($promotion);
@@ -159,12 +158,12 @@ class ProductController extends AbstractController
         $id_pre = $conn->prepare($sql);
         $id_pre->execute();
         $product_id_last = $id_pre->fetchAll()[0]["product_id"];
-        if ( empty($product_id_last) || ($product_id_last) == '') {
+        if ( empty($product_id_last) || ($product_id_last) === '') {
             $product_id = str_pad("1", 10, "0", STR_PAD_LEFT);
         }else{
             $product_id = str_pad((int) $product_id_last+1, 10, "0", STR_PAD_LEFT);
         }
-        $conn->prepare("UPDATE infos SET purchase_id = $product_id")->execute();
+        $conn->prepare("UPDATE infos SET product_id = $product_id")->execute();
         return $product_id;
     }
 }

@@ -1,0 +1,82 @@
+{% trans_default_domain 'ums' %}
+
+{% block main_body %}
+    <div>
+        <div class="card" style="width: 600px; margin-left:20px;">
+            <div style="margin-top: 20px; margin-left: 50px"><h3><b>热销商品</b></h3></div>
+            <div class="slider" style="width: 500px; margin : 40px" align="center">
+                <div><img src="{{ asset('/uploads/images/slide_1.png')}}" height="420" width="420"></div>
+                <div><img src="{{ asset('/uploads/images/slide_2.png')}}" height="420" width="420"></div>
+                <div><img src="{{ asset('/uploads/images/slide_3.png')}}" height="420" width="420"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 600px; margin-left:50px; height: auto">
+        <div style="margin-top: 20px; margin-left: 50px"><h3><b>公司动态</b></h3></div>
+        <div style="margin-top: 40px; margin-left: 40px; display: flex;">
+            <div class="col-lg-4">
+                <a href="http://www.cotteejersey.cn/news_info.php?catid=301">
+                    <img src="{{ asset('/uploads/images/news_1.png') }}" height="100" width="180">
+                </a>
+            </div>
+            <div class="col-lg-8" style="margin-left: 10px">
+                <div style="height: 35px;"><h5 style="color: red"><b>热点</b></h5></div>
+                <div style="height: 50px; margin-right: 40px"><a href="http://www.cotteejersey.cn/news_info.php?catid=301" style="color: inherit"><b>12345进社区情暖冬月，爱薇牛送营养爱在健康！</b></a></div>
+                <div style="height: 20px;"><p>2016-12-05</p></div>
+            </div>
+        </div>
+        <hr style="margin:20px 60px 20px 60px;">
+        <div style="margin-top: 20px; margin-left: 40px; display: flex;">
+            <div class="col-lg-4">
+                <a href="http://www.cotteejersey.cn/news_info.php?catid=300">
+                    <img src="{{ asset('/uploads/images/news_2.png') }}" height="100" width="180">
+                </a>
+            </div>
+            <div class="col-lg-8" style="margin-left: 10px">
+                <div style="height: 35px;"><h5 style="color: red"><b>热点</b></h5></div>
+                <div style="height: 50px; margin-right: 40px"><a href="http://www.cotteejersey.cn/news_info.php?catid=300" style="color: inherit"><b>公益路上走不停！爱薇牛随直播12345进社区，奶粉好礼健康送！</b></a></div>
+                <div style="height: 20px;"><p>2016-11-14</p></div>
+            </div>
+        </div>
+        <hr style="margin:20px 60px 20px 60px;">
+        <div style="margin-top: 20px; margin-left: 40px; display: flex;">
+            <div class="col-lg-4">
+                <a href="http://www.cotteejersey.cn/news_info.php?catid=299">
+                    <img src="{{ asset('/uploads/images/news_3.png') }}" height="100" width="180">
+                </a>
+            </div>
+            <div class="col-lg-8" style="margin-left: 10px">
+                <div style="height: 35px;"><h5 style="color: red"><b>喜讯</b></h5></div>
+                <div style="height: 50px; margin-right: 40px"><a href="http://www.cotteejersey.cn/news_info.php?catid=298" style="color: inherit"><b>“滴滴奶香味，浓浓爱薇情”，爱薇牛在河南“圈粉”赢口碑！</b></a></div>
+                <div style="height: 20px;"><p>2016-11-07</p></div>
+            </div>
+        </div>
+        <hr style="margin:20px 60px 20px 60px;">
+        <div style="margin-top: 20px; margin-left: 40px; display: flex;">
+            <div class="col-lg-4">
+                <a href="http://www.cotteejersey.cn/news_info.php?catid=297">
+                    <img src="{{ asset('/uploads/images/news_4.png') }}" height="100" width="180">
+                </a>
+            </div>
+            <div class="col-lg-8" style="margin-left: 10px">
+                <div style="height: 35px;"><h5 style="color: red"><b>热点</b></h5></div>
+                <div style="height: 50px; margin-right: 40px"><a href="http://www.cotteejersey.cn/news_info.php?catid=297" style="color: inherit"><b>直播12345进社区，爱薇牛快乐送健康！</b></a></div>
+                <div style="height: 20px;"><p>2016-10-31</p></div>
+            </div>
+        </div>
+        <hr style="margin:20px 60px 20px 60px;">
+        <div style="margin-top: 20px; margin-left: 40px; display: flex;">
+            <div class="col-lg-4">
+                <a href="http://www.cotteejersey.cn/news_info.php?catid=296">
+                    <img src="{{ asset('/uploads/images/news_5.png') }}" height="100" width="180">
+                </a>
+            </div>
+            <div class="col-lg-8" style="margin-left: 10px">
+                <div style="height: 35px;"><h5 style="color: red"><b>热点</b></h5></div>
+                <div style="height: 50px; margin-right: 40px"><a href="http://www.cotteejersey.cn/news_info.php?catid=296" style="color: inherit"><b>周末逛街到“海口保税”吾悦广场！快乐爱薇牛，快乐超值购！</b></a></div>
+                <div style="height: 20px;"><p>2016-12-27</p></div>
+            </div>
+        </div>
+        <hr style="margin:20px 60px 20px 60px;">
+    </div>
+{% endblock %}
