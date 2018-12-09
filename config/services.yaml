@@ -58,3 +58,5 @@ services:
         class: App\Form\UserListAddType
         tags:
         - { name: form.type, alis: app_userList_add }
+
+    Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'

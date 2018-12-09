@@ -12,6 +12,7 @@ use App\Entity\ProductTracking;
 use App\Entity\Product;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 use App\Entity\TrackingImage;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Form\ImagePathType;
@@ -75,6 +76,31 @@ class TrackingController extends AbstractController
             'form' =>$form->createView()
         ]);
     }
+
+    public function get_user_id(){
+        $user_id = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager()->getConnection();
+        $id_pre = $em->prepare("SELECT `user_id` FROM `User` WHERE `id` = $user_id");
+        $id_pre->execute();
+        $id = $id_pre->fetchAll();
+        $id = array_pop($id)['user_id'];
+        return $id;
+    }
+
+    /**
+     * @Route("/block", name = "ShowTrackingBlock")
+     */
+    public function show_block(Profiler $profiler)
+    {
+        $profiler->disable();
+        $product_tracking_manager = $this->getDoctrine()->getManager();
+        $user_id = $this->get_user_id();
+        $product_tracking= $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('client_id' => $user_id));
+        $product_id = $product_tracking->getProductId();
+        $product_name = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        return $this->render('tracking/tracking_block.html.twig',['tracking' => $product_tracking, 'tracking_product'=> $product_name, 'is_block'=>true]);
+    }
+
 
 
     /**

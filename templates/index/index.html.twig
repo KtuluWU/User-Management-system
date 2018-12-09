@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/slick/slick.css') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/slick/slick-theme.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/slider/src/jquery.skidder.css') }}">
 {% endblock %}
 
 {% block sidebar %}
@@ -78,12 +79,44 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script>
         $(document).ready(function(){
-          $('.slider').slick({
+          $('#hot_product').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 4000,
           });
+        });
+    </script>
+    <script src="{{ asset('vendor/slider/js/imagesloaded.js') }}"></script>
+    <script src="{{ asset('vendor/slider/js/smartresize.js') }}"></script>
+    <script src="{{ asset('vendor/slider/src/jquery.skidder.js') }}"></script>
+    <script type="text/javascript">
+        $('.slideshow').each( function() {
+            var $slideshow = $(this);
+            $slideshow.imagesLoaded( function() {
+                $slideshow.skidder({
+                    slideClass    : '.slide',
+                    animationType : 'css',
+                    scaleSlides   : true,
+                    maxWidth : 180,
+                    maxHeight: 250,
+                    paging        : true,
+                    autoPaging    : true,
+                    pagingWrapper : ".skidder-pager",
+                    pagingElement : ".skidder-pager-dot",
+                    swiping       : true,
+                    leftaligned   : false,
+                    cycle         : true,
+                    jumpback      : false,
+                    speed         : 400,
+                    autoplay      : true,
+                    autoplayResume: false,
+                    interval      : 4000,
+                    transition    : "slide",
+                    afterSliding  : function() {},
+                    afterInit     : function() {}
+                });
+            });
         });
     </script>
 {% endblock %}
