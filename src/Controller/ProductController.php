@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-error_reporting(E_ALL);
 
 
 /**
