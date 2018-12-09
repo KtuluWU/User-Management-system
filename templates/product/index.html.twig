@@ -194,7 +194,6 @@
                     $('#product_product_id').val(product['product_id']);
                     $('#product_product_name').val(product['product_name']);
                     $('#product_barcode').val(product['barcode']);
-                    alert(product['image_path'])
                     if (product['image_path'] === '' || product['image_path'] === null){
                         $('#img_prev').attr('src', "{{ asset('uploads/images/preview.png') }}");
                     }else{

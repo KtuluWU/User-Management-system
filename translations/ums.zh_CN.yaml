@@ -112,8 +112,8 @@ product_page:
 tracking_page:
   edit_row: 编辑
   add_row: 添加
-  tracking_id: 溯源号
-  product_id: 产品名
+  tracking_id: 溯源编号
+  product_id: 产品编号
   production_date: 生产日期
   batch_id: 批次
   starting_time: 开始生产时间
