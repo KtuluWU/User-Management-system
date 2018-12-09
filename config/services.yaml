@@ -6,6 +6,7 @@
 parameters:
     locale: 'zh_CN'
     uploads_images_products: '../public/uploads/images/products'
+    uploads_images_trackings: '../public/uploads/images/trackings'
     users_file: '%kernel.project_dir%/public/uploads/files/users'
 
 services:

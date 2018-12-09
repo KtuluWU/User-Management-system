@@ -35,7 +35,7 @@ class ProductTracking
     /**
      * @var datetime
      *
-     * @ORM\Column(name="production_date", type="datetime", nullable=true)
+     * @ORM\Column(name="production_date", type="datetime", nullable=false)
      */
     private $production_date;
 
@@ -54,7 +54,7 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="ranch_id", type="string", length=70)
+     * @ORM\Column(name="ranch_id", type="string", length=70,nullable=true)
      */
     private $ranch_id;
 
@@ -67,13 +67,13 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="ranch_responsible", type="string", length=70)
+     * @ORM\Column(name="ranch_responsible", type="string", length=70,nullable=true)
      */
     private $ranch_responsible;
 
     /**
      * @var string
-     * @ORM\Column(name="factory", type="string", length=70)
+     * @ORM\Column(name="factory", type="string", length=70,nullable=true)
      */
     private $factory;
 
@@ -86,20 +86,20 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="factory_responsible", type="string", length=70)
+     * @ORM\Column(name="factory_responsible", type="string", length=70,nullable=true)
      */
     private $factory_responsible;
 
     /**
      * @var datetime
      *
-     * @ORM\Column(name="factory_delivery_time", type="datetime", nullable=true)
+     * @ORM\Column(name="factory_delivery_time", type="datetime", nullable=true,nullable=true)
      */
     private $factory_delivery_time;
 
     /**
      * @var string
-     * @ORM\Column(name="factory_delivery_responsible", type="string", length=70)
+     * @ORM\Column(name="factory_delivery_responsible", type="string", length=70,nullable=true)
      */
     private $factory_delivery_responsible;
 
@@ -112,7 +112,7 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="export_responsible", type="string", length=70)
+     * @ORM\Column(name="export_responsible", type="string", length=70,nullable=true)
      */
     private $export_responsible;
 
@@ -125,7 +125,7 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="import_responsible", type="string", length=70)
+     * @ORM\Column(name="import_responsible", type="string", length=70,nullable=true)
      */
     private $import_responsible;
 
@@ -138,13 +138,13 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="arrival_responsible", type="string", length=70)
+     * @ORM\Column(name="arrival_responsible", type="string", length=70,nullable=true)
      */
     private $arrival_responsible;
 
     /**
      * @var string
-     * @ORM\Column(name="site_1", type="string", length=70)
+     * @ORM\Column(name="site_1", type="string", length=70,nullable=true)
      */
     private $site_1;
 
@@ -157,13 +157,13 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="site_1_responsible", type="string", length=70)
+     * @ORM\Column(name="site_1_responsible", type="string", length=70,nullable=true)
      */
     private $site_1_responsible;
 
     /**
      * @var string
-     * @ORM\Column(name="site_2", type="string", length=70)
+     * @ORM\Column(name="site_2", type="string", length=70,nullable=true)
      */
     private $site_2;
 
@@ -176,13 +176,13 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="site_2_responsible", type="string", length=70)
+     * @ORM\Column(name="site_2_responsible", type="string", length=70,nullable=true)
      */
     private $site_2_responsible;
 
     /**
      * @var string
-     * @ORM\Column(name="site_3", type="string", length=70)
+     * @ORM\Column(name="site_3", type="string", length=70,nullable=true)
      */
     private $site_3;
 
@@ -195,12 +195,12 @@ class ProductTracking
 
     /**
      * @var string
-     * @ORM\Column(name="site_3_responsible", type="string", length=70)
+     * @ORM\Column(name="site_3_responsible", type="string", length=70,nullable=true)
      */
     private $site_3_responsible;
     /**
      * @var string
-     * @ORM\Column(name="client_id", type="string", length=70)
+     * @ORM\Column(name="client_id", type="string", length=70,nullable=true)
      */
     private $client_id;
 
@@ -246,7 +246,7 @@ class ProductTracking
         return $this->production_date;
     }
 
-    public function setProductionDate(?\DateTimeInterface $production_date): self
+    public function setProductionDate(\DateTimeInterface $production_date): self
     {
         $this->production_date = $production_date;
 
@@ -282,7 +282,7 @@ class ProductTracking
         return $this->ranch_id;
     }
 
-    public function setRanchId(string $ranch_id): self
+    public function setRanchId(?string $ranch_id): self
     {
         $this->ranch_id = $ranch_id;
 
@@ -306,7 +306,7 @@ class ProductTracking
         return $this->ranch_responsible;
     }
 
-    public function setRanchResponsible(string $ranch_responsible): self
+    public function setRanchResponsible(?string $ranch_responsible): self
     {
         $this->ranch_responsible = $ranch_responsible;
 
@@ -318,7 +318,7 @@ class ProductTracking
         return $this->factory;
     }
 
-    public function setFactory(string $factory): self
+    public function setFactory(?string $factory): self
     {
         $this->factory = $factory;
 
@@ -342,7 +342,7 @@ class ProductTracking
         return $this->factory_responsible;
     }
 
-    public function setFactoryResponsible(string $factory_responsible): self
+    public function setFactoryResponsible(?string $factory_responsible): self
     {
         $this->factory_responsible = $factory_responsible;
 
@@ -366,7 +366,7 @@ class ProductTracking
         return $this->factory_delivery_responsible;
     }
 
-    public function setFactoryDeliveryResponsible(string $factory_delivery_responsible): self
+    public function setFactoryDeliveryResponsible(?string $factory_delivery_responsible): self
     {
         $this->factory_delivery_responsible = $factory_delivery_responsible;
 
@@ -390,7 +390,7 @@ class ProductTracking
         return $this->export_responsible;
     }
 
-    public function setExportResponsible(string $export_responsible): self
+    public function setExportResponsible(?string $export_responsible): self
     {
         $this->export_responsible = $export_responsible;
 
@@ -414,7 +414,7 @@ class ProductTracking
         return $this->import_responsible;
     }
 
-    public function setImportResponsible(string $import_responsible): self
+    public function setImportResponsible(?string $import_responsible): self
     {
         $this->import_responsible = $import_responsible;
 
@@ -438,7 +438,7 @@ class ProductTracking
         return $this->arrival_responsible;
     }
 
-    public function setArrivalResponsible(string $arrival_responsible): self
+    public function setArrivalResponsible(?string $arrival_responsible): self
     {
         $this->arrival_responsible = $arrival_responsible;
 
@@ -450,7 +450,7 @@ class ProductTracking
         return $this->site_1;
     }
 
-    public function setSite1(string $site_1): self
+    public function setSite1(?string $site_1): self
     {
         $this->site_1 = $site_1;
 
@@ -474,7 +474,7 @@ class ProductTracking
         return $this->site_1_responsible;
     }
 
-    public function setSite1Responsible(string $site_1_responsible): self
+    public function setSite1Responsible(?string $site_1_responsible): self
     {
         $this->site_1_responsible = $site_1_responsible;
 
@@ -486,7 +486,7 @@ class ProductTracking
         return $this->site_2;
     }
 
-    public function setSite2(string $site_2): self
+    public function setSite2(?string $site_2): self
     {
         $this->site_2 = $site_2;
 
@@ -510,7 +510,7 @@ class ProductTracking
         return $this->site_2_responsible;
     }
 
-    public function setSite2Responsible(string $site_2_responsible): self
+    public function setSite2Responsible(?string $site_2_responsible): self
     {
         $this->site_2_responsible = $site_2_responsible;
 
@@ -522,7 +522,7 @@ class ProductTracking
         return $this->site_3;
     }
 
-    public function setSite3(string $site_3): self
+    public function setSite3(?string $site_3): self
     {
         $this->site_3 = $site_3;
 
@@ -546,7 +546,7 @@ class ProductTracking
         return $this->site_3_responsible;
     }
 
-    public function setSite3Responsible(string $site_3_responsible): self
+    public function setSite3Responsible(?string $site_3_responsible): self
     {
         $this->site_3_responsible = $site_3_responsible;
 
@@ -558,7 +558,7 @@ class ProductTracking
         return $this->client_id;
     }
 
-    public function setClientId(string $client_id): self
+    public function setClientId(?string $client_id): self
     {
         $this->client_id = $client_id;
 
@@ -588,6 +588,7 @@ class ProductTracking
 
         return $this;
     }
+
 
 
 
