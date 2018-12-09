@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/popup_box.css') }}"/>
 {% endblock %}
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "active", "", "", "", "", "", "active", "" %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "active", "", "", "", "", "", "active", "" %}
     {{ parent() }}
 {% endblock %}
 {% block main_content %}
@@ -235,7 +235,41 @@
                                     <th>{{ 'tracking_page.production_date' | trans }}</th>
                                     <th>{{ 'tracking_page.batch_id' | trans }}</th>
                                     <th>{{ 'tracking_page.starting_time' | trans }}</th>
-                                    <th>{{ 'tracking_page.ranch_id' | trans }}</th>
+                                    {#<th>{{ 'tracking_page.ranch_id' | trans }}</th>
+                                    <th>{{ 'tracking_page.ranch_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.factory' | trans }}</th>
+                                    <th>{{ 'tracking_page.factory_processing_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.factory_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.factory_delivery_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.factory_delivery_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.export_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.export_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.import_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.import_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.center_arrival_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.arrival_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_1' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_1_delivery_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_1_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_2' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_2_delivery_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_2_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_3' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_3_delivery_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_3_responsible' | trans }}</th>#}
+                                    <th>{{ 'tracking_page.client_id' | trans }}</th>
+                                    <th>{{ 'tracking_page.purchase_time' | trans }}</th>
+                                    <th>{{ 'tracking_page.seller_id' | trans }}</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>{{ 'tracking_page.tracking_id' | trans }}</th>
+                                    <th>{{ 'tracking_page.product_id' | trans }}</th>
+                                    <th>{{ 'tracking_page.production_date' | trans }}</th>
+                                    <th>{{ 'tracking_page.batch_id' | trans }}</th>
+                                    <th>{{ 'tracking_page.starting_time' | trans }}</th>
+                                    {#<th>{{ 'tracking_page.ranch_id' | trans }}</th>
                                     <th>{{ 'tracking_page.milk_collection_time' | trans }}</th>
                                     <th>{{ 'tracking_page.ranch_responsible' | trans }}</th>
                                     <th>{{ 'tracking_page.factory' | trans }}</th>
@@ -257,12 +291,12 @@
                                     <th>{{ 'tracking_page.site_2_responsible' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3_delivery_time' | trans }}</th>
-                                    <th>{{ 'tracking_page.site_3_responsible' | trans }}</th>
+                                    <th>{{ 'tracking_page.site_3_responsible' | trans }}</th>#}
                                     <th>{{ 'tracking_page.client_id' | trans }}</th>
                                     <th>{{ 'tracking_page.purchase_time' | trans }}</th>
                                     <th>{{ 'tracking_page.seller_id' | trans }}</th>
                                 </tr>
-                                </thead>
+                                </tfoot>
                                 <tbody>
                                 {% for t in tracking %}
                                     <tr class="gradeA">
@@ -272,7 +306,7 @@
                                         <td>{{ t.ProductionDate|date('Y年m月d日h:m:s') }}</td>
                                         <td>{{ t.BatchId }}</td>
                                         <td>{{ t.StartingTime|date('Y年m月d日h:m:s') }}</td>
-                                        <td>{{ t.RanchId }}</td>
+                                        {#<td>{{ t.RanchId }}</td>
                                         <td>{{ t.MilkCollectionTime|date('Y年m月d日h:m:s') }}</td>
                                         <td>{{ t.RanchResponsible }}</td>
                                         <td>{{ t.Factory }}</td>
@@ -294,7 +328,7 @@
                                         <td>{{ t.Site2Responsible }}</td>
                                         <td>{{ t.Site3 }}</td>
                                         <td>{{ t.Site3DeliveryTime|date('Y年m月d日h:m:s') }}</td>
-                                        <td>{{ t.Site3Responsible }}</td>
+                                        <td>{{ t.Site3Responsible }}</td>#}
                                         <td>{{ t.ClientId }}</td>
                                         <td>{{ t.PurchaseTime|date('Y年m月d日h:m:s') }}</td>
                                         <td>{{ t.SellerId }}</td>
@@ -328,6 +362,27 @@
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
 
     <script>
+        {% if not product_existance %}
+            swal({
+                title: "出错啦",
+                text: "商品编号不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+        {% if not user_existance %}
+            swal({
+                title: "出错啦",
+                text: "该用户不存在",
+                type: "error"
+            });
+            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+
+
+
+
         $(document).ready(function () {
             $('.delete_product_confirm').click(function (e) {
                 e.preventDefault();
@@ -363,6 +418,5 @@
             $('#popupBox').fadeOut('fast');
             $('#popupContent').fadeOut('fast');
         });
-
     </script>
 {% endblock %}
