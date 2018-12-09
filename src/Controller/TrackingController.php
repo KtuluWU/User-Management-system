@@ -33,38 +33,93 @@ class TrackingController extends AbstractController
         $product_id = $product_tracking->getProductId();
         $product = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
         $form = $this->createForm(ImagePathType::class);
+
+
+        //initialization form
+        $form->get("StartMessage")->setData($tracking_images->getStartMessage());
+        $form->get("RanchMessage")->setData($tracking_images->getRanchMessage());
+        $form->get("FactoryMessage")->setData($tracking_images->getFactoryMessage());
+        $form->get("FactoryDeliveryMessage")->setData($tracking_images->getFactoryDeliveryMessage());
+        $form->get("ExportMessage")->setData($tracking_images->getExportMessage());
+        $form->get("ImportMessage")->setData($tracking_images->getImportMessage());
+        $form->get("CenterMessage")->setData($tracking_images->getCenterMessage());
+        $form->get("Site1Message")->setData($tracking_images->getSite1Message());
+        $form->get("Site2Message")->setData($tracking_images->getSite2Message());
+        $form->get("Site3Message")->setData($tracking_images->getSite3Message());
+        $form->get("CenterMessage")->setData($tracking_images->getCenterMessage());
+        $form->get("ClientMessage")->setData($tracking_images->getClientMessage());
+
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $tracking_images->setStartMessage($form->get("StartMessage")->getdata());
-            $tracking_images->setStartImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setRanchMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setRanchImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setFactoryMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setFactoryImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setFactoryDeliveryMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setFactoryDeliveryImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setExportMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setExportImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setImportMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setImportImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setCenterMessage($form->get("StartImagePath")->getData());
-            $tracking_images->setCenterImagePath($form->get("StartImagePath")->getData());
-            $tracking_images->setSite1Message($form->get("StartImagePath")->getData());
-            $tracking_images->setSite1ImagePath($data->getSite1ImagePath());
-            $tracking_images->setSite2Message($data->getSite2Message());
-            $tracking_images->setSite2ImagePath($data->getSite2ImagePath());
-            $tracking_images->setSite3Message($data->getSite3Message());
-            $tracking_images->setSite3ImagePath($data->getSite3ImagePath());
-            $tracking_images->setClientMessage($data->getClientMessage());
-            $tracking_images->setClientImagePath($data->getClientImagePath());
+            $image_file = $form->get("StartImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getStartImagePath());
+            $tracking_images->setStartImagePath($path);
+
+
+            $tracking_images->setRanchMessage($form->get("RanchMessage")->getData());
+            $image_file = $form->get("RanchImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getRanchImagePath());
+            $tracking_images->setRanchImagePath($path);
+
+
+            $tracking_images->setFactoryMessage($form->get("FactoryMessage")->getData());
+            $image_file = $form->get("FactoryImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getFactoryImagePath());
+            $tracking_images->setFactoryImagePath($path);
+
+
+            $tracking_images->setFactoryDeliveryMessage($form->get("FactoryDeliveryMessage")->getData());
+            $image_file = $form->get("FactoryDeliveryImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getFactoryDeliveryImagePath());
+            $tracking_images->setFactoryDeliveryImagePath($path);
+
+
+            $tracking_images->setExportMessage($form->get("ExportMessage")->getData());
+            $image_file = $form->get("ExportImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getExportImagePath());
+            $tracking_images->setExportImagePath($path);
+
+
+            $tracking_images->setImportMessage($form->get("ImportMessage")->getData());
+            $image_file = $form->get("ImportImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getImportImagePath());
+            $tracking_images->setImportImagePath($path);
+
+            $tracking_images->setCenterMessage($form->get("CenterMessage")->getData());
+            $image_file = $form->get("CenterImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getCenterImagePath());
+            $tracking_images->setCenterImagePath($path);
+
+
+            $tracking_images->setSite1Message($form->get("Site1Message")->getData());
+            $image_file = $form->get("Site1ImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getSite1ImagePath());
+            $tracking_images->setSite1ImagePath($path);
+
+
+            $tracking_images->setSite2Message($form->get("Site2Message")->getData());
+            $image_file = $form->get("Site2ImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getSite2ImagePath());
+            $tracking_images->setSite2ImagePath($path);
+
+
+            $tracking_images->setSite3Message($form->get("Site3Message")->getData());
+            $image_file = $form->get("Site3ImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getSite3ImagePath());
+            $tracking_images->setSite3ImagePath($path);
+
+
+            $tracking_images->setClientMessage($form->get("ClientMessage")->getData());
+            $image_file = $form->get("ClientImagePath")->getData();
+            $path = $this->processing_image($image_file,$tracking_images->getClientImagePath());
+            $tracking_images->setClientImagePath($path);
+
             $product_tracking_manager->persist($tracking_images);
             $product_tracking_manager->flush();
-            return $this->render('tracking/{tracking_id}&{page}',
-                [   'tracking' => $product_tracking,
-                    'tracking_product' => $product,
-                    'tracking_images' => $tracking_images,
-                    'form' => $form->createView()]);
+
         }
 
 
@@ -300,5 +355,25 @@ class TrackingController extends AbstractController
         $stm = $em_users->prepare($sql);
         $stm->execute();
     }
+    private function processing_image($image_file,$old_path){
+        if (null == $image_file) {
+            $new_image_path = $old_path;
+        } else {
+            $new_image_path = md5(uniqid()) . '.' . $image_file->guessExtension();
+            $image_file->move(
+                $this->getParameter('uploads_images_trackings'),
+                $new_image_path
+            );
+            //delete original image and save new image
+            $image_path = $old_path;
+            $original_image = $this->getParameter('uploads_images_trackings') . "/" . $image_path;
+            if ($image_path!=null and file_exists($original_image) and $original_image != $this->getParameter('uploads_images_trackings') . "/example.jpg") {
+                unlink($original_image);
+            }
+        }
 
+
+        return $new_image_path;
+    }
 }
+
