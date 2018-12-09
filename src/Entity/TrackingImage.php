@@ -23,14 +23,14 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$tracking_id", type="string", length=70, nullable=false, unique=true)
+     * @ORM\Column(name="tracking_id", type="string", length=70, nullable=false, unique=true)
      */
     private $tracking_id;
 
 
     /**
      * @var string
-     * @ORM\Column(name="$start_message", type="string", nullable=true)
+     * @ORM\Column(name="start_message", type="string", nullable=true)
      */
     private $start_message;
 
@@ -43,7 +43,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$ranch_message", type="string", nullable=true)
+     * @ORM\Column(name="ranch_message", type="string", nullable=true)
      */
     private $ranch_message;
 
@@ -55,7 +55,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$factory_message", type="string", nullable=true)
+     * @ORM\Column(name="factory_message", type="string", nullable=true)
      */
     private $factory_message;
 
@@ -69,7 +69,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$factory_delivery_message", type="string", nullable=true)
+     * @ORM\Column(name="factory_delivery_message", type="string", nullable=true)
      */
     private $factory_delivery_message;
 
@@ -82,7 +82,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$export_message", type="string", nullable=true)
+     * @ORM\Column(name="export_message", type="string", nullable=true)
      */
     private $export_message;
 
@@ -95,7 +95,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$import_message", type="string", nullable=true)
+     * @ORM\Column(name="import_message", type="string", nullable=true)
      */
     private $import_message;
 
@@ -107,7 +107,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$center_message", type="string", nullable=true)
+     * @ORM\Column(name="center_message", type="string", nullable=true)
      */
     private $center_message;
 
@@ -119,7 +119,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$site_1_message", type="string", nullable=true)
+     * @ORM\Column(name="site_1_message", type="string", nullable=true)
      */
     private $site_1_message;
 
@@ -131,7 +131,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$site2_message", type="string", nullable=true)
+     * @ORM\Column(name="site2_message", type="string", nullable=true)
      */
     private $site2_message;
 
@@ -143,7 +143,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$site3_message", type="string", nullable=true)
+     * @ORM\Column(name="site3_message", type="string", nullable=true)
      */
     private $site3_message;
 
@@ -155,7 +155,7 @@ class TrackingImage
 
     /**
      * @var string
-     * @ORM\Column(name="$client_message", type="string", nullable=true)
+     * @ORM\Column(name="client_message", type="string", nullable=true)
      */
     private $client_message;
 
