@@ -112,7 +112,7 @@
                         <hr>
                         <div class="text-center">
                             <input type="submit" class="btn btn-primary" value="{{ 'product_page.btn'|trans }}">&nbsp;&nbsp;
-                            <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
+                            <a href="/tracking/{{ tracking.TrackingId }}&product" id="popupCancel" class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
                         </div>
                         {{ form_end(form) }}
             </div>
@@ -160,10 +160,10 @@
                     <div class="card">
                         <div class="body">
                             <div class="timeline-item animated fadeIn faster green">
-                                <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }}</span>
+                                <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }} </span>
                                     <span class="date" align="right">
                                         <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15">
-                                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.add_row'|trans }}
+                                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.edit_row'|trans }}
                                          </a>
                                     </span>
                                 <h5> {{ tracking_product }}{{ tracking_images.StartMessage}}</h5>
@@ -171,62 +171,62 @@
                             </div>
 
                             <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.RanchMessage}}</h5>
+                                <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s')  }}  负责人： {{ tracking.RanchResponsible }}</span>
+                                <h5> {{ tracking_images.RanchMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.RanchImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.FactoryMessage}}</h5>
+                                <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryResponsible }}</span>
+                                <h5> {{ tracking_images.FactoryMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.FactoryDeliveryMessage}}</h5>
+                                <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryDeliveryResponsible }}</span>
+                                <h5> {{ tracking_images.FactoryDeliveryMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryDeliveryImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.ExportMessage}}</h5>
+                                <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ExportResponsible }}</span>
+                                <h5> {{ tracking_images.ExportMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ExportImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.ImportMessage}}</h5>
+                                <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ImportResponsible }}</span>
+                                <h5> {{ tracking_images.ImportMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ImportImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.CenterMessage}}</h5>
+                                <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ArrivalResponsible }}</span>
+                                <h5> {{ tracking_images.CenterMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.CenterImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.Site1Message}}</h5>
+                                <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site1Responsible }}</span>
+                                <h5> {{ tracking_images.Site1Message}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site1ImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.Site2Message}}</h5>
+                                <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site2Responsible }}</span>
+                                <h5> {{ tracking_images.Site2Message}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site2ImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.Site3Message}}</h5>
+                                <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site3Responsible }}</span>
+                                <h5> {{ tracking_images.Site3Message}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath)}}" height="300" width="300"/>
                             </div>
 
                             <div class="timeline-item animated fadeIn slower warning">
                                 <span class="date">{{ tracking.PurchaseTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ tracking_images.ClientMessage}}</h5>
+                                <h5> {{ tracking_images.ClientMessage}}</h5>
                                 <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
                             </div>
 
