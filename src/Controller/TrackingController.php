@@ -149,9 +149,7 @@ class TrackingController extends AbstractController
             $product_tracking_id = $this->product_tracking_id_generator();
             $product_tracking->setTrackingId($product_tracking_id);
 
-            //create a new image path record
-            $tracking_image = new TrackingImage();
-            $tracking_image ->setTrackingId($product_tracking_id);
+
             $ProductId  = $data->getProductId();
             $UserId = $data->getClientId();
             $User_id_check = $product_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
@@ -168,7 +166,6 @@ class TrackingController extends AbstractController
                         "user_existance" => $user_existance,
                         'form' => $form->createView()]);
             }
-
             $product_tracking->setProductId($ProductId);
             $product_tracking->setProductionDate($data->getProductionDate());
             $product_tracking->setBatchId($data->getBatchId());
@@ -202,6 +199,12 @@ class TrackingController extends AbstractController
             $product_tracking->setSellerId($data->getSellerId());
             $product_manager->persist($product_tracking);
             $product_manager->flush();
+
+            $new_tracking_image = new TrackingImage();
+            $new_tracking_image->setTrackingId($product_tracking_id);
+            $product_manager->persist($new_tracking_image);
+            $product_manager->flush();
+
             $this->product_tracking_id_setter($product_tracking_id);
             unset($product_tracking);
             unset($form);
@@ -270,6 +273,7 @@ class TrackingController extends AbstractController
                         "user_existance" => $user_existance,
                         'form' => $form->createView()]);
             }
+
             $product_tracking->setProductId($data->getProductId());
             $product_tracking->setProductionDate($data->getProductionDate());
             $product_tracking->setBatchId($data->getBatchId());
