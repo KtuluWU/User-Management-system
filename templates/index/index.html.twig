@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="{{ asset('vendor/slick/slick.css') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/slick/slick-theme.css') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/slider/src/jquery.skidder.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
 {% endblock %}
 
 {% block sidebar %}
@@ -76,6 +81,14 @@
     <script src="{{ asset('bundles_js/knob.bundle.js') }}"></script>
     <script src="{{ asset('js/index.js') }}"></script>
     <script src="{{ asset('vendor/slick/slick.min.js') }}"></script>
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script>
         $(document).ready(function(){

@@ -297,6 +297,9 @@ class UserController extends Controller
             $user->setPhone($data->getPhone());
             $user->setWechat($data->getWechat());
             $user->setAddress($data->getAddress());
+            $user->setSalesPlanMonth($data->getSalesPlanMonth());
+            $user->setSalesPlanSeason($data->getSalesPlanSeason());
+            $user->setSalesPlanYear($data->getSalesPlanYear());
             $user->setRegion($data->getRegion());
             $user->setResponsibleRegion($data->getResponsibleRegion());
             $user->setEnabled($data->isEnabled());

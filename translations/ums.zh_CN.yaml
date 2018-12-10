@@ -181,6 +181,18 @@ user_infos:
   responsible_id: 负责人工号
   responsible_region: 负责地区
   plain_pwd: 密码
+  sales:
+    month: 月销售额
+    season: 季销售额
+    year: 年销售额
+  sales_plan:
+    month: 月销售计划
+    season: 季销售计划
+    year: 年销售计划
+  schedule_sales:
+    month: 月销售进度
+    season: 季销售进度
+    year: 年销售进度
   enabled:
     title: 账户状态
     1: 激活
@@ -244,6 +256,7 @@ index_page:
     total_sellers: 总销售员
     new_admins: 新管理员
     total_admins: 总管理员
+    schedule_sales_table: 销售进度表
 
 
 

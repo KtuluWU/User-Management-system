@@ -2,7 +2,7 @@ $(function () {
     $('.js-basic').DataTable({
         "language": {
             "info": "第 _PAGE_ 页 / 共 _PAGES_ 页",
-            "emptyTable": "无人员数据",
+            "emptyTable": "无数据",
             "infoFiltered": " ",
             "sLoadingRecords": "载入中...",
             "sProcessing": "正在处理...",
@@ -14,8 +14,8 @@ $(function () {
                 "last": "尾页",
                 "next": "下一页",
                 "previous": "上一页",
-                "emptyTable": "无会员数据",
-                "infoEmpty": "无会员数据",
+                "emptyTable": "无数据",
+                "infoEmpty": "无数据",
             },
             "lengthMenu": '每页显示 <select>'+
                 '<option value="5">5</option>'+
