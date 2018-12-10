@@ -296,6 +296,7 @@
                             <div>
                                 {{ form_start(form_file) }}
                                 {{ form_widget(form_file) }}
+                                <input type="text" disabled="disable" value="文件名" id="filename_display" style="margin-right:30px;">
                                 <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">
                                 {{ form_end(form_file) }}
                             </div>
@@ -317,6 +318,7 @@
     <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('js/tools.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#app_userList_add_roles').removeAttr("multiple");

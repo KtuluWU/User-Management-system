@@ -216,6 +216,7 @@
                             <div>
                                 {{ form_start(form_file) }}
                                 {{ form_widget(form_file) }}
+                                <input type="text" disabled="disable" value="文件名" id="filename_display" style="margin-right:30px;">
                                 <input type="submit" class="btn btn-primary" value="{{ 'user_infos.btn.submit'|trans }}">
                                 {{ form_end(form_file) }}
                             </div>

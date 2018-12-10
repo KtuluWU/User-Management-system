@@ -21,3 +21,4 @@
 .idea
 *.map
 .sass-cache
+public/uploads/files

@@ -36,7 +36,7 @@ class UserController extends Controller
     /**
      * @Route("/registration/user_register", name="UserRegisterPage")
      */
-    public function  user_register(Request $request)
+    public function user_register(Request $request)
     {
 
         $userManager = $this->get('fos_user.user_manager');
@@ -76,7 +76,7 @@ class UserController extends Controller
             $this->user_id_amt_setter('ROLE_USER', $user_id);
 
             $url = $this->router->generate('registration_confirm' ,array('token' => $token),UrlGeneratorInterface::ABSOLUTE_URL );
-            $this->send_activate_email("Activate account", "no-reply@yunkun.org", $data->getEmail(), $url, $data->getUsername()); // 发送邮件
+            $this->send_activate_email("Activate account", "yun.wu0621@gmail.com", $data->getEmail(), $url, $data->getUsername()); // 发送邮件
 
             return $this->render('user/register_check_email.html.twig', [
                 'email' => $data->getEmail()
@@ -176,7 +176,12 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         $form_file = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => '上传文件'))
+            ->add('submitFile', FileType::class, array('label' => '添加用户注册文件', 
+            'label_attr' => ['class' => 'btn btn-success fileinput-button'], 
+            'attr' => [
+                'style' => 'position:absolute;clip:rect(0 0 0 0);',
+                'onchange' => 'handleFile()'
+            ]))
             ->getForm();
         $form_file->handleRequest($request);
 
@@ -187,17 +192,14 @@ class UserController extends Controller
         }
 
         if ( $form_file->isSubmitted() && $form_file->isValid() ) {
-            $fileSystem = new Filesystem();
-            $file = $form_file->get('submitFile');
-            $users_file = $file->getData();
 
-            $file_name = md5(uniqid()).'.'.$users_file->guessExtension();
-            $users_file->move($this->getParameter('users_file'), $file_name);
+            /**
+             * 按照标准格式csv文件进行批量注册
+             */
+            $this->addUsersbyFile($form_file);
+            
+            return $this->redirectToRoute('UserListUsersPage');
 
-            $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
-            $data = $serializer->decode(file_get_contents(($this->getParameter('users_file'))."/".$file_name), 'csv');
-            $fileSystem->remove(($this->getParameter('users_file'))."/".$file_name);
-            return new Response(var_dump($data));
         }
 
         $month_count = $this->get_register_month_distribution($users);
@@ -227,12 +229,21 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         $form_file = $this->createFormBuilder()
-                        ->add('submitFile', FileType::class, array('label' => '上传文件'))
-                        ->getForm();
+            ->add('submitFile', FileType::class, array('label' => '添加用户注册文件', 
+                'label_attr' => ['class' => 'btn btn-success fileinput-button'], 
+                'attr' => [
+                    'style' => 'position:absolute;clip:rect(0 0 0 0);',
+                    'onchange' => 'handleFile()'
+                ]))
+            ->getForm();
         $form_file->handleRequest($request);
 
         if ( $form_file->isSubmitted() && $form_file->isValid() ) {
-            return new Response("Yes!!!");
+            /**
+             * 按照标准格式csv文件进行批量注册
+             */
+            $this->addUsersbyFile($form_file);
+            return $this->redirectToRoute('UserListSellersPage');
         }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
@@ -265,12 +276,21 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         $form_file = $this->createFormBuilder()
-            ->add('submitFile', FileType::class, array('label' => '上传文件'))
+            ->add('submitFile', FileType::class, array('label' => '添加用户注册文件', 
+                'label_attr' => ['class' => 'btn btn-success fileinput-button'], 
+                'attr' => [
+                    'style' => 'position:absolute;clip:rect(0 0 0 0);',
+                    'onchange' => 'handleFile()'
+                ]))
             ->getForm();
         $form_file->handleRequest($request);
 
         if ( $form_file->isSubmitted() && $form_file->isValid() ) {
-            return new Response("Yes!!!");
+            /**
+             * 按照标准格式csv文件进行批量注册
+             */
+            $this->addUsersbyFile($form_file);
+            return $this->redirectToRoute('UserListAdminsPage');
         }
 
         if ( $form->isSubmitted() && $form->isValid() ) {
@@ -553,5 +573,65 @@ class UserController extends Controller
         $userManager->updateUser($user);
 
         $this->user_id_amt_setter(($data->getRoles())[0], $user_id);
+    }
+
+    private function addUsersbyFile($form_file) {
+        $fileSystem = new Filesystem();
+        $file = $form_file->get('submitFile');
+        $users_file = $file->getData();
+
+        $file_name = md5(uniqid()).'.'.$users_file->guessExtension();
+        $users_file->move($this->getParameter('users_file'), $file_name);
+
+        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        $data = $serializer->decode(file_get_contents(($this->getParameter('users_file'))."/".$file_name), 'csv');
+        $fileSystem->remove(($this->getParameter('users_file'))."/".$file_name);
+
+        date_default_timezone_set("Europe/Paris");
+        $register_date = date_create(date('Y-m-d H:i:s'));
+
+        foreach($data as $add_user) {
+            $userManager = $this->get('fos_user.user_manager');
+            $user = $userManager->createUser();
+
+            switch($add_user['roles']) {
+                case 'USER':
+                    $role = 'ROLE_USER';
+                    $user_id = $this->user_id_generator('ROLE_USER');
+                    break;
+                case 'SELLER':
+                    $role = 'ROLE_SELLER';
+                    $user_id = $this->user_id_generator('ROLE_SELLER');
+                    break;
+                case 'ADMIN':
+                    $role = 'ROLE_ADMIN';
+                    $user_id = $this->user_id_generator('ROLE_ADMIN');
+                    break;
+                default:
+                    $role = 'ROLE_USER';
+                    $user_id = $this->user_id_generator('ROLE_USER');
+            }
+            
+            $user->setUsername($add_user['username']);
+            $user->setFirstname($add_user['firstname']);
+            $user->setLastname($add_user['lastname']);
+            $user->setSex($add_user['sex']);
+            $user->setEmail($add_user['email']);
+            $user->setDateBirth(date_create($add_user['date_birth']));
+            $user->setPhone($add_user['phone']);
+            $user->setWechat($add_user['wechat']);
+            $user->setAddress($add_user['address']);
+            $user->setRegion($add_user['region']);
+            $user->setIdCard($add_user['id_card']);
+            $user->setEnabled($add_user['enabled']);
+            $user->setRoles([$role]);
+            $user->setPlainPassword($add_user['password']);
+            $user->setUserId($user_id);
+            $user->setDateRegister($register_date);
+
+            $userManager->updateUser($user);
+
+            $this->user_id_amt_setter($role, $user_id);
+        }
     }
 }

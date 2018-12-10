@@ -13,3 +13,9 @@ function dateToYms(d) {
     let year = d.getFullYear();
     return [year, month, day].join('-');
 }
+
+function handleFile() {
+    var file = document.getElementById("form_submitFile");
+    var fileName = document.getElementById("filename_display");
+    fileName.value = file.value;
+}
