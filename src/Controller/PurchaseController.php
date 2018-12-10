@@ -89,12 +89,27 @@ class PurchaseController extends AbstractController
                 }
             }
         }
+        $user_id = $this->getUser()->getId();
+        $auth_pre = $em->getConnection()->prepare("SELECT `roles` FROM `User` WHERE `id` = $user_id");
+        $auth_pre->execute();
+        $auth = $auth_pre->fetchAll();
+        $role = array_pop($auth)['roles'];
+        if ($role === 'a:1:{i:0;s:11:"ROLE_SELLER";}'){
+            $role = 'Seller';
+        }elseif ($role === 'a:1:{i:0;s:10:"ROLE_ADMIN";}' || $role ==='a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}'){
+            $role = 'Admin';
+        }else{
+            $role = 'User';
+        }
+
         return $this->render('purchase/index.html.twig',[
             'purchase' => $purchase_history,
             'form' => $form->createView(),
             'user_existance' => $user_existance,
             'product_existance' => $product_existance,
-            'purchase_existance' => $purchase_existance]);
+            'purchase_existance' => $purchase_existance,
+            'role' => $role
+        ]);
     }
 
     /**

@@ -103,16 +103,17 @@ product_page:
   stock: 库存
   description: 商品描述
   action: 操作
-  add_row: 添加商品
+  add_row: 添加
   btn: 保存
   return: 返回
-  title: 请输入您的新产品
-  edit_form: 修改产品信息
+  register: 输入产品信息
+  modify: 修改产品信息
 
 tracking_page:
+  edit_row: 编辑
   add_row: 添加
-  tracking_id: 溯源号
-  product_id: 产品名
+  tracking_id: 溯源编号
+  product_id: 产品编号
   production_date: 生产日期
   batch_id: 批次
   starting_time: 开始生产时间
@@ -146,29 +147,6 @@ tracking_page:
   btn: 保存
   return: 返回
   page_title: 产品溯源信息
-  phrase_1: 开始生产了！！！
-  phrase_2.1: 我们正在
-  phrase_2.2: 收集奶源
-  phrase_2.3: 牧场负责人：
-  phrase_3.1: 牛奶正在
-  phrase_3.2: 进行脱水干燥处理
-  phrase_3.3: 奶粉研制专家：
-  phrase_4.1: 奶粉已经装瓶完成，开始运往中国
-  phrase_4.2: 澳洲区运输负责人：
-  phrase_5.1: 产品已经出关了
-  phrase_5.2: 产品出关负责人：
-  phrase_6.1: 产品正在入关
-  phrase_6.2: 清关负责人：
-  phrase_7.1: 产品送达海口总部
-  phrase_7.2: 总部负责人：
-  phrase_8.1: 产品发往
-  phrase_8.2: 销售员：
-  phrase_9.1: 产品发往
-  phrase_9.2: 销售员：
-  phrase_10.1: 产品发往
-  phrase_10.2: 销售员：
-  phrase_11.1: 奶粉现在就在你手里
-  phrase_11.2: 销售员：
 
 userList_pages:
   title_users: 会员信息

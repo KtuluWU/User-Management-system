@@ -1,0 +1,57 @@
+{% trans_default_domain 'ums' %}
+
+{% block main_body %}
+    <div class="col-lg-4 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon"><i class="fa fa-user"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.new_users'|trans }}</div>
+                    <h5 class="number">{{ new_users }}</h5>
+                </div>
+                <hr>
+                <div class="icon"><i class="fa fa-users"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.total_users'|trans }}</div>
+                    <h5 class="number">{{ total_user }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon"><i class="fa fa-user"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.new_sellers'|trans }}</div>
+                    <h5 class="number">{{ new_sellers }}</h5>
+                </div>
+                <hr>
+                <div class="icon"><i class="fa fa-users"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.total_sellers'|trans }}</div>
+                    <h5 class="number">{{ total_sellers }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon"><i class="fa fa-diamond"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.new_admins'|trans }}</div>
+                    <h5 class="number">{{ new_admins }}</h5>
+                </div>
+                <hr>
+                <div class="icon"><i class="fa fa-diamond"></i> </div>
+                <div class="content">
+                    <div class="text">{{ 'index_page.admin_page.total_admins'|trans }}</div>
+                    <h5 class="number">{{ total_admins }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

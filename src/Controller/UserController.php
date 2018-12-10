@@ -19,7 +19,6 @@ use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Filesystem\Filesystem;
-error_reporting(E_ALL);
 
 
 class UserController extends Controller
@@ -467,14 +466,18 @@ class UserController extends Controller
             ->from('App\Entity\User', 'u')
             ->where('u.date_register > :starting_date')
             ->andWhere('u.date_register < :now')
+            ->andWhere('u.roles = :user_role')
             ->setParameter('starting_date', $starting_date, \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('now',new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+            ->setParameter('now',new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('user_role', 'a:0:{}');
         $filtered_users = $qb->getQuery()->getResult();
         $qb_acc = $em->createQueryBuilder();
         $qb_acc->select('count(u.date_register)')
                ->from('App\Entity\User', 'u')
                ->where('u.date_register <= :starting_date')
-               ->setParameter('starting_date', $starting_date, \Doctrine\DBAL\Types\Type::DATETIME);
+               ->andWhere("u.roles = :user_role")
+               ->setParameter('starting_date', $starting_date, \Doctrine\DBAL\Types\Type::DATETIME)
+               ->setParameter('user_role', 'a:0:{}');
         $accumulated_user_count = $qb_acc->getQuery()->getResult();
         foreach ($filtered_users as &$user){
             $user = $user['date_register']->format('Y-m-d');

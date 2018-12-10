@@ -11,15 +11,110 @@
     <link rel="stylesheet" href="{{ asset('css/popup_box.css') }}"/>
 {% endblock %}
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "active", "", "", "", "", "", "", "active" %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "active", "", "", "", "", "", "active", "" %}
     {{ parent() }}
 {% endblock %}
 {% block main_content %}
-<div id="overlay"></div>
+    <div id="overlay"></div>
     <div id="popupBox">
         <div id="popupContent">
             <div class="header">
                 <p class="lead">{{ 'tracking_page.title'|trans }}</p>
+                        {{ form_start(form) }}
+                        <small class="text-muted">{{ form_label(form.StartMessage) }} *</small>
+                        <p>{{ form_widget(form.StartMessage,  {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.StartImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.StartImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+
+                        <small class="text-muted">{{ form_label(form.RanchMessage) }} *</small>
+                        <p>{{ form_widget(form.RanchMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.RanchImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.RanchImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+
+                        <small class="text-muted">{{ form_label(form.FactoryMessage) }} *</small>
+                        <p>{{ form_widget(form.FactoryMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.FactoryImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.FactoryDeliveryMessage) }} *</small>
+                        <p>{{ form_widget(form.FactoryDeliveryMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryDeliveryImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.FactoryDeliveryImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.ExportMessage) }} *</small>
+                        <p>{{ form_widget(form.ExportMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ExportImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.ExportImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.ImportMessage) }} *</small>
+                        <p>{{ form_widget(form.ImportMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ImportImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.ImportImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.CenterMessage) }} *</small>
+                        <p>{{ form_widget(form.CenterMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.CenterImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.CenterImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.Site1Message) }} *</small>
+                        <p>{{ form_widget(form.Site1Message, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site1ImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.Site1ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.Site2Message) }} *</small>
+                        <p>{{ form_widget(form.Site2Message, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site2ImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.Site2ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.Site3Message) }} *</small>
+                        <p>{{ form_widget(form.Site3Message, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.Site3ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <small class="text-muted">{{ form_label(form.ClientMessage) }} *</small>
+                        <p>{{ form_widget(form.ClientMessage, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+
+                        <img id="img_prev" src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath) }}"  width="264" height="264"/>
+                        <p>{{ form_widget(form.ClientImagePath, {'attr': {'class': 'form-control'}}) }}</p>
+                        <hr>
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary" value="{{ 'product_page.btn'|trans }}">&nbsp;&nbsp;
+                            <a href="/tracking/{{ tracking.TrackingId }}&product" id="popupCancel" class="btn btn-default">{{ 'purchase_page.return'|trans }}</a>
+                        </div>
+                        {{ form_end(form) }}
             </div>
         </div>
     </div>
@@ -60,91 +155,14 @@
                     </div>
                 </div>
             </div>
-             <div class="row clearfix">
+            <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="body">
-                            <div class="timeline-item animated fadeIn faster green">
-                                <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5> {{ tracking_product }}{{ 'tracking_page.phrase_1'| trans }}</h5>
-                                <img src="{{ asset('/images/blog/1.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_2.1'| trans }}{{ tracking.RanchId }}{{ 'tracking_page.phrase_2.2'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_2.3'| trans }} <a href="javascript:void(0);" title="">{{ tracking.RanchResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/2.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_3.1'| trans }}{{ tracking.Factory }}{{ 'tracking_page.phrase_3.2'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_3.3'| trans }} <a href="javascript:void(0);" title="">{{ tracking.FactoryResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/3.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_4.1'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_4.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.FactoryDeliveryResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/4.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_5.1'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_5.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ExportResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/05-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_6.1'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_6.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ImportResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/06-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_7.1'| trans }}</h5>
-                                <h5>{{ 'tracking_page.phrase_7.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.ArrivalResponsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/07-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_8.1'| trans }} {{ tracking.Site1 }}</h5>
-                                <h5>{{ 'tracking_page.phrase_8.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site1Responsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/08-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower blue">
-                                <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_9.1'| trans }} {{ tracking.Site2 }}</h5>
-                                <h5>{{ 'tracking_page.phrase_9.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site2Responsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/09-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower green">
-                                <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_10.1'| trans }} {{ tracking.Site3 }}</h5>
-                                <h5>{{ 'tracking_page.phrase_10.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.Site3Responsible }}</a> </h5>
-                                <img src="{{ asset('/images/blog/10-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-                            <div class="timeline-item animated fadeIn slower warning">
-                                <span class="date">{{ tracking.PurchaseTime|date('Y年m月d日h:m:s') }}</span>
-                                <h5>{{ 'tracking_page.phrase_11.1'| trans }} </h5>
-                                <h5>{{ 'tracking_page.phrase_11.2'| trans }} <a href="javascript:void(0);" title="">{{ tracking.SellerId }}</a> </h5>
-                                <img src="{{ asset('/images/blog/11-img.jpg')}}" height="300" width="300"/>
-                            </div>
-
-
-                        </div>
+                        {% include 'tracking/tracking_block.html.twig' %}
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -157,6 +175,18 @@
     <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+    <script>
+        $('#addRow').click(function () {
+            $('#overlay').fadeIn('fast');
+            $('#popupBox').fadeIn('fast');
+            $('#popupContent').fadeIn('fast');
+        });
 
+        $('#overlay, #popupCancel').click(function () {
+            $('#overlay').fadeOut('fast');
+            $('#popupBox').fadeOut('fast');
+            $('#popupContent').fadeOut('fast');
+        });
+    </script>
 
 {% endblock %}
