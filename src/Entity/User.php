@@ -119,6 +119,48 @@ class User extends BaseUser
     private $responsible_region;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_month", type="string", nullable=true)
+    */
+    private $sales_month;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_season", type="string", nullable=true)
+    */
+    private $sales_season;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_year", type="string", nullable=true)
+    */
+    private $sales_year;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_plan_month", type="string", nullable=true)
+    */
+    private $sales_plan_month;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_plan_season", type="string", nullable=true)
+    */
+    private $sales_plan_season;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="sales_plan_year", type="string", nullable=true)
+    */
+    private $sales_plan_year;
+
+    /**
      * User constructor.
      */
     public function __construct() {
@@ -300,6 +342,78 @@ class User extends BaseUser
     public function setResponsibleRegion(?array $responsible_region): self
     {
         $this->responsible_region = $responsible_region;
+
+        return $this;
+    }
+
+    public function getSalesMonth(): ?string
+    {
+        return $this->sales_month;
+    }
+
+    public function setSalesMonth(?string $sales_month): self
+    {
+        $this->sales_month = $sales_month;
+
+        return $this;
+    }
+
+    public function getSalesSeason(): ?string
+    {
+        return $this->sales_season;
+    }
+
+    public function setSalesSeason(?string $sales_season): self
+    {
+        $this->sales_season = $sales_season;
+
+        return $this;
+    }
+
+    public function getSalesYear(): ?string
+    {
+        return $this->sales_year;
+    }
+
+    public function setSalesYear(?string $sales_year): self
+    {
+        $this->sales_year = $sales_year;
+
+        return $this;
+    }
+
+    public function getSalesPlanMonth(): ?string
+    {
+        return $this->sales_plan_month;
+    }
+
+    public function setSalesPlanMonth(?string $sales_plan_month): self
+    {
+        $this->sales_plan_month = $sales_plan_month;
+
+        return $this;
+    }
+
+    public function getSalesPlanSeason(): ?string
+    {
+        return $this->sales_plan_season;
+    }
+
+    public function setSalesPlanSeason(?string $sales_plan_season): self
+    {
+        $this->sales_plan_season = $sales_plan_season;
+
+        return $this;
+    }
+
+    public function getSalesPlanYear(): ?string
+    {
+        return $this->sales_plan_year;
+    }
+
+    public function setSalesPlanYear(?string $sales_plan_year): self
+    {
+        $this->sales_plan_year = $sales_plan_year;
 
         return $this;
     }

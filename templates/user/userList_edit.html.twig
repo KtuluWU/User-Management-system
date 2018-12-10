@@ -2,7 +2,25 @@
 {% trans_default_domain 'ums' %}
 
 {% block sidebar %}
-    {% set tab_menu_index, tab_menu_profile, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "", "", "", "", "", "", "active" %}
+    {% set tab_menu_index,
+    tab_menu_profile,
+    tab_menu_source,
+    tab_admin_users,
+    tab_admin_sellers,
+    tab_admin_admins,
+    tab_admin_products,
+    tab_admin_histo,
+    nav_menu,
+    nav_admin = "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "active" %}
     {{ parent() }}
 {% endblock %}
 
@@ -12,10 +30,16 @@
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>{{ 'userList_pages.edit_form'|trans }}</h2>
+                        <h2>
+                            <a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth">
+                                <i class="fa fa-arrow-left"></i>
+                            </a>{{ 'userList_pages.edit_form'|trans }}</h2>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item">
+                                <a href="/">
+                                    <i class="icon-home"></i>
+                                </a>
+                            </li>
                             <li class="breadcrumb-item active">{{ 'userList_pages.edit_form'|trans }}</li>
                         </ul>
                     </div>
@@ -23,21 +47,27 @@
                         <div class="bh_chart hidden-xs">
                             <div class="float-left m-r-15">
                                 <small>Visitors</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                                <h6 class="mb-0 mt-1">
+                                    <i class="icon-user"></i>
+                                    1,784</h6>
                             </div>
                             <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
                         </div>
                         <div class="bh_chart hidden-sm">
                             <div class="float-left m-r-15">
                                 <small>Visits</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                                <h6 class="mb-0 mt-1">
+                                    <i class="icon-globe"></i>
+                                    325</h6>
                             </div>
                             <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
                         </div>
                         <div class="bh_chart hidden-sm">
                             <div class="float-left m-r-15">
                                 <small>Chats</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                                <h6 class="mb-0 mt-1">
+                                    <i class="icon-bubbles"></i>
+                                    13</h6>
                             </div>
                             <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
                         </div>
@@ -82,15 +112,43 @@
                         <small class="text-muted">{{ form_label(form.region) }}</small>
                         <p>{{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
-                        <small class="text-muted">{{ form_label(form.responsible_region) }}{% if page == "Users" %}<span class="text-danger"> (注意该用户为会员，不能添加负责地区)</span>{% endif %}</small>
+                        <small class="text-muted">{{ form_label(form.responsible_region) }}
+                            {% if page == "Users" %}
+                                <span class="text-danger">
+                                    (注意该用户为会员，不能添加负责地区)</span>{% endif %}
+                        </small>
                         <p>
                             {% if page == "Users" %}
-                            {{ form_widget(form.responsible_region, {'attr': {'class': 'form-control', 'disabled' : 'true'}}) }}
+                                {{ form_widget(form.responsible_region, {'attr': {'class': 'form-control', 'disabled' : 'true'}}) }}
                             {% else %}
-                            {{ form_widget(form.responsible_region, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_widget(form.responsible_region, {'attr': {'class': 'form-control'}}) }}
                             {% endif %}
                         </p>
                         <hr>
+                        {% if page == "Sellers" %}
+                            <small class="text-muted">{{ form_label(form.salesplanmonth) }}</small>
+                            <p>{{ form_widget(form.salesplanmonth, {'attr': {'class': 'form-control'}}) }}</p>
+                            <hr>
+                            <small class="text-muted">{{ form_label(form.salesplanseason) }}</small>
+                            <p>{{ form_widget(form.salesplanseason, {'attr': {'class': 'form-control'}}) }}</p>
+                            <hr>
+                            <small class="text-muted">{{ form_label(form.salesplanyear) }}</small>
+                            <p>{{ form_widget(form.salesplanyear, {'attr': {'class': 'form-control'}}) }}</p>
+                            <hr>
+                        {% else %}
+                            <small class="text-muted">{{ form_label(form.salesplanmonth) }}<span class="text-danger">
+                                    (注意该用户为非销售员，不能添加销售计划)</span></small>
+                            <p>{{ form_widget(form.salesplanmonth, {'attr': {'class': 'form-control', 'disabled' : 'true'}}) }}</p>
+                            <hr>
+                            <small class="text-muted">{{ form_label(form.salesplanseason) }}<span class="text-danger">
+                                    (注意该用户为非销售员，不能添加销售计划)</span></small>
+                            <p>{{ form_widget(form.salesplanseason, {'attr': {'class': 'form-control', 'disabled' : 'true'}}) }}</p>
+                            <hr>
+                            <small class="text-muted">{{ form_label(form.salesplanyear) }}<span class="text-danger">
+                                    (注意该用户为非销售员，不能添加销售计划)</span></small>
+                            <p>{{ form_widget(form.salesplanyear, {'attr': {'class': 'form-control', 'disabled' : 'true'}}) }}</p>
+                            <hr>
+                        {% endif %}
                         <small class="text-muted">{{ form_label(form.enabled) }}</small>
                         <p>{{ form_widget(form.enabled, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>

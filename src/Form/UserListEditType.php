@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class UserListEditType extends AbstractType
 {
@@ -34,7 +34,7 @@ class UserListEditType extends AbstractType
             ->add('sex', ChoiceType::class, array(
                 'choices' => [
                     'user_infos.sex.1' => true,
-                    'user_infos.sex.0' => false
+                    'user_infos.sex.0' => false,
                 ],
                 'label' => 'user_infos.sex.title',
                 'translation_domain' => 'ums'))
@@ -101,11 +101,29 @@ class UserListEditType extends AbstractType
                     'region.81' => '81',
                     'region.82' => '82',
                     'region.71' => '71',
-                    'region.99' => '99'
+                    'region.99' => '99',
                 ],
                 'label' => 'user_infos.region',
                 'attr' => array(
                     'placeholder' => 'user_infos.region',
+                ),
+                'translation_domain' => 'ums'))
+            ->add('salesplanmonth', null, array(
+                'label' => 'user_infos.sales_plan.month',
+                'attr' => array(
+                    'placeholder' => 'user_infos.sales_plan.month',
+                ),
+                'translation_domain' => 'ums'))
+            ->add('salesplanseason', null, array(
+                'label' => 'user_infos.sales_plan.season',
+                'attr' => array(
+                    'placeholder' => 'user_infos.sales_plan.season',
+                ),
+                'translation_domain' => 'ums'))
+            ->add('salesplanyear', null, array(
+                'label' => 'user_infos.sales_plan.year',
+                'attr' => array(
+                    'placeholder' => 'user_infos.sales_plan.year',
                 ),
                 'translation_domain' => 'ums'))
             ->add('responsible_region', ChoiceType::class, array(
@@ -145,7 +163,7 @@ class UserListEditType extends AbstractType
                     'region.81' => '81',
                     'region.82' => '82',
                     'region.71' => '71',
-                    'region.99' => '99'
+                    'region.99' => '99',
                 ],
                 'expanded' => false,
                 'multiple' => true,
@@ -157,7 +175,7 @@ class UserListEditType extends AbstractType
             ->add('enabled', ChoiceType::class, array(
                 'choices' => [
                     'user_infos.enabled.1' => true,
-                    'user_infos.enabled.0' => false
+                    'user_infos.enabled.0' => false,
                 ],
                 'label' => 'user_infos.enabled.title',
                 'translation_domain' => 'ums'))

@@ -19,9 +19,9 @@ class IndexController extends AbstractController
         $sql_new_users = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:0:{}'";
         $sql_new_sellers = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
         $sql_new_admins = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
-        $sql_total_users = "SELECT `user_id` FROM `User` WHERE roles='a:0:{}'";
-        $sql_total_sellers = "SELECT `user_id` FROM `User` WHERE roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
-        $sql_total_admins = "SELECT `user_id` FROM `User` WHERE roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
+        $sql_total_users = "SELECT * FROM `User` WHERE roles='a:0:{}'";
+        $sql_total_sellers = "SELECT * FROM `User` WHERE roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
+        $sql_total_admins = "SELECT * FROM `User` WHERE roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
 
         $new_users_pre = $em->prepare($sql_new_users);
         $new_users_pre->execute();
@@ -75,6 +75,7 @@ class IndexController extends AbstractController
             'total_user' => $count_total_users,
             'total_sellers' => $count_total_sellers,
             'total_admins' => $count_total_admins,
+            'sellers' => $total_sellers,
             'role' => $role
         ]);
     }
