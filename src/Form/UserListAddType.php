@@ -130,6 +130,7 @@ class UserListAddType extends AbstractType
                 'translation_domain' => 'ums'))
             ->add('roles', ChoiceType::class, array(
                 'choices' => array(
+                    'user_infos.roles.ROLE_USER' => 'ROLE_USER',
                     'user_infos.roles.ROLE_SELLER' => 'ROLE_SELLER',
                     'user_infos.roles.ROLE_ADMIN' => 'ROLE_ADMIN',
                 ),

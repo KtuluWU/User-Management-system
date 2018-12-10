@@ -167,12 +167,24 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getRepository(User::class);
         $users = $em->findMembers();
 
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+
         date_default_timezone_set("Europe/Paris");
+
+        $form = $this->createForm(UserListAddType::class, $user);
+        $form->handleRequest($request);
 
         $form_file = $this->createFormBuilder()
             ->add('submitFile', FileType::class, array('label' => '上传文件'))
             ->getForm();
         $form_file->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $this->addUserSetData($form, $user, $userManager);
+
+            return $this->redirectToRoute('UserListUsersPage');
+        }
 
         if ( $form_file->isSubmitted() && $form_file->isValid() ) {
             $fileSystem = new Filesystem();
@@ -192,6 +204,7 @@ class UserController extends Controller
 
         return $this->render('user/userList_users.html.twig', [
             'users' => $users,
+            'form' => $form->createView(),
             'form_file' => $form_file->createView(),
             'month_count' => $month_count
         ]);

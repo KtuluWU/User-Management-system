@@ -152,10 +152,11 @@ userList_pages:
   title_users: 会员信息
   title_sellers: 销售人员信息
   title_admins: 管理人员信息
+  add_user: 手动添加会员
   add_seller: 手动添加销售人员
   add_admin: 手动添加管理人员
   add_user_by_file: 通过文件批量添加用户
-  add_seller_admin: 添加销售/管理人员
+  add_user_seller_admin: 添加人员
   action: 选项
   edit_form: 修改用户信息
   user_number_chart: 用户数量变化图
