@@ -62,11 +62,12 @@
 
             <div class="row clearfix">
                 {% block main_body %}
-                    {% if role == 'User' %}
-                        {% include 'index/user_index.html.twig' %}
-                    {% endif %}
-                    {% if role == 'Admin' %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
                         {% include 'index/admin_index.html.twig' %}
+                    {% elseif is_granted('ROLE_SELLER') %}
+                        {% include 'index/seller_index.html.twig' %}
+                    {% elseif is_granted('ROLE_USER') %}
+                        {% include 'index/user_index.html.twig' %}
                     {% endif %}
                 {% endblock %}
             </div>
