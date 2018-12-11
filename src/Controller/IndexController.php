@@ -19,9 +19,9 @@ class IndexController extends AbstractController
         $sql_new_users = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:0:{}'";
         $sql_new_sellers = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
         $sql_new_admins = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
-        $sql_total_users = "SELECT `user_id` FROM `User` WHERE roles='a:0:{}'";
-        $sql_total_sellers = "SELECT `user_id` FROM `User` WHERE roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
-        $sql_total_admins = "SELECT `user_id` FROM `User` WHERE roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
+        $sql_total_users = "SELECT * FROM `User` WHERE roles='a:0:{}'";
+        $sql_total_sellers = "SELECT * FROM `User` WHERE roles='a:1:{i:0;s:11:\"ROLE_SELLER\";}'";
+        $sql_total_admins = "SELECT * FROM `User` WHERE roles='a:1:{i:0;s:10:\"ROLE_ADMIN\";}'";
 
         $new_users_pre = $em->prepare($sql_new_users);
         $new_users_pre->execute();
@@ -55,19 +55,6 @@ class IndexController extends AbstractController
         $count_total_sellers = count($total_sellers);
         $count_total_admins = count($total_admins);
 
-        $user_id = $this->getUser()->getId();
-        $auth_pre = $em->prepare("SELECT `roles` FROM `User` WHERE `id` = $user_id");
-        $auth_pre->execute();
-        $auth = $auth_pre->fetchAll();
-        $role = array_pop($auth)['roles'];
-        if ($role === 'a:1:{i:0;s:11:"ROLE_SELLER";}'){
-            $role = 'Seller';
-        }elseif ($role === 'a:1:{i:0;s:10:"ROLE_ADMIN";}' || $role ==='a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}'){
-            $role = 'Admin';
-        }else{
-            $role = 'User';
-        }
-
         return $this->render('index/index.html.twig', [
             'new_users' => $count_new_users,
             'new_sellers' => $count_new_sellers,
@@ -75,7 +62,7 @@ class IndexController extends AbstractController
             'total_user' => $count_total_users,
             'total_sellers' => $count_total_sellers,
             'total_admins' => $count_total_admins,
-            'role' => $role
+            'sellers' => $total_sellers,
         ]);
     }
 }

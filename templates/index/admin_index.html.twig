@@ -4,13 +4,17 @@
     <div class="col-lg-4 col-md-6">
         <div class="card top_counter">
             <div class="body">
-                <div class="icon"><i class="fa fa-user"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.new_users'|trans }}</div>
                     <h5 class="number">{{ new_users }}</h5>
                 </div>
                 <hr>
-                <div class="icon"><i class="fa fa-users"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.total_users'|trans }}</div>
                     <h5 class="number">{{ total_user }}</h5>
@@ -22,13 +26,17 @@
     <div class="col-lg-4 col-md-6">
         <div class="card top_counter">
             <div class="body">
-                <div class="icon"><i class="fa fa-user"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.new_sellers'|trans }}</div>
                     <h5 class="number">{{ new_sellers }}</h5>
                 </div>
                 <hr>
-                <div class="icon"><i class="fa fa-users"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.total_sellers'|trans }}</div>
                     <h5 class="number">{{ total_sellers }}</h5>
@@ -40,16 +48,75 @@
     <div class="col-lg-4 col-md-6">
         <div class="card top_counter">
             <div class="body">
-                <div class="icon"><i class="fa fa-diamond"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-diamond"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.new_admins'|trans }}</div>
                     <h5 class="number">{{ new_admins }}</h5>
                 </div>
                 <hr>
-                <div class="icon"><i class="fa fa-diamond"></i> </div>
+                <div class="icon">
+                    <i class="fa fa-diamond"></i>
+                </div>
                 <div class="content">
                     <div class="text">{{ 'index_page.admin_page.total_admins'|trans }}</div>
                     <h5 class="number">{{ total_admins }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>{{ 'index_page.admin_page.schedule_sales_table'|trans }}</h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-sales text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-left h">{{ 'user_infos.name'|trans }}</th>
+                                <th>{{ 'user_infos.schedule_sales.month'|trans }}</th>
+                                <th>{{ 'user_infos.schedule_sales.season'|trans }}</th>
+                                <th>{{ 'user_infos.schedule_sales.year'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for seller in sellers %}
+                                {% set pct_sales_month = (seller.sales_month / seller.sales_plan_month) * 100 %}
+                                {% set pct_sales_season = (seller.sales_season / seller.sales_plan_season) * 100 %}
+                                {% set pct_sales_year = (seller.sales_year / seller.sales_plan_year) * 100 %}
+                                <tr>
+                                    <td class="text-left h">
+                                        <span class="font-weight-bold">{{ seller.lastname ~ " " ~ seller.firstname }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{pct_sales_month|round(1,'ceil')}}%;">
+                                                <span>{{pct_sales_month|round(1,'ceil')}}% 完成</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{pct_sales_season|round(1,'ceil')}}%;">
+                                                <span>{{pct_sales_season|round(1,'ceil')}}% 完成</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{pct_sales_year|round(1,'ceil')}}%;">
+                                                <span>{{pct_sales_year|round(1,'ceil')}}% 完成</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

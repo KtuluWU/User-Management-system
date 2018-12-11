@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class UserListAddType extends AbstractType
 {
@@ -35,7 +35,7 @@ class UserListAddType extends AbstractType
             ->add('sex', ChoiceType::class, array(
                 'choices' => [
                     'user_infos.sex.1' => true,
-                    'user_infos.sex.0' => false
+                    'user_infos.sex.0' => false,
                 ],
                 'label' => 'user_infos.sex.title',
                 'translation_domain' => 'ums'))
@@ -108,7 +108,7 @@ class UserListAddType extends AbstractType
                     'region.81' => '81',
                     'region.82' => '82',
                     'region.71' => '71',
-                    'region.99' => '99'
+                    'region.99' => '99',
                 ],
                 'label' => 'user_infos.region',
                 'attr' => array(
@@ -124,14 +124,15 @@ class UserListAddType extends AbstractType
             ->add('enabled', ChoiceType::class, array(
                 'choices' => [
                     'user_infos.enabled.1' => true,
-                    'user_infos.enabled.0' => false
+                    'user_infos.enabled.0' => false,
                 ],
                 'label' => 'user_infos.enabled.title',
                 'translation_domain' => 'ums'))
             ->add('roles', ChoiceType::class, array(
                 'choices' => array(
+                    'user_infos.roles.ROLE_USER' => 'ROLE_USER',
                     'user_infos.roles.ROLE_SELLER' => 'ROLE_SELLER',
-                    'user_infos.roles.ROLE_ADMIN' => 'ROLE_ADMIN'
+                    'user_infos.roles.ROLE_ADMIN' => 'ROLE_ADMIN',
                 ),
                 'expanded' => false,
                 'multiple' => true,
