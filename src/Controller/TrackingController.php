@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PurchaseHistory;
 use App\Entity\User;
 use App\Form\ProductTrackingType;
 use phpDocumentor\Reflection\Types\String_;
@@ -26,13 +27,19 @@ class TrackingController extends AbstractController
     /**
      * @Route("/{tracking_id}&{page}", name = "ShowPage")
      */
-    public function show(Request $request,$tracking_id)
+    public function show(Request $request, $tracking_id)
     {
-        $product_tracking_manager = $this->getDoctrine()->getManager();
-        $product_tracking = $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
-        $tracking_images = $product_tracking_manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
+        $manager = $this->getDoctrine()->getManager();
+        $product_tracking = $manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
+        $tracking_images = $manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
         $product_id = $product_tracking->getProductId();
-        $product = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $product = $manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['tracking_id' => $tracking_id]);
+        if($purchase_info == NULL){
+            $purchase_time = NULL;
+        }else{
+            $purchase_time = $purchase_info->getPurchaseTime();
+        }
         $form = $this->createForm(ImagePathType::class);
 
 
@@ -118,8 +125,8 @@ class TrackingController extends AbstractController
             $path = $this->processing_image($image_file,$tracking_images->getClientImagePath());
             $tracking_images->setClientImagePath($path);
 
-            $product_tracking_manager->persist($tracking_images);
-            $product_tracking_manager->flush();
+            $manager->persist($tracking_images);
+            $manager->flush();
 
         }
 
@@ -129,7 +136,8 @@ class TrackingController extends AbstractController
             'tracking_product' => $product,
             'tracking_images' => $tracking_images,
             'form' =>$form->createView(),
-            'is_block' => false
+            'is_block' => false,
+            'purchase_time' => $purchase_time
         ]);
     }
 
@@ -149,14 +157,25 @@ class TrackingController extends AbstractController
     public function show_block(Profiler $profiler)
     {
         $profiler->disable();
-        $product_tracking_manager = $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $user_id = $this->get_user_id();
-        $product_tracking= $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('client_id' => $user_id));
+        $product_tracking= $manager->getRepository(ProductTracking::class)->findOneBy(array('client_id' => $user_id));
+        $tracking_id = $product_tracking->getTrackingId();
         $product_id = $product_tracking->getProductId();
-        $product_name = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
-        $tracking_images = $product_tracking_manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $product_tracking->getTrackingId()));
-        return $this->render('tracking/tracking_block.html.twig',['tracking' => $product_tracking,
-            'tracking_product'=> $product_name, 'tracking_images'=>$tracking_images, 'is_block'=>true]);
+        $product_name = $manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $tracking_images = $manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
+        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['tracking_id' => $tracking_id]);
+        if($purchase_info == NULL){
+            $purchase_time = NULL;
+        }else{
+            $purchase_time = $purchase_info->getPurchaseTime();
+        }
+        return $this->render('tracking/tracking_block.html.twig',
+            ['tracking' => $product_tracking,
+            'tracking_product' => $product_name,
+            'tracking_images' => $tracking_images,
+            'is_block' => true,
+            'purchase_time' => $purchase_time]);
     }
 
 
@@ -222,10 +241,6 @@ class TrackingController extends AbstractController
             $product_tracking->setSite3($data->getSite3());
             $product_tracking->setSite3DeliveryTime($data->getSite3DeliveryTime());
             $product_tracking->setSite3Responsible($data->getSite3Responsible());
-            $product_tracking->setClientId($data->getClientId());
-
-            $product_tracking->setPurchaseTime($data->getPurchaseTime());
-            $product_tracking->setSellerId($data->getSellerId());
             $product_manager->persist($product_tracking);
             $product_manager->flush();
 
@@ -283,23 +298,18 @@ class TrackingController extends AbstractController
         $form->setData($product_tracking);
         $form->handleRequest($request);
         $product_existance = true;
-        $user_existance = true;
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $ProductId  = $data->getProductId();
-            $UserId = $data->getClientId();
-            $User_id_check = $product_tracking_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
             $Product_id_check = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
             if ($Product_id_check == null) $product_existance = false;
-            if ($User_id_check == null and $UserId!=null ) $user_existance = false;
-            if(($Product_id_check == null) or ($User_id_check == null and $UserId!=null )){
+            if(!$product_existance){
                 $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
                 $product_tracking = $repository->findAll();
 
                 return $this->render('tracking/index.html.twig',
                     ['tracking' => $product_tracking,
                         "product_existance" => $product_existance,
-                        "user_existance" => $user_existance,
                         'form' => $form->createView()]);
             }
 
@@ -330,9 +340,6 @@ class TrackingController extends AbstractController
             $product_tracking->setSite3($data->getSite3());
             $product_tracking->setSite3DeliveryTime($data->getSite3DeliveryTime());
             $product_tracking->setSite3Responsible($data->getSite3Responsible());
-            $product_tracking->setClientId($data->getClientId());
-            $product_tracking->setPurchaseTime($data->getPurchaseTime());
-            $product_tracking->setSellerId($data->getSellerId());
             $product_tracking_manager->persist($product_tracking);
             $product_tracking_manager->flush();
             return $this->redirectToRoute('ProductTrackingPage');
@@ -342,10 +349,7 @@ class TrackingController extends AbstractController
         return $this->render('tracking/tracking_edit.html.twig',
             ['tracking' => $product_tracking,
                 "product_existance" => $product_existance,
-                "user_existance" => $user_existance,
                 'form' => $form->createView()]);
-
-
     }
 
 

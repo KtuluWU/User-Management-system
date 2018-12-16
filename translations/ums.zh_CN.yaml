@@ -74,14 +74,15 @@ purchase_page:
   activity: 选项
   user_id: 会员号
   product_id: 商品编号
-  date_purchase: 购买时间
-  purchase_tracking_id: 溯源号
-  quantity: 数量
+  tracking_id: 溯源号
   register: 输入购买记录
   modify: 修改购买记录
   btn: 保存
   return: 返回
-  phone: 用户手机号
+  client_id: 会员号
+  purchase_time: 购买时间
+  seller_id: 销售员号
+  title: 购买记录
   index:
     add_row: 添加
 
@@ -140,9 +141,6 @@ tracking_page:
   site_3: 站点3
   site_3_delivery_time: 站点3配送时间
   site_3_responsible: 站点3配送负责人
-  client_id: 会员号
-  purchase_time: 购买时间
-  seller_id: 销售员号
   title: 输入溯源信息
   btn: 保存
   return: 返回
@@ -258,6 +256,12 @@ index_page:
     new_admins: 新管理员
     total_admins: 总管理员
     schedule_sales_table: 销售进度表
+
+seller_index_page:
+  task: 任务完成度
+  task_current: 完成任务量
+  target: 目标任务量
+
 
 
 

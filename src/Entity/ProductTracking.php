@@ -198,24 +198,7 @@ class ProductTracking
      * @ORM\Column(name="site_3_responsible", type="string", length=70,nullable=true)
      */
     private $site_3_responsible;
-    /**
-     * @var string
-     * @ORM\Column(name="client_id", type="string", length=70,nullable=true)
-     */
-    private $client_id;
 
-    /**
-     * @var datetime
-     *
-     * @ORM\Column(name="purchase_time", type="datetime", nullable=true)
-     */
-    private $purchase_time;
-
-    /**
-     * @var string
-     * @ORM\Column(name="seller_id", type="string", length=70)
-     */
-    private $seller_id;
 
     public function getTrackingId(): ?string
     {
@@ -552,55 +535,5 @@ class ProductTracking
 
         return $this;
     }
-
-    public function getClientId(): ?string
-    {
-        return $this->client_id;
-    }
-
-    public function setClientId(?string $client_id): self
-    {
-        $this->client_id = $client_id;
-
-        return $this;
-    }
-
-    public function getPurchaseTime(): ?\DateTimeInterface
-    {
-        return $this->purchase_time;
-    }
-
-    public function setPurchaseTime(?\DateTimeInterface $purchase_time): self
-    {
-        $this->purchase_time = $purchase_time;
-
-        return $this;
-    }
-
-    public function getSellerId(): ?string
-    {
-        return $this->seller_id;
-    }
-
-    public function setSellerId(string $seller_id): self
-    {
-        $this->seller_id = $seller_id;
-
-        return $this;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

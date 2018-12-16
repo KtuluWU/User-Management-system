@@ -23,10 +23,10 @@ class PurchaseHistory
     private $purchase_id;
 
     /**
-    * @var string
-    * @ORM\Column(name="user_phone", type="string", length=70, nullable=false)
-    */
-    private $user_phone;
+     * @var string
+     * @ORM\Column(name="user_id", type="string", length=70, nullable=true)
+     */
+    private $user_id;
 
     /**
     * @var string
@@ -35,23 +35,23 @@ class PurchaseHistory
     private $product_id;
 
     /**
-    * @var datetime
-    * @ORM\Column(name="date_purchase", type="datetime", nullable=false)
+    * @var string
+    * @ORM\Column(name="tracking_id", type="string", length=70, nullable=false)
     */
-    private $date_purchase;
+    private $tracking_id;
 
     /**
-    * @var string
-    * @ORM\Column(name="purchase_tracking_id", type="string", length=70, nullable=false)
-    */
-    private $purchase_tracking_id;
-    
-    
+     * @var string
+     * @ORM\Column(name="seller_id", type="string", length=70)
+     */
+    private $seller_id;
+
     /**
-    * @var integer
-    * @ORM\Column(name="quantity", type="integer", length=70, nullable=true)
-    */
-    private $quantity;
+     * @var datetime
+     *
+     * @ORM\Column(name="purchase_time", type="datetime", nullable=true)
+     */
+    private $purchase_time;
 
     public function getId(): ?int
     {
@@ -70,18 +70,6 @@ class PurchaseHistory
         return $this;
     }
 
-    public function getUserPhone(): ?string
-    {
-        return $this->user_phone;
-    }
-
-    public function setUserPhone(string $user_phone): self
-    {
-        $this->user_phone = $user_phone;
-
-        return $this;
-    }
-
     public function getProductId(): ?string
     {
         return $this->product_id;
@@ -94,43 +82,54 @@ class PurchaseHistory
         return $this;
     }
 
-    public function getDatePurchase(): ?\DateTimeInterface
+
+    public function getTrackingId(): ?string
     {
-        return $this->date_purchase;
+        return $this->tracking_id;
     }
 
-    public function setDatePurchase(\DateTimeInterface $date_purchase): self
+    public function setTrackingId(string $tracking_id): self
     {
-        $this->date_purchase = $date_purchase;
-
-        return $this;
-    }
-
-    public function getPurchaseTrackingId(): ?string
-    {
-        return $this->purchase_tracking_id;
-    }
-
-    public function setPurchaseTrackingId(string $purchase_tracking_id): self
-    {
-        $this->purchase_tracking_id = $purchase_tracking_id;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(?int $quantity): self
-    {
-        $this->quantity = $quantity;
+        $this->tracking_id = $tracking_id;
 
         return $this;
     }
 
 
+    public function getSellerId(): ?string
+    {
+        return $this->seller_id;
+    }
 
+    public function setSellerId(string $seller_id): self
+    {
+        $this->seller_id = $seller_id;
+
+        return $this;
+    }
+
+    public function getUserId(): ?string
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?string $user_id): self
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getPurchaseTime(): ?\DateTimeInterface
+    {
+        return $this->purchase_time;
+    }
+
+    public function setPurchaseTime(?\DateTimeInterface $purchase_time): self
+    {
+        $this->purchase_time = $purchase_time;
+
+        return $this;
+    }
     
 }

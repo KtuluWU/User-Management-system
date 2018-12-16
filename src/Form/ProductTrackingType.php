@@ -195,26 +195,6 @@ class ProductTrackingType extends AbstractType
                     'placeholder' => 'tracking_page.site_3_responsible',
                 ),
                 'translation_domain' => 'ums'))
-            ->add('client_id', null, array(
-                'required' => false,
-                'label' => 'tracking_page.client_id',
-                'attr' => array(
-                    'placeholder' => 'tracking_page.client_id',
-                ),
-                'translation_domain' => 'ums'))
-            ->add('purchase_time', DateTimeType::class, array(
-                'label' => 'tracking_page.purchase_time',
-                'attr' => array(
-                    'placeholder' => 'tracking_page.purchase_time',
-                ),
-                'translation_domain' => 'ums'))
-            ->add('seller_id', null, array(
-                'required' => false,
-                'label' => 'tracking_page.seller_id',
-                'attr' => array(
-                    'placeholder' => 'tracking_page.seller_id',
-                ),
-                'translation_domain' => 'ums'))
         ;
     }
 

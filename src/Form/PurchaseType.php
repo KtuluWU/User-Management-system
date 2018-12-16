@@ -15,10 +15,11 @@ class PurchaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_phone', null, array(
-                'label' => 'purchase_page.phone',
+            ->add('user_id', null, array(
+                'required' => false,
+                'label' => 'purchase_page.user_id',
                 'attr' => array(
-                    'placeholder' => 'purchase_page.phone',
+                    'placeholder' => 'purchase_page.user_id',
                 ),
                 'translation_domain' => 'ums'))
             ->add('product_id', null, array(
@@ -26,23 +27,27 @@ class PurchaseType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'purchase_page.product_id',
                 ),
-                'translation_domain' => 'ums')) 
-            ->add('date_purchase',DateTimeType::class,array(
-                'label' => 'purchase_page.date_purchase',
                 'translation_domain' => 'ums'))
-            ->add('purchase_tracking_id',null, array(
-                'label' => 'purchase_page.purchase_tracking_id',
+            ->add('tracking_id',null, array(
+                'label' => 'purchase_page.tracking_id',
                 'attr' => array(
-                    'placeholder' => 'purchase_page.purchase_tracking_id',
+                    'placeholder' => 'purchase_page.tracking_id',
                 ),
                 'translation_domain' => 'ums'))
-            ->add('quantity',NumberType::class, array(
-                'label' => 'purchase_page.quantity',
-                'required' => false,
+            ->add('purchase_time', DateTimeType::class, array(
+                'label' => 'purchase_page.purchase_time',
                 'attr' => array(
-                    'placeholder' => 'purchase_page.quantity',
+                    'placeholder' => 'purchase_page.purchase_time',
+                ),
+                'translation_domain' => 'ums'))
+            ->add('seller_id', null, array(
+                'required' => false,
+                'label' => 'purchase_page.seller_id',
+                'attr' => array(
+                    'placeholder' => 'purchase_page.seller_id',
                 ),
                 'translation_domain' => 'ums'))
             ->add('purchase_id', HiddenType::class);
+
     }
 }
