@@ -82,11 +82,13 @@
             <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath)}}" height="300" width="300"/>
         </div>
 
-        <div class="timeline-item animated fadeIn slower warning">
-            <span class="date">{{ tracking.PurchaseTime|date('Y年m月d日h:m:s') }}</span>
-            <h5> {{ tracking_images.ClientMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
-        </div>
+        {% if purchase_time is not null %}
+            <div class="timeline-item animated fadeIn slower warning">
+                <span class="date">{{ purchase_time|date('Y年m月d日h:m:s') }}</span>
+                <h5> {{ tracking_images.ClientMessage}}</h5>
+                <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
+            </div>
+        {% endif %}
 
 
     </div>

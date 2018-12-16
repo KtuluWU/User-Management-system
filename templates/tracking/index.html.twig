@@ -157,21 +157,6 @@
                     {{ form_widget(form.site_3_responsible, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
                     {{ form_errors(form.site_3_responsible) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(form.client_id) }}
-                    {{ form_widget(form.client_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.client_id) }}
-                </div>
-                <div class="form-group">
-                    {{ form_label(form.purchase_time) }}
-                    {{ form_widget(form.purchase_time, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.purchase_time) }}
-                </div>
-                <div class="form-group">
-                    {{ form_label(form.seller_id) }}
-                    {{ form_widget(form.seller_id, {'attr': {'class': 'form-control', 'id': 'signup-firstname'}}) }}
-                    {{ form_errors(form.seller_id) }}
-                </div>
                 <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ 'tracking_page.btn'|trans }}">
                 {{ form_end(form) }}
                 <p></p>
@@ -257,9 +242,6 @@
                                     <th>{{ 'tracking_page.site_3' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3_delivery_time' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3_responsible' | trans }}</th>#}
-                                    <th>{{ 'tracking_page.client_id' | trans }}</th>
-                                    <th>{{ 'tracking_page.purchase_time' | trans }}</th>
-                                    <th>{{ 'tracking_page.seller_id' | trans }}</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -292,9 +274,6 @@
                                     <th>{{ 'tracking_page.site_3' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3_delivery_time' | trans }}</th>
                                     <th>{{ 'tracking_page.site_3_responsible' | trans }}</th>#}
-                                    <th>{{ 'tracking_page.client_id' | trans }}</th>
-                                    <th>{{ 'tracking_page.purchase_time' | trans }}</th>
-                                    <th>{{ 'tracking_page.seller_id' | trans }}</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -329,9 +308,6 @@
                                         <td>{{ t.Site3 }}</td>
                                         <td>{{ t.Site3DeliveryTime|date('Y年m月d日h:m:s') }}</td>
                                         <td>{{ t.Site3Responsible }}</td>#}
-                                        <td>{{ t.ClientId }}</td>
-                                        <td>{{ t.PurchaseTime|date('Y年m月d日h:m:s') }}</td>
-                                        <td>{{ t.SellerId }}</td>
                                         <td class="actions">
                                             <a href="/tracking/edit/{{ t.TrackingId }}&product" class="btn btn-info" title="edit">
                                                 <i class="fa fa-edit"></i></a>
