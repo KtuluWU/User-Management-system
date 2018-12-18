@@ -9,11 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-    /**
-     * @Route("/", name="HomePage")
-     */
-    public function index(Request $request)
-    {
+    private function admin_index(){
         $em = $this->getDoctrine()->getManager()->getConnection();
 
         $sql_new_users = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:0:{}'";
@@ -55,7 +51,7 @@ class IndexController extends AbstractController
         $count_total_sellers = count($total_sellers);
         $count_total_admins = count($total_admins);
 
-        return $this->render('index/index.html.twig', [
+        $info = [
             'new_users' => $count_new_users,
             'new_sellers' => $count_new_sellers,
             'new_admins' => $count_new_admins,
@@ -63,6 +59,22 @@ class IndexController extends AbstractController
             'total_sellers' => $count_total_sellers,
             'total_admins' => $count_total_admins,
             'sellers' => $total_sellers,
-        ]);
+        ];
+
+        return $info;
+    }
+
+    /**
+     * @Route("/", name="HomePage")
+     */
+    public function index(Request $request)
+    {
+        $authorization_checker = $this->container->get('security.authorization_checker');
+        if($authorization_checker->isGranted('ROLE_SUPER_ADMIN') || $authorization_checker->isGranted('ROLE_ADMIN')){
+            $info = $this->admin_index();
+        }else{
+            $info = [];
+        }
+        return $this->render('index/index.html.twig', $info);
     }
 }
