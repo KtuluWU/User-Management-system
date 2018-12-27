@@ -259,8 +259,19 @@ index_page:
 
 seller_index_page:
   task: 任务完成度
-  task_current: 完成任务量
-  target: 目标任务量
+  current_month_accompished: 本月完成量
+  current_month_plan: 本月目标量
+  current_season_accompished: 本季度完成量
+  current_season_plan: 本季度目标量
+  current_year_accompished: 本年度完成量
+  current_year_plan: 本年度目标量
+  by_month: 按月
+  by_season: 按季度
+  by_year: 按年
+  engage: 选择负责用户
+  engage_action: 负责
+  engaged_user: 您负责的用户
+
 
 
 
