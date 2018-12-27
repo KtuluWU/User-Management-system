@@ -159,12 +159,13 @@ class TrackingController extends AbstractController
         $profiler->disable();
         $manager = $this->getDoctrine()->getManager();
         $user_id = $this->get_user_id();
-        $product_tracking= $manager->getRepository(ProductTracking::class)->findOneBy(array('client_id' => $user_id));
-        $tracking_id = $product_tracking->getTrackingId();
+        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['user_id' => $user_id]);
+        $tracking_id = $purchase_info->getTrackingId();
+        $product_tracking= $manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
         $product_id = $product_tracking->getProductId();
         $product_name = $manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
         $tracking_images = $manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
-        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['tracking_id' => $tracking_id]);
+
         if($purchase_info == NULL){
             $purchase_time = NULL;
         }else{
@@ -199,7 +200,7 @@ class TrackingController extends AbstractController
 
 
             $ProductId  = $data->getProductId();
-            $UserId = $data->getClientId();
+            $UserId = $data->getUserId();
             $User_id_check = $product_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
             $Product_id_check = $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
 

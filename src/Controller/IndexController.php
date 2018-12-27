@@ -7,13 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+error_reporting(E_ALL);
+
+
 class IndexController extends AbstractController
 {
-    /**
-     * @Route("/", name="HomePage")
-     */
-    public function index(Request $request)
-    {
+    private function admin_index(){
         $em = $this->getDoctrine()->getManager()->getConnection();
 
         $sql_new_users = "SELECT `user_id` FROM `User` WHERE date_sub(curdate(), INTERVAL 7 DAY) <= date(`date_register`) AND roles='a:0:{}'";
@@ -55,7 +54,7 @@ class IndexController extends AbstractController
         $count_total_sellers = count($total_sellers);
         $count_total_admins = count($total_admins);
 
-        return $this->render('index/index.html.twig', [
+        $info = [
             'new_users' => $count_new_users,
             'new_sellers' => $count_new_sellers,
             'new_admins' => $count_new_admins,
@@ -63,6 +62,53 @@ class IndexController extends AbstractController
             'total_sellers' => $count_total_sellers,
             'total_admins' => $count_total_admins,
             'sellers' => $total_sellers,
-        ]);
+        ];
+
+        return $info;
+    }
+
+    private function seller_index(){
+        $em = $this->getDoctrine()->getManager()->getConnection();
+        $seller_id = $this->getUser()->getId();
+        $sql_seller = "SELECT * FROM `User` WHERE id = $seller_id";
+        $seller_pre = $em->prepare($sql_seller);
+        $seller_pre->execute();
+        $seller_array = $seller_pre->fetchAll();
+        $seller = $seller_array[0];
+        $seller_region = $seller['region'];
+        $seller_user_id = $seller['user_id'];
+
+        $sql_user_same_region = "SELECT * FROM `User` WHERE responsible_id IS NULL AND region='$seller_region' AND user_id LIKE '1%'";
+        $user_same_region_pre = $em->prepare($sql_user_same_region);
+        $user_same_region_pre->execute();
+        $user_array = $user_same_region_pre->fetchAll();
+
+        $sql_engaged_user = "SELECT * FROM `User` WHERE responsible_id='$seller_user_id'";
+        $engaged_user_pre = $em->prepare($sql_engaged_user);
+        $engaged_user_pre->execute();
+        $engaged_user_array = $engaged_user_pre->fetchAll();
+
+        $info = [
+            'seller' => $seller,
+            'users' => $user_array,
+            'engaged_users' => $engaged_user_array
+        ];
+        return $info;
+    }
+
+    /**
+     * @Route("/", name="HomePage")
+     */
+    public function index(Request $request)
+    {
+        $authorization_checker = $this->container->get('security.authorization_checker');
+        if($authorization_checker->isGranted('ROLE_SUPER_ADMIN') || $authorization_checker->isGranted('ROLE_ADMIN')){
+            $info = $this->admin_index();
+        }elseif ($authorization_checker->isGranted('ROLE_SELLER')){
+            $info = $this->seller_index();
+        }else{
+            $info = [];
+        }
+        return $this->render('index/index.html.twig', $info);
     }
 }

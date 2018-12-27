@@ -14,6 +14,7 @@
           href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
     <link rel="stylesheet"
           href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 {% endblock %}
 
 {% block sidebar %}
@@ -71,7 +72,6 @@
                     {% endif %}
                 {% endblock %}
             </div>
-
     </div>
 {% endblock %}
 
@@ -90,47 +90,75 @@
     <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script>
-        $(document).ready(function(){
-          $('#hot_product').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 4000,
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+    {% elseif is_granted('ROLE_SELLER') %}
+        <script>
+          $('.engage').click( function(e){
+            user_id = $('td:nth-child(3)', $(e.target).parents('tr')).text();
+            user_name = $('td:nth-child(1)', $(e.target).parents('tr')).text();
+            swal({
+                title: "确定负责这个用户吗？",
+                text: "用户姓名："+user_name,
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#17a2b8",
+                confirmButtonText: "负责",
+                cancelButtonText: "取消"
+            }, function() {
+                $.ajax({
+                    url: '/service/attach_user',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({'user_id': user_id, 'seller_id': {{ seller.user_id }}}),
+                });
+                location.reload();
+            });
           });
-        });
-    </script>
-    <script src="{{ asset('vendor/slider/js/imagesloaded.js') }}"></script>
-    <script src="{{ asset('vendor/slider/js/smartresize.js') }}"></script>
-    <script src="{{ asset('vendor/slider/src/jquery.skidder.js') }}"></script>
-    <script type="text/javascript">
-        $('.slideshow').each( function() {
-            var $slideshow = $(this);
-            $slideshow.imagesLoaded( function() {
-                $slideshow.skidder({
-                    slideClass    : '.slide',
-                    animationType : 'css',
-                    scaleSlides   : true,
-                    maxWidth : 180,
-                    maxHeight: 250,
-                    paging        : true,
-                    autoPaging    : true,
-                    pagingWrapper : ".skidder-pager",
-                    pagingElement : ".skidder-pager-dot",
-                    swiping       : true,
-                    leftaligned   : false,
-                    cycle         : true,
-                    jumpback      : false,
-                    speed         : 400,
-                    autoplay      : true,
-                    autoplayResume: false,
-                    interval      : 4000,
-                    transition    : "slide",
-                    afterSliding  : function() {},
-                    afterInit     : function() {}
+        </script>
+    {% elseif is_granted('ROLE_USER') %}
+        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="{{ asset('vendor/slider/js/imagesloaded.js') }}"></script>
+        <script src="{{ asset('vendor/slider/js/smartresize.js') }}"></script>
+        <script src="{{ asset('vendor/slider/src/jquery.skidder.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+              $('#hot_product').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 4000,
+              });
+            });
+            $('.slideshow').each( function() {
+                var $slideshow = $(this);
+                $slideshow.imagesLoaded( function() {
+                    $slideshow.skidder({
+                        slideClass    : '.slide',
+                        animationType : 'css',
+                        scaleSlides   : true,
+                        maxWidth : 180,
+                        maxHeight: 250,
+                        paging        : true,
+                        autoPaging    : true,
+                        pagingWrapper : ".skidder-pager",
+                        pagingElement : ".skidder-pager-dot",
+                        swiping       : true,
+                        leftaligned   : false,
+                        cycle         : true,
+                        jumpback      : false,
+                        speed         : 400,
+                        autoplay      : true,
+                        autoplayResume: false,
+                        interval      : 4000,
+                        transition    : "slide",
+                        afterSliding  : function() {},
+                        afterInit     : function() {}
+                    });
                 });
             });
-        });
-    </script>
+        </script>
+    {% endif %}
+
+
+
 {% endblock %}

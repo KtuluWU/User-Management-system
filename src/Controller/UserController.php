@@ -546,6 +546,28 @@ class UserController extends Controller
         return null;
     }
 
+    /**
+     * @Route("/service/attach_user", name="AttachUserToSeller", methods="POST")
+     */
+    public function attach_user_to_seller(Request $request){
+        if ($request->isXmlHttpRequest()){
+            $content = $request->getContent();
+            if (!empty($content)){
+                $params = json_decode($content, true);
+                $user_id = $params['user_id'];
+                $seller_id = $params['seller_id'];
+                $user_manager = $this->get('fos_user.user_manager');
+                $user = $user_manager->findUserBy(['user_id' => $user_id]);
+                $user->setResponsibleId($seller_id);
+
+                $user_manager->updateUser($user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     private function addUserSetData($form, $user, $userManager)
     {
         $data = $form->getData();
