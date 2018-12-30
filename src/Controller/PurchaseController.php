@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductTracking;
 use App\Entity\PurchaseHistory;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,56 +33,61 @@ class PurchaseController extends AbstractController
 
         $user_existance = true;
         $product_existance = true;
-        $purchase_existance = true;
+        $seller_existance = true;
+        $tracking_existance = true;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $purchase_id = $purchase->getPurchaseId();
-            $user_phone = $purchase->getUserPhone();
-            $date_purchase = $purchase->getDatePurchase();
-            $purchase_tracking_id = $purchase->getPurchaseTrackingId();
+            $user_id = $purchase->getUserId();
+            $tracking_id = $purchase->getTrackingId();
             $product_id = $purchase->getProductId();
-            $quantity = $purchase->getQuantity();
+            $purchase_time = $purchase->getPurchaseTime();
+            $seller_id = $purchase->getSellerId();
 
-            $user_existance = $em->getRepository(User::class)->findBy(['phone' => $user_phone]) != null;
+            $user_existance = $em->getRepository(User::class)->findBy(['user_id' => $user_id]) != null;
             $product_existance = $em->getRepository(Product::class)->findBy(['product_id' => $product_id]) != null;
+            $seller_existance = $seller_id == NULL ||
+                ($em->getRepository(User::class)->findBy(['user_id' => $seller_id]) &&
+                    substr($seller_id, 0, 1) === '2');  # seller_id为空或首位为2（销售员）
+            $tracking_existance = $em->getRepository(ProductTracking::class)->findBy(['tracking_id' => $tracking_id]) != Null;
 
             if($purchase_id == '') {
-                if (!$user_existance || !$product_existance) {
+                if (!$user_existance || !$product_existance || !$seller_existance || !$tracking_existance) {
                     return $this->render('purchase/index.html.twig', [
                         'purchase' => $purchase_history,
                         'form' => $form->createView(),
                         'user_existance' => $user_existance,
                         'product_existance' => $product_existance,
-                        'purchase_existance' => $purchase_existance]);
+                        'seller_existance' => $seller_existance,
+                        'tracking_existance' => $tracking_existance]);
                 } else {
                     $purchase->setPurchaseId($this->generate_purchase_id());
-                    $purchase->setUserPhone($user_phone);
-                    $purchase->setDatePurchase($date_purchase);
-                    $purchase->setPurchaseTrackingId($purchase_tracking_id);
+                    $purchase->setUserId($user_id);
+                    $purchase->setTrackingId($tracking_id);
                     $purchase->setProductId($product_id);
-                    $purchase->setQuantity($quantity);
+                    $purchase->setPurchaseTime($purchase_time);
+                    $purchase->setSellerId($seller_id);
                     $em->persist($purchase);
                     $em->flush();
 
                     return $this->redirectToRoute('PurchaseHistoryPage');
                 }
             }else{
-                $purchase = $em->getRepository(PurchaseHistory::class)->findBy(['purchase_id' => $purchase_id])[0];
-                $purchase_existance = $purchase != null;
-
-                if (!$purchase_existance || !$user_existance || !$product_existance) {
+                if (!$user_existance || !$product_existance || !$seller_existance || !$tracking_existance) {
                     return $this->render('purchase/index.html.twig', [
                         'purchase' => $purchase_history,
                         'form' => $form->createView(),
                         'user_existance' => $user_existance,
                         'product_existance' => $product_existance,
-                        'purchase_existance' => $purchase_existance]);
+                        'seller_existance' => $seller_existance,
+                        'tracking_existance' => $tracking_existance]);
                 } else {
-                    $purchase->setUserPhone($user_phone);
-                    $purchase->setDatePurchase($date_purchase);
-                    $purchase->setPurchaseTrackingId($purchase_tracking_id);
+                    $purchase = $em->getRepository(PurchaseHistory::class)->findBy(['purchase_id' => $purchase_id])[0];
+                    $purchase->setUserId($user_id);
+                    $purchase->setTrackingId($tracking_id);
                     $purchase->setProductId($product_id);
-                    $purchase->setQuantity($quantity);
+                    $purchase->setPurchaseTime($purchase_time);
+                    $purchase->setSellerId($seller_id);
                     $em->persist($purchase);
                     $em->flush();
 
@@ -89,26 +95,14 @@ class PurchaseController extends AbstractController
                 }
             }
         }
-        $user_id = $this->getUser()->getId();
-        $auth_pre = $em->getConnection()->prepare("SELECT `roles` FROM `User` WHERE `id` = $user_id");
-        $auth_pre->execute();
-        $auth = $auth_pre->fetchAll();
-        $role = array_pop($auth)['roles'];
-        if ($role === 'a:1:{i:0;s:11:"ROLE_SELLER";}'){
-            $role = 'Seller';
-        }elseif ($role === 'a:1:{i:0;s:10:"ROLE_ADMIN";}' || $role ==='a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}'){
-            $role = 'Admin';
-        }else{
-            $role = 'User';
-        }
 
         return $this->render('purchase/index.html.twig',[
             'purchase' => $purchase_history,
             'form' => $form->createView(),
             'user_existance' => $user_existance,
             'product_existance' => $product_existance,
-            'purchase_existance' => $purchase_existance,
-            'role' => $role
+            'seller_existance' => $seller_existance,
+            'tracking_existance' => $tracking_existance
         ]);
     }
 
@@ -127,11 +121,11 @@ class PurchaseController extends AbstractController
             }
             return new JsonResponse([
                     'purchase_id' => $purchase_id,
-                    'user_phone' => $purchase->getUserPhone(),
+                    'user_id' => $purchase->getUserId(),
                     'product_id' => $purchase->getProductId(),
-                    'date_purchase' => $purchase->getDatePurchase()->format('Y-m-d-H-i-s'),
-                    'purchase_tracking_id' => $purchase->getPurchaseTrackingId(),
-                    'quantity' => $purchase->getQuantity()
+                    'purchase_time' => $purchase->getPurchaseTime()->format('Y-m-d-H-i-s'),
+                    'tracking_id' => $purchase->getTrackingId(),
+                    'seller_id' => $purchase->getSellerId()
                 ]);
         }
     }

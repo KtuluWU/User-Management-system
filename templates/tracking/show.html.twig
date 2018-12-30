@@ -21,7 +21,7 @@
             <div class="header">
                 <p class="lead">{{ 'tracking_page.title'|trans }}</p>
                         {{ form_start(form) }}
-                        <small class="text-muted">{{ form_label(form.StartMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.StartMessage) }} </small>
                         <p>{{ form_widget(form.StartMessage,  {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -30,7 +30,7 @@
                         <hr>
 
 
-                        <small class="text-muted">{{ form_label(form.RanchMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.RanchMessage) }} </small>
                         <p>{{ form_widget(form.RanchMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -39,7 +39,7 @@
                         <hr>
 
 
-                        <small class="text-muted">{{ form_label(form.FactoryMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.FactoryMessage) }} </small>
                         <p>{{ form_widget(form.FactoryMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -47,7 +47,7 @@
                         <p>{{ form_widget(form.FactoryImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.FactoryDeliveryMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.FactoryDeliveryMessage) }} </small>
                         <p>{{ form_widget(form.FactoryDeliveryMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -55,7 +55,7 @@
                         <p>{{ form_widget(form.FactoryDeliveryImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.ExportMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.ExportMessage) }} </small>
                         <p>{{ form_widget(form.ExportMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -63,7 +63,7 @@
                         <p>{{ form_widget(form.ExportImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.ImportMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.ImportMessage) }} </small>
                         <p>{{ form_widget(form.ImportMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -71,7 +71,7 @@
                         <p>{{ form_widget(form.ImportImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.CenterMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.CenterMessage) }} </small>
                         <p>{{ form_widget(form.CenterMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -79,7 +79,7 @@
                         <p>{{ form_widget(form.CenterImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.Site1Message) }} *</small>
+                        <small class="text-muted">{{ form_label(form.Site1Message) }} </small>
                         <p>{{ form_widget(form.Site1Message, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -87,7 +87,7 @@
                         <p>{{ form_widget(form.Site1ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.Site2Message) }} *</small>
+                        <small class="text-muted">{{ form_label(form.Site2Message) }} </small>
                         <p>{{ form_widget(form.Site2Message, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -95,7 +95,7 @@
                         <p>{{ form_widget(form.Site2ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.Site3Message) }} *</small>
+                        <small class="text-muted">{{ form_label(form.Site3Message) }} </small>
                         <p>{{ form_widget(form.Site3Message, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -103,7 +103,7 @@
                         <p>{{ form_widget(form.Site3ImagePath, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
-                        <small class="text-muted">{{ form_label(form.ClientMessage) }} *</small>
+                        <small class="text-muted">{{ form_label(form.ClientMessage) }} </small>
                         <p>{{ form_widget(form.ClientMessage, {'attr': {'class': 'form-control'}}) }}</p>
                         <hr>
 
@@ -176,7 +176,7 @@
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script>
-        $('#addRow').click(function () {
+        $('#modify_button').click(function () {
             $('#overlay').fadeIn('fast');
             $('#popupBox').fadeIn('fast');
             $('#popupContent').fadeIn('fast');

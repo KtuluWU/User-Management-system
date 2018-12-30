@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PurchaseHistory;
 use App\Entity\User;
 use App\Form\ProductTrackingType;
 use phpDocumentor\Reflection\Types\String_;
@@ -17,22 +18,30 @@ use App\Entity\TrackingImage;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Form\ImagePathType;
 use Twig\Error\RuntimeError;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
- * @Route("/tracking", name = "Product")
+ * @Route("/tracking", name = "Tracking")
  */
 class TrackingController extends AbstractController
 {
     /**
      * @Route("/{tracking_id}&{page}", name = "ShowPage")
      */
-    public function show(Request $request,$tracking_id)
+    public function show(Request $request, $tracking_id)
     {
-        $product_tracking_manager = $this->getDoctrine()->getManager();
-        $product_tracking = $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
-        $tracking_images = $product_tracking_manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
+        $manager = $this->getDoctrine()->getManager();
+        $product_tracking = $manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
+        $tracking_images = $manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
         $product_id = $product_tracking->getProductId();
-        $product = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $product = $manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['tracking_id' => $tracking_id]);
+        if($purchase_info == NULL){
+            $purchase_time = NULL;
+        }else{
+            $purchase_time = $purchase_info->getPurchaseTime();
+        }
         $form = $this->createForm(ImagePathType::class);
 
 
@@ -118,8 +127,8 @@ class TrackingController extends AbstractController
             $path = $this->processing_image($image_file,$tracking_images->getClientImagePath());
             $tracking_images->setClientImagePath($path);
 
-            $product_tracking_manager->persist($tracking_images);
-            $product_tracking_manager->flush();
+            $manager->persist($tracking_images);
+            $manager->flush();
 
         }
 
@@ -129,7 +138,8 @@ class TrackingController extends AbstractController
             'tracking_product' => $product,
             'tracking_images' => $tracking_images,
             'form' =>$form->createView(),
-            'is_block' => false
+            'is_block' => false,
+            'purchase_time' => $purchase_time
         ]);
     }
 
@@ -149,117 +159,179 @@ class TrackingController extends AbstractController
     public function show_block(Profiler $profiler)
     {
         $profiler->disable();
-        $product_tracking_manager = $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $user_id = $this->get_user_id();
-        $product_tracking= $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('client_id' => $user_id));
+        $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['user_id' => $user_id]);
+        $tracking_id = $purchase_info->getTrackingId();
+        $product_tracking= $manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
         $product_id = $product_tracking->getProductId();
-        $product_name = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
-        $tracking_images = $product_tracking_manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $product_tracking->getTrackingId()));
-        return $this->render('tracking/tracking_block.html.twig',['tracking' => $product_tracking,
-            'tracking_product'=> $product_name, 'tracking_images'=>$tracking_images, 'is_block'=>true]);
+        $product_name = $manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id))->getProductName();
+        $tracking_images = $manager->getRepository(TrackingImage::class)->findOneBy(array('tracking_id'=> $tracking_id));
+
+        if($purchase_info == NULL){
+            $purchase_time = NULL;
+        }else{
+            $purchase_time = $purchase_info->getPurchaseTime();
+        }
+        return $this->render('tracking/tracking_block.html.twig',
+            ['tracking' => $product_tracking,
+            'tracking_product' => $product_name,
+            'tracking_images' => $tracking_images,
+            'is_block' => true,
+            'purchase_time' => $purchase_time]);
     }
 
 
 
     /**
-     * @Route("/data", name="TrackingPage")
+     * @Route("/data", name="ProductTrackingPage")
      */
     public function index(Request $request)
     {
-        $product_tracking = new ProductTracking();
-        $form = $this->createForm(ProductTrackingType::class, $product_tracking);
+        $form = $this->createForm(ProductTrackingType::class);
         $form->handleRequest($request);
         $product_existance = true;
         $user_existance = true;
+
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $product_manager = $this->getDoctrine()->getManager();
-
-            $product_tracking_id = $this->product_tracking_id_generator();
-            $product_tracking->setTrackingId($product_tracking_id);
-
-
-            $ProductId  = $data->getProductId();
-            $UserId = $data->getClientId();
-            $User_id_check = $product_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
-            $Product_id_check = $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
+            $product_tracking = new ProductTracking();
+            $product_tracking_manager = $this->getDoctrine()->getManager();
+            $ProductId  = $form->get('product_id')->getData();
+            $UserId = $form->get('client_id')->getData();
+            $User_id_check = $product_tracking_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
+            $Product_id_check = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
 
             if ($Product_id_check == null) $product_existance = false;
             if ($User_id_check == null and $UserId!=null ) $user_existance = false;
             if(($Product_id_check == null) or ($User_id_check == null and $UserId!=null )){
                 $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-                $product_tracking = $repository->findAll();
+                $product_trackings = $repository->findAll();
                 return $this->render('tracking/index.html.twig',
-                    ['tracking' => $product_tracking,
+                    ['product_trackings' => $product_trackings,
                         "product_existance" => $product_existance,
                         "user_existance" => $user_existance,
                         'form' => $form->createView()]);
             }
-            $product_tracking->setProductId($ProductId);
-            $product_tracking->setProductionDate($data->getProductionDate());
-            $product_tracking->setBatchId($data->getBatchId());
-            $product_tracking->setStartingTime($data->getStartingTime());
-            $product_tracking->setRanchId($data->getRanchId());
-            $product_tracking->setMilkCollectionTime($data->getMilkCollectionTime());
-            $product_tracking->setRanchResponsible($data->getRanchResponsible());
-            $product_tracking->setFactory($data->getFactory());
-            $product_tracking->setFactoryProcessingTime($data->getFactoryProcessingTime());
-            $product_tracking->setFactoryResponsible($data->getFactoryResponsible());
-            $product_tracking->setFactoryDeliveryTime($data->getFactoryDeliveryTime());
-            $product_tracking->setFactoryDeliveryResponsible($data->getFactoryDeliveryResponsible());
-            $product_tracking->setExportTime($data->getExportTime());
-            $product_tracking->setExportResponsible($data->getExportResponsible());
-            $product_tracking->setImportTime($data->getImportTime());
-            $product_tracking->setImportResponsible($data->getImportResponsible());
-            $product_tracking->setCenterArrivalTime($data->getCenterArrivalTime());
-            $product_tracking->setArrivalResponsible($data->getArrivalResponsible());
-            $product_tracking->setSite1($data->getSite1());
-            $product_tracking->setSite1DeliveryTime($data->getSite1DeliveryTime());
-            $product_tracking->setSite1Responsible($data->getSite1Responsible());
-            $product_tracking->setSite2($data->getSite2());
-            $product_tracking->setSite2DeliveryTime($data->getSite2DeliveryTime());
-            $product_tracking->setSite2Responsible($data->getSite2Responsible());
-            $product_tracking->setSite3($data->getSite3());
-            $product_tracking->setSite3DeliveryTime($data->getSite3DeliveryTime());
-            $product_tracking->setSite3Responsible($data->getSite3Responsible());
-            $product_tracking->setClientId($data->getClientId());
 
-            $product_tracking->setPurchaseTime($data->getPurchaseTime());
-            $product_tracking->setSellerId($data->getSellerId());
-            $product_manager->persist($product_tracking);
-            $product_manager->flush();
+            $batch_number = $form->get('batch_number')->getData();
+            $Id = $form->get('tracking_id')->getData();
+            if($batch_number== 1 or $batch_number== null) {
+                if($Id == null) {
+                    $product_tracking_id =  $this->product_tracking_id_generator();
+                    $this->product_tracking_id_setter($product_tracking_id);
+                    $new_tracking_image = new TrackingImage();
+                    $new_tracking_image->setTrackingId($product_tracking_id);
+                    $product_tracking_manager->persist($new_tracking_image);
+                    $product_tracking_manager->flush();}
+                else {
+                    $product_tracking_id = $form->get('tracking_id')->getData();
+                    $product_tracking = $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $product_tracking_id));
 
-            $new_tracking_image = new TrackingImage();
-            $new_tracking_image->setTrackingId($product_tracking_id);
-            $product_manager->persist($new_tracking_image);
-            $product_manager->flush();
+                }
 
-            $this->product_tracking_id_setter($product_tracking_id);
-            unset($product_tracking);
-            unset($form);
-            $product_tracking = new ProductTracking();
-            $form = $this->createForm(ProductTrackingType::class, $product_tracking);
-            $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-            $product_tracking = $repository->findAll();
-            return $this->render('tracking/index.html.twig',
-                ['tracking' => $product_tracking,
-                    "product_existance" => $product_existance,
-                    "user_existance" => $user_existance,
-                    'form' => $form->createView()]);
+                $product_tracking->setTrackingId($product_tracking_id);
+                $product_tracking->setProductId($ProductId);
+                $product_tracking->setProductionDate($form->get('production_date')->getData());
+                $product_tracking->setBatchId($form->get('batch_id')->getData());
+                $product_tracking->setStartingTime($form->get('starting_time')->getData());
+                $product_tracking->setRanchId($form->get('ranch_id')->getData());
+                $product_tracking->setMilkCollectionTime($form->get('milk_collection_time')->getData());
+                $product_tracking->setRanchResponsible($form->get('ranch_responsible')->getData());
+                $product_tracking->setFactory($form->get('factory')->getData());
+                $product_tracking->setFactoryProcessingTime($form->get('factory_processing_time')->getData());
+                $product_tracking->setFactoryResponsible($form->get('factory_responsible')->getData());
+                $product_tracking->setFactoryDeliveryTime($form->get('factory_delivery_time')->getData());
+                $product_tracking->setFactoryDeliveryResponsible($form->get('factory_delivery_responsible')->getData());
+                $product_tracking->setExportTime($form->get('export_time')->getData());
+                $product_tracking->setExportResponsible($form->get('export_responsible')->getData());
+                $product_tracking->setImportTime($form->get('import_time')->getData());
+                $product_tracking->setImportResponsible($form->get('import_responsible')->getData());
+                $product_tracking->setCenterArrivalTime($form->get('center_arrival_time')->getData());
+                $product_tracking->setArrivalResponsible($form->get('arrival_responsible')->getData());
+                $product_tracking->setSite1($form->get('site_1')->getData());
+                $product_tracking->setSite1DeliveryTime($form->get('site_1_delivery_time')->getData());
+                $product_tracking->setSite1Responsible($form->get('site_1_responsible')->getData());
+                $product_tracking->setSite2($form->get('site_2')->getData());
+                $product_tracking->setSite2DeliveryTime($form->get('site_2_delivery_time')->getData());
+                $product_tracking->setSite2Responsible($form->get('site_2_responsible')->getData());
+                $product_tracking->setSite3($form->get('site_3')->getData());
+                $product_tracking->setSite3DeliveryTime($form->get('site_3_delivery_time')->getData());
+                $product_tracking->setSite3Responsible($form->get('site_3_responsible')->getData());
+                $product_tracking->setClientId($form->get('client_id')->getData());
+
+                $product_tracking->setPurchaseTime($form->get('purchase_time')->getData());
+                $product_tracking->setSellerId($form->get('seller_id')->getData());
+                $product_tracking_manager->persist($product_tracking);
+                $product_tracking_manager->flush();
+            }
+            else{
+
+
+                for($i=0;$i<$batch_number;$i++) {
+
+                    $product_tracking_id = $this->product_tracking_id_generator();
+                    $this->product_tracking_id_setter($product_tracking_id);
+
+                    $new_tracking_image = new TrackingImage();
+                    $new_tracking_image->setTrackingId($product_tracking_id);
+                    $product_tracking_manager->persist($new_tracking_image);
+                    $product_tracking_manager->flush();
+
+
+                    $product_tracking = new ProductTracking();
+                    $product_tracking->setTrackingId($product_tracking_id);
+                    $product_tracking->setProductId($ProductId);
+                    $product_tracking->setProductionDate($form->get('production_date')->getData());
+                    $product_tracking->setBatchId($form->get('batch_id')->getData());
+                    $product_tracking->setStartingTime($form->get('starting_time')->getData());
+                    $product_tracking->setRanchId($form->get('ranch_id')->getData());
+                    $product_tracking->setMilkCollectionTime($form->get('milk_collection_time')->getData());
+                    $product_tracking->setRanchResponsible($form->get('ranch_responsible')->getData());
+                    $product_tracking->setFactory($form->get('factory')->getData());
+                    $product_tracking->setFactoryProcessingTime($form->get('factory_processing_time')->getData());
+                    $product_tracking->setFactoryResponsible($form->get('factory_responsible')->getData());
+                    $product_tracking->setFactoryDeliveryTime($form->get('factory_delivery_time')->getData());
+                    $product_tracking->setFactoryDeliveryResponsible($form->get('factory_delivery_responsible')->getData());
+                    $product_tracking->setExportTime($form->get('export_time')->getData());
+                    $product_tracking->setExportResponsible($form->get('export_responsible')->getData());
+                    $product_tracking->setImportTime($form->get('import_time')->getData());
+                    $product_tracking->setImportResponsible($form->get('import_responsible')->getData());
+                    $product_tracking->setCenterArrivalTime($form->get('center_arrival_time')->getData());
+                    $product_tracking->setArrivalResponsible($form->get('arrival_responsible')->getData());
+                    $product_tracking->setSite1($form->get('site_1')->getData());
+                    $product_tracking->setSite1DeliveryTime($form->get('site_1_delivery_time')->getData());
+                    $product_tracking->setSite1Responsible($form->get('site_1_responsible')->getData());
+                    $product_tracking->setSite2($form->get('site_2')->getData());
+                    $product_tracking->setSite2DeliveryTime($form->get('site_2_delivery_time')->getData());
+                    $product_tracking->setSite2Responsible($form->get('site_2_responsible')->getData());
+                    $product_tracking->setSite3($form->get('site_3')->getData());
+                    $product_tracking->setSite3DeliveryTime($form->get('site_3_delivery_time')->getData());
+                    $product_tracking->setSite3Responsible($form->get('site_3_responsible')->getData());
+                    $product_tracking->setClientId($form->get('client_id')->getData());
+                    $product_tracking->setPurchaseTime($form->get('purchase_time')->getData());
+                    $product_tracking->setSellerId($form->get('seller_id')->getData());
+                    $product_tracking_manager->persist($product_tracking);
+                    $product_tracking_manager->flush();
+                }
+            }
+
+
+            return $this->redirectToRoute("TrackingProductTrackingPage");
         }
 
-
         $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-        $product_tracking = $repository->findAll();
+        $product_trackings = $repository->findAll();
         return $this->render('tracking/index.html.twig',
-            ['tracking' => $product_tracking,
+            ['product_trackings' => $product_trackings,
                 "product_existance" => True,
                 "user_existance" => True,
-                'form' => $form->createView()]);
+                'form' => $form->createView()
+                ]);
     }
 
     /**
-     * @Route("/delete/{tracking_id}&{page}", name = "ProductEdit")
+     * @Route("/delete/{tracking_id}&{page}", name = "ProductDelete")
      */
     public function tracking_delete($tracking_id, $page)
     {
@@ -269,83 +341,64 @@ class TrackingController extends AbstractController
             $product_tracking_manager->remove($product_tracking);
             $product_tracking_manager->flush();
         }
-        return $this->redirectToRoute("ProductTrackingPage");
+        return $this->redirectToRoute("TrackingProductTrackingPage");
     }
 
+
     /**
-     * @Route("/edit/{tracking_id}&{page}")
+     * @Route("/modify", name="TrackingModifyPage", methods="POST")
      */
-    public function tracking_edit(Request $request, $tracking_id, $page)
+
+    public function tracking_modify(Request $request)
     {
-        $product_tracking_manager = $this->getDoctrine()->getManager();
-        $product_tracking = $product_tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
-        $form = $this->createForm(ProductTrackingType::class, $product_tracking);
-        $form->setData($product_tracking);
-        $form->handleRequest($request);
-        $product_existance = true;
-        $user_existance = true;
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $ProductId  = $data->getProductId();
-            $UserId = $data->getClientId();
-            $User_id_check = $product_tracking_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
-            $Product_id_check = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
-            if ($Product_id_check == null) $product_existance = false;
-            if ($User_id_check == null and $UserId!=null ) $user_existance = false;
-            if(($Product_id_check == null) or ($User_id_check == null and $UserId!=null )){
-                $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-                $product_tracking = $repository->findAll();
 
-                return $this->render('tracking/index.html.twig',
-                    ['tracking' => $product_tracking,
-                        "product_existance" => $product_existance,
-                        "user_existance" => $user_existance,
-                        'form' => $form->createView()]);
+        if ($request->isXmlHttpRequest()) {
+            $content = $request->getContent();
+            if (!empty($content)) {
+
+                $params = json_decode($content, true);
+                $tracking_id = $params['tracking_id'];
+                $tracking_manager = $this->getDoctrine()->getManager();
+                $product_tracking = $tracking_manager->getRepository(ProductTracking::class)->findOneBy(array('tracking_id' => $tracking_id));
+
+
+
+                return new JsonResponse([
+                    'tracking_id' => $product_tracking->getTrackingId(),
+                    'product_id' => $product_tracking->getProductId(),
+                    'production_date' => $product_tracking->getProductionDate(),
+                    'batch_id' => $product_tracking->getBatchId(),
+                    'starting_time' => $product_tracking->getStartingTime(),
+                    'ranch_id' => $product_tracking->getRanchId(),
+                    'milk_collection_time' => $product_tracking->getMilkCollectionTime(),
+                    'ranch_responsible' => $product_tracking->getRanchResponsible(),
+                    'factory' => $product_tracking->getFactory(),
+                    'factory_processing_time' => $product_tracking->getFactoryProcessingTime(),
+                    'factory_responsible' => $product_tracking->getFactoryResponsible(),
+                    'factory_delivery_time' => $product_tracking->getFactoryDeliveryTime(),
+                    'factory_delivery_responsible' => $product_tracking->getFactoryDeliveryResponsible(),
+                    'export_time' => $product_tracking->getExportTime(),
+                    'export_responsible' => $product_tracking->getExportResponsible(),
+                    'import_time' => $product_tracking->getImportTime(),
+                    'import_responsible' => $product_tracking->getArrivalResponsible(),
+                    'center_arrival_time' => $product_tracking->getCenterArrivalTime(),
+                    'arrival_responsible' => $product_tracking->getRanchResponsible(),
+                    'site_1' => $product_tracking->getSite1(),
+                    'site_1_delivery_time' => $product_tracking->getSite1DeliveryTime(),
+                    'site_1_responsible' => $product_tracking->getSite1Responsible(),
+                    'site_2' => $product_tracking->getSite2(),
+                    'site_2_delivery_time' => $product_tracking->getSite2DeliveryTime(),
+                    'site_2_responsible' => $product_tracking->getSite2Responsible(),
+                    'site_3' => $product_tracking->getSite3(),
+                    'site_3_delivery_time' => $product_tracking->getSite3DeliveryTime(),
+                    'site_3_responsible' => $product_tracking->getSite3Responsible(),
+                    'client_id' => $product_tracking->getClientId(),
+                    'purchase_time' => $product_tracking->getPurchaseTime(),
+                    'seller_id' => $product_tracking->getSellerId()
+
+                ]);
             }
-
-            $product_tracking->setProductId($data->getProductId());
-            $product_tracking->setProductionDate($data->getProductionDate());
-            $product_tracking->setBatchId($data->getBatchId());
-            $product_tracking->setStartingTime($data->getStartingTime());
-            $product_tracking->setRanchId($data->getRanchId());
-            $product_tracking->setMilkCollectionTime($data->getMilkCollectionTime());
-            $product_tracking->setRanchResponsible($data->getRanchResponsible());
-            $product_tracking->setFactory($data->getFactory());
-            $product_tracking->setFactoryProcessingTime($data->getFactoryProcessingTime());
-            $product_tracking->setFactoryResponsible($data->getFactoryResponsible());
-            $product_tracking->setFactoryDeliveryTime($data->getFactoryDeliveryTime());
-            $product_tracking->setFactoryDeliveryResponsible($data->getFactoryDeliveryResponsible());
-            $product_tracking->setExportTime($data->getExportTime());
-            $product_tracking->setExportResponsible($data->getExportResponsible());
-            $product_tracking->setImportTime($data->getImportTime());
-            $product_tracking->setImportResponsible($data->getImportResponsible());
-            $product_tracking->setCenterArrivalTime($data->getCenterArrivalTime());
-            $product_tracking->setArrivalResponsible($data->getArrivalResponsible());
-            $product_tracking->setSite1($data->getSite1());
-            $product_tracking->setSite1DeliveryTime($data->getSite1DeliveryTime());
-            $product_tracking->setSite1Responsible($data->getSite1Responsible());
-            $product_tracking->setSite2($data->getSite2());
-            $product_tracking->setSite2DeliveryTime($data->getSite2DeliveryTime());
-            $product_tracking->setSite2Responsible($data->getSite2Responsible());
-            $product_tracking->setSite3($data->getSite3());
-            $product_tracking->setSite3DeliveryTime($data->getSite3DeliveryTime());
-            $product_tracking->setSite3Responsible($data->getSite3Responsible());
-            $product_tracking->setClientId($data->getClientId());
-            $product_tracking->setPurchaseTime($data->getPurchaseTime());
-            $product_tracking->setSellerId($data->getSellerId());
-            $product_tracking_manager->persist($product_tracking);
-            $product_tracking_manager->flush();
-            return $this->redirectToRoute('ProductTrackingPage');
         }
-        $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-        $product_tracking = $repository->findAll();
-        return $this->render('tracking/tracking_edit.html.twig',
-            ['tracking' => $product_tracking,
-                "product_existance" => $product_existance,
-                "user_existance" => $user_existance,
-                'form' => $form->createView()]);
-
-
     }
 
 

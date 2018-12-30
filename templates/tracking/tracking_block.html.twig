@@ -19,11 +19,13 @@
     <div class="body">
         <div class="timeline-item animated fadeIn faster green">
             <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }} </span>
+            {% if not is_block %}
             <span class="date" align="right">
-                <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15">
+                <a href="javascript:void(0)" id="modify_button" class="btn btn-primary m-b-15">
                     <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.edit_row'|trans }}
                  </a>
             </span>
+            {% endif %}
             <h5> {{ tracking_product }}{{ tracking_images.StartMessage}}</h5>
             <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.StartImagePath)}}" height="300" width="300"/>
         </div>
@@ -82,11 +84,13 @@
             <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath)}}" height="300" width="300"/>
         </div>
 
-        <div class="timeline-item animated fadeIn slower warning">
-            <span class="date">{{ tracking.PurchaseTime|date('Y年m月d日h:m:s') }}</span>
-            <h5> {{ tracking_images.ClientMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
-        </div>
+        {% if purchase_time is not null %}
+            <div class="timeline-item animated fadeIn slower warning">
+                <span class="date">{{ purchase_time|date('Y年m月d日h:m:s') }}</span>
+                <h5> {{ tracking_images.ClientMessage}}</h5>
+                <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
+            </div>
+        {% endif %}
 
 
     </div>

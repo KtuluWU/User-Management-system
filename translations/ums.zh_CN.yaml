@@ -74,14 +74,15 @@ purchase_page:
   activity: 选项
   user_id: 会员号
   product_id: 商品编号
-  date_purchase: 购买时间
-  purchase_tracking_id: 溯源号
-  quantity: 数量
+  tracking_id: 溯源号
   register: 输入购买记录
   modify: 修改购买记录
   btn: 保存
   return: 返回
-  phone: 用户手机号
+  client_id: 会员号
+  purchase_time: 购买时间
+  seller_id: 销售员号
+  title: 购买记录
   index:
     add_row: 添加
 
@@ -110,6 +111,8 @@ product_page:
   modify: 修改产品信息
 
 tracking_page:
+  register: 输入溯源信息
+  modify: 修改溯源信息
   edit_row: 编辑
   add_row: 添加
   tracking_id: 溯源编号
@@ -140,22 +143,33 @@ tracking_page:
   site_3: 站点3
   site_3_delivery_time: 站点3配送时间
   site_3_responsible: 站点3配送负责人
-  client_id: 会员号
-  purchase_time: 购买时间
-  seller_id: 销售员号
   title: 输入溯源信息
   btn: 保存
   return: 返回
   page_title: 产品溯源信息
+  StartMessage: 开始生产信息
+  RanchMessage: 牧场信息
+  FactoryMessage: 工厂生产信息
+  FactoryDeliveryMessage: 工厂发货信息
+  ExportMessage: 出口信息
+  ImportMessage: 进口信息
+  CenterMessage: 总部信息
+  Site1Message: 站点1信息
+  Site2Message: 站点2信息
+  Site3Message: 站点3信息
+  ClientMessage: 用户信息
+
+
 
 userList_pages:
   title_users: 会员信息
   title_sellers: 销售人员信息
   title_admins: 管理人员信息
+  add_user: 手动添加会员
   add_seller: 手动添加销售人员
   add_admin: 手动添加管理人员
   add_user_by_file: 通过文件批量添加用户
-  add_seller_admin: 添加销售/管理人员
+  add_user_seller_admin: 添加人员
   action: 选项
   edit_form: 修改用户信息
   user_number_chart: 用户数量变化图
@@ -181,6 +195,18 @@ user_infos:
   responsible_id: 负责人工号
   responsible_region: 负责地区
   plain_pwd: 密码
+  sales:
+    month: 月销售额
+    season: 季销售额
+    year: 年销售额
+  sales_plan:
+    month: 月销售计划
+    season: 季销售计划
+    year: 年销售计划
+  schedule_sales:
+    month: 月销售进度
+    season: 季销售进度
+    year: 年销售进度
   enabled:
     title: 账户状态
     1: 激活
@@ -244,6 +270,24 @@ index_page:
     total_sellers: 总销售员
     new_admins: 新管理员
     total_admins: 总管理员
+    schedule_sales_table: 销售进度表
+
+seller_index_page:
+  task: 任务完成度
+  current_month_accompished: 本月完成量
+  current_month_plan: 本月目标量
+  current_season_accompished: 本季度完成量
+  current_season_plan: 本季度目标量
+  current_year_accompished: 本年度完成量
+  current_year_plan: 本年度目标量
+  by_month: 按月
+  by_season: 按季度
+  by_year: 按年
+  engage: 选择负责用户
+  engage_action: 负责
+  engaged_user: 您负责的用户
+
+
 
 
 
