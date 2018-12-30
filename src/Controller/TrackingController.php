@@ -194,24 +194,22 @@ class TrackingController extends AbstractController
         $user_existance = true;
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $product_tracking = new ProductTracking();
-            $product_tracking_manager = $this->getDoctrine()->getManager();
-            $ProductId  = $form->get('product_id')->getData();
-            $UserId = $form->get('client_id')->getData();
-            $User_id_check = $product_tracking_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
-            $Product_id_check = $product_tracking_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
 
-            if ($Product_id_check == null) $product_existance = false;
-            if ($User_id_check == null and $UserId!=null ) $user_existance = false;
-            if(($Product_id_check == null) or ($User_id_check == null and $UserId!=null )){
-                $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
-                $product_trackings = $repository->findAll();
-                return $this->render('tracking/index.html.twig',
-                    ['product_trackings' => $product_trackings,
-                        "product_existance" => $product_existance,
-                        "user_existance" => $user_existance,
-                        'form' => $form->createView()]);
+        $ProductId  = $data->getProductId();
+        $UserId = $data->getUserId();
+        $User_id_check = $product_manager->getRepository(User::class)->findOneBy(array('user_id' => $UserId));
+        $Product_id_check = $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $ProductId));
+
+        if ($Product_id_check == null) $product_existance = false;
+        if ($User_id_check == null and $UserId!=null ) $user_existance = false;
+        if(($Product_id_check == null) or ($User_id_check == null and $UserId!=null )){
+            $repository = $this->getDoctrine()->getRepository(ProductTracking::class);
+            $product_trackings = $repository->findAll();
+            return $this->render('tracking/index.html.twig',
+                ['product_trackings' => $product_trackings,
+                    "product_existance" => $product_existance,
+                    "user_existance" => $user_existance,
+                    'form' => $form->createView()]);
             }
 
             $batch_number = $form->get('batch_number')->getData();
@@ -351,7 +349,6 @@ class TrackingController extends AbstractController
 
     public function tracking_modify(Request $request)
     {
-
         if ($request->isXmlHttpRequest()) {
             $content = $request->getContent();
             if (!empty($content)) {
