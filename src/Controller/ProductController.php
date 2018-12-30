@@ -39,7 +39,6 @@ class ProductController extends AbstractController
             $promotion = $product->getPromotion();
             $stock = $product->getStock();
             $description = $product->getDescription();
-
             if($product_id == '') {
                 $product->setProductId($this->generate_product_id());
                 $product->setProductName($product_name);
@@ -106,33 +105,105 @@ class ProductController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/delete/{product_id}&{page}", name = "ProductDelete")
+     */
+    public function product_delete($product_id, $page)
+    {   $product_manager = $this->getDoctrine()->getManager();
+        $product= $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id));
+        if ($product != null){
+            $product_manager->remove($product);
+            $product_manager->flush();
+        }
+        $image_path = $product->getImagePath();
+        $original_image = $this->getParameter('uploads_images_products')."/".$image_path;
+        if (file_exists($original_image) and $original_image != $this->getParameter('uploads_images_products')."/example.jpg") {
+            unlink($original_image);
+        }
+
+        return $this->redirectToRoute("ProductProductPage");
+    }
+
+
+
     /**
      * @Route("/modify", name="ProductModifyPage", methods="POST")
      */
     public function product_modify(Request $request)
     {
-        if ($request->isXmlHttpRequest()){
+
+        if ($request->isXmlHttpRequest()) {
             $content = $request->getContent();
-            if (!empty($content)){
+            if (!empty($content)) {
                 $params = json_decode($content, true);
                 $product_id = $params['product_id'];
                 $em = $this->getDoctrine()->getManager();
                 $product = $em->getRepository(Product::class)->findBy(['product_id' => $product_id])[0];
+                $product_manager = $this->getDoctrine()->getManager();
+                $product = $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id));
+                $product_form = new Product();
+                $form = $this->createForm(ProductType::class, $product_form);
+                $form->get('product_name')->setData($product->getProductName());
+                $form->get('barcode')->setData($product->getBarcode());
+                $form->get('category')->setData($product->getCategory());
+                $form->get('shelf_life')->setData($product->getShelfLife());
+                $form->get('promotion')->setData($product->getPromotion());
+                $form->get('stock')->setData($product->getStock());
+                $form->get('description')->setData($product->getDescription());
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $data = $form->getData();
+                    $product->setProductName($data->getProductName());
+                    $product->setBarcode($data->getBarcode());
+                    $product->setCategory($data->getCategory());
+                    $product->setShelfLife($data->getShelfLife());
+                    $product->setPromotion($data->getPromotion());
+                    $product->setStock($data->getStock());
+                    $product->setDescription($data->getDescription());
+
+
+                    //save new image
+                    $image_file = $form->get('image_path')->getData();
+                    if (null == $image_file) {
+                        $new_image_path = $product->getImagePath();
+                    } else {
+                        $new_image_path = md5(uniqid()) . '.' . $image_file->guessExtension();
+                        $image_file->move(
+                            $this->getParameter('uploads_images_products'),
+                            $new_image_path
+                        );
+                        //delete original image and save new image
+                        $image_path = $product->getImagePath();
+                        $original_image = $this->getParameter('uploads_images_products') . "/" . $image_path;
+                        if (file_exists($original_image) and $original_image != $this->getParameter('uploads_images_products') . "/example.jpg") {
+                            unlink($original_image);
+                        }
+                    }
+
+
+                    $product->setImagePath($new_image_path);
+                    //update product
+                    $product_manager->persist($product);
+                    $product_manager->flush();
+
+                    return $this->redirectToRoute('ProductProductPage');
+
+                }
+                return new JsonResponse([
+                    'product_id' => $product_id,
+                    'product_name' => $product->getProductName(),
+                    'barcode' => $product->getBarcode(),
+                    'image_path' => $product->getImagePath(),
+                    'category' => $product->getCategory(),
+                    'shelf_life' => $product->getShelfLife(),
+                    'promotion' => $product->getPromotion(),
+                    'stock' => $product->getStock(),
+                    'description' => $product->getDescription()
+                ]);
             }
-            return new JsonResponse([
-                'product_id' => $product_id,
-                'product_name' => $product->getProductName(),
-                'barcode' => $product->getBarcode(),
-                'image_path' => $product->getImagePath(),
-                'category' => $product->getCategory(),
-                'shelf_life' => $product->getShelfLife(),
-                'promotion' => $product->getPromotion(),
-                'stock' => $product->getStock(),
-                'description' => $product->getDescription()
-            ]);
         }
     }
-
     /**
      * @Route("/remove", name="ProductRemovePage", methods="POST")
      */

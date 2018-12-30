@@ -23,20 +23,20 @@
             </div>
             <div class="body">
                 {{ form_start(form) }}
-                <small class="text-muted">{{ form_label(form.product_name) }} *</small>
+                <small class="text-muted">{{ form_label(form.product_name) }} </small>
                 <p>{{ form_widget(form.product_name, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
-                <small class="text-muted">{{ form_label(form.barcode) }} *</small>
+                <small class="text-muted">{{ form_label(form.barcode) }} </small>
                 <p>{{ form_widget(form.barcode, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.image_path) }}</small>
                 <p>{{ form_widget(form.image_path, {'attr': {'class': 'form-control'}}) }}</p>
                 <img id="img_prev" src="{{ asset('uploads/images/preview.png') }}" alt="your image" width="264" height="264"/>
                 <hr>
-                <small class="text-muted">{{ form_label(form.category) }} *</small>
+                <small class="text-muted">{{ form_label(form.category) }} </small>
                 <p>{{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
-                <small class="text-muted">{{ form_label(form.shelf_life) }} *</small>
+                <small class="text-muted">{{ form_label(form.shelf_life) }} </small>
                 <p>{{ form_widget(form.shelf_life, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.promotion) }}</small>
