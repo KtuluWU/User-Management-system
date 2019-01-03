@@ -58,6 +58,9 @@
                 <small class="text-muted">{{ form_label(form.factory_responsible)}} </small>
                 <p>{{ form_widget(form.factory_responsible, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
+                <small class="text-muted">{{ form_label(form.factory_delivery_responsible)}} </small>
+                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
                 <small class="text-muted">{{ form_label(form.factory_delivery_time)}} </small>
                 <p>{{ form_widget(form.factory_delivery_time, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
@@ -66,9 +69,6 @@
                 <hr>
                 <small class="text-muted">{{ form_label(form.export_responsible)}} </small>
                 <p>{{ form_widget(form.export_responsible, {'attr': {'class': 'form-control'}}) }}</p>
-                <hr>
-                <small class="text-muted">{{ form_label(form.export_responsible)}} </small>
-                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.import_time)}} </small>
                 <p>{{ form_widget(form.import_time, {'attr': {'class': 'form-control'}}) }}</p>
@@ -219,14 +219,6 @@
             $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
         {% endif %}
 
-        {% if not user_existance %}
-            swal({
-                title: "出错啦",
-                text: "该用户不存在",
-                type: "error"
-            });
-            $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
-        {% endif %}
 
         $('#addrow').click(function () {
             $('#tracking_form_title').text('{{ 'tracking_page.register'|trans }}');

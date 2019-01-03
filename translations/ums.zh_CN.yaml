@@ -115,6 +115,9 @@ tracking_page:
   modify: 修改溯源信息
   edit_row: 编辑
   add_row: 添加
+  add_batch: 批量添加
+  batch_register: 批量注册
+  batch_number: 批次产品数量
   tracking_id: 溯源编号
   product_id: 产品编号
   production_date: 生产日期
