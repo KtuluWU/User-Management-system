@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Form;
-
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +16,16 @@ class ProductTrackingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('batch_number',NumberType::class, array(
+                'label' => 'tracking_page.batch_number',
+                'attr' => array(
+                    'id' => '',
+                    'placeholder' => 'tracking_page.batch_number',
+                ),
+                'required' => false,
+                'translation_domain' => 'ums'
+            ))
+            ->add('tracking_id', HiddenType::class)
             ->add('product_id', null, array(
 
                 'label' => 'tracking_page.product_id',
@@ -198,7 +208,4 @@ class ProductTrackingType extends AbstractType
         ;
     }
 
-    public function getName(){
-        return 'product';
-    }
 }
