@@ -25,11 +25,22 @@ class PurchaseController extends AbstractController
     {
         $purchase = new PurchaseHistory();
         $em = $this->getDoctrine()->getManager();
+        $_id = $this->getUser()->getId();
+        $sql_user_id = "SELECT user_id FROM `User` WHERE id = $_id";
+        $user_id_pre = $em->getConnection()->prepare($sql_user_id);
+        $user_id_pre->execute();
+        $user_id_array = $user_id_pre->fetchAll();
+        $user_id = $user_id_array[0]['user_id'];
 
         $form = $this->createForm(PurchaseType::class, $purchase);
         $form->handleRequest($request);
         $repository = $em->getRepository(PurchaseHistory::class);
-        $purchase_history = $repository->findAll();
+
+        if(substr($user_id, 0, 1) === '1') {
+            $purchase_history = $repository->findBy(['user_id' => $user_id]);
+        }else{
+            $purchase_history = $repository->findAll();
+        }
 
         $user_existance = true;
         $product_existance = true;

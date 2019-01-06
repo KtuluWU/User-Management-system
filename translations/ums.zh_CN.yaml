@@ -146,7 +146,7 @@ tracking_page:
   site_3: 站点3
   site_3_delivery_time: 站点3配送时间
   site_3_responsible: 站点3配送负责人
-  title: 输入溯源信息
+  title: 溯源信息
   btn: 保存
   return: 返回
   page_title: 产品溯源信息

@@ -6,12 +6,25 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PurchaseHistory;
+use App\Entity\User;
 
 error_reporting(E_ALL);
 
 
 class IndexController extends AbstractController
 {
+    public function get_user_id(){
+        $user_id = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager()->getConnection();
+        $id_pre = $em->prepare("SELECT `user_id` FROM `User` WHERE `id` = $user_id");
+        $id_pre->execute();
+        $id = $id_pre->fetchAll();
+        $id = array_pop($id)['user_id'];
+        return $id;
+    }
+
+
     private function admin_index(){
         $em = $this->getDoctrine()->getManager()->getConnection();
 
@@ -107,7 +120,29 @@ class IndexController extends AbstractController
         }elseif ($authorization_checker->isGranted('ROLE_SELLER')){
             $info = $this->seller_index();
         }else{
-            $info = [];
+            $manager = $this->getDoctrine()->getManager();
+            $user_id = $this->get_user_id();
+            $purchase_info = $manager->getRepository(PurchaseHistory::class)->findOneBy(['user_id' => $user_id]);
+            $has_purchase = $purchase_info === null ? false : true;
+            $user_info = $manager->getRepository(User::class)->findOneBy(['user_id' => $user_id]);
+            $has_seller = $user_info->getResponsibleId() === null ? false : true;
+            if (!$has_seller) {
+                $info = ["has_purchase" => $has_purchase,
+                    "has_seller" => $has_seller
+                ];
+            }else{
+                $seller_id = $user_info->getResponsibleId();
+                $seller = $manager->getRepository(User::class)->findOneBy(['user_id' => $seller_id]);
+                $info = ["has_purchase" => $has_purchase,
+                    "has_seller" => $has_seller,
+                    "seller_id" => $seller_id,
+                    "seller_first_name" => $seller->getFirstName(),
+                    "seller_last_name" => $seller->getLastName(),
+                    "seller_sex" => $seller->getSex(),
+                    "seller_phone" => $seller->getPhone(),
+                    "seller_wechat" => $seller->getWechat(),
+                ];
+            }
         }
         return $this->render('index/index.html.twig', $info);
     }

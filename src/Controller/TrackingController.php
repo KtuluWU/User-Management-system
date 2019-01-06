@@ -21,6 +21,8 @@ use Twig\Error\RuntimeError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
+error_reporting(E_ALL);
+
 /**
  * @Route("/tracking", name = "Tracking")
  */
