@@ -138,8 +138,6 @@ class ProductController extends AbstractController
             if (!empty($content)) {
                 $params = json_decode($content, true);
                 $product_id = $params['product_id'];
-                $em = $this->getDoctrine()->getManager();
-                $product = $em->getRepository(Product::class)->findBy(['product_id' => $product_id])[0];
                 $product_manager = $this->getDoctrine()->getManager();
                 $product = $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id));
                 $product_form = new Product();

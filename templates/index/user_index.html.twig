@@ -11,10 +11,64 @@
                     <div><img src="{{ asset('/uploads/images/slide_3.png')}}" height="300" width="300"></div>
                 </div>
             </div>
-            <div class="card" style="width: 460px; margin-left:20px; height: 800px">
-                <div style="margin-top: 20px; margin-left: 50px"><h3><b>产品溯源</b></h3></div>
-                <div style="margin: 20px;"><iframe style="width: 420px; height: 700px;" frameborder="0" src="/tracking/block"></iframe></div>
-            </div>
+
+            {% if has_seller %}
+                <div class="card" style="width: 460px; margin-left:20px; height: 350px">
+                    <div style="margin-top: 20px; margin-left: 50px"><h3><b>我的销售员</b></h3></div>
+                    <div style="margin: 20px 40px;">
+                        <table class="table table-bordered" style="border-width: 2px">
+                            <tbody>
+                            <tr>
+                                <th scope="row" style="width: 100px">销售员ID</th>
+                                <td>{{ seller_id }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">姓名</th>
+                                <td>{{ seller_last_name }}{{ seller_first_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">性别</th>
+                                <td>{{ seller_sex }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">电话</th>
+                                <td>{{ seller_phone }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">微信号</th>
+                                <td>{{ seller_wechat }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card" style="width: 460px; margin-left:20px; height: 200px">
+                    <div style="margin-top: 20px; margin-left: 50px"><h3><b>我的销售员</b></h3></div>
+                    <div style="margin: 20px;">
+                        <div class="centered_container">
+                            <p style="color: grey; font-size: 12px">销售员选择您后，销售员信息将在此显示</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if has_purchase %}
+                <div class="card" style="width: 460px; margin-left:20px; height: 800px">
+                    <div style="margin-top: 20px; margin-left: 50px"><h3><b>产品溯源</b></h3></div>
+                    <div style="margin: 20px;"><iframe style="width: 420px; height: 700px;" frameborder="0" src="/tracking/block"></iframe></div>
+                </div>
+            {% else %}
+                <div class="card" style="width: 460px; margin-left:20px; height: 200px">
+                    <div style="margin-top: 20px; margin-left: 50px"><h3><b>产品溯源</b></h3></div>
+                    <div style="margin: 20px;">
+                        <div class="centered_container">
+                            <p style="color: grey; font-size: 12px">当您购买产品后，产品溯源信息将在此显示</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <div style="width: 500px">
             <div class="card" style="width: 600px; margin-left:50px; height: 850px">

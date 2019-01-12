@@ -29,7 +29,6 @@
                 <small class="text-muted">{{ form_label(form.product_id)}} </small>
                 <p>{{ form_widget(form.product_id, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
-
                 <small class="text-muted">{{ form_label(form.production_date)}} </small>
                 <p>{{ form_widget(form.production_date, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
@@ -56,6 +55,9 @@
                 <hr>
                 <small class="text-muted">{{ form_label(form.factory_responsible)}} </small>
                 <p>{{ form_widget(form.factory_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory_delivery_responsible)}} </small>
+                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.factory_delivery_time)}} </small>
                 <p>{{ form_widget(form.factory_delivery_time, {'attr': {'class': 'form-control'}}) }}</p>
@@ -177,7 +179,9 @@
                                         <th>{{ 'tracking_page.starting_time' | trans }}</th>
                                         <th>{{ 'tracking_page.ranch_id' | trans }}</th>
                                         <th>{{ 'tracking_page.factory' | trans }}</th>
+                                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
                                         <th>{{ 'product_page.action' | trans }}</th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tfoot>
@@ -189,7 +193,9 @@
                                         <th>{{ 'tracking_page.starting_time' | trans }}</th>
                                         <th>{{ 'tracking_page.ranch_id' | trans }}</th>
                                         <th>{{ 'tracking_page.factory' | trans }}</th>
+                                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
                                         <th>{{ 'product_page.action' | trans }}</th>
+                                        {% endif %}
                                     </tr>
                                     </tfoot>
                                     <tbody>
@@ -202,8 +208,8 @@
                                                 <td>{{ t.StartingTime|date('Y年m月d日h:m:s') }}</td>
                                                 <td>{{ t.RanchId }}</td>
                                                 <td>{{ t.Factory }}</td>
+                                                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
                                                 <td class="actions">
-                                                {% if is_granted('ROLE_SELLER') or is_granted('ROLE_ADMIN') %}
                                                 <a class="btn btn-info modify_btn_tracking">
                                                     <i class="fa fa-edit"></i></a>
                                                 <a href="/tracking/delete/{{ t.TrackingId }}&product" class="btn btn-danger delete_product_confirm" title="Delete">
@@ -305,6 +311,7 @@
             $('#popupBox').fadeIn('fast');
             $('#popupContent').fadeIn('fast');
         });
+
         $('#overlay, #popupCancel').click(function () {
             $('#overlay').fadeOut('fast');
             $('#popupBox').fadeOut('fast');
