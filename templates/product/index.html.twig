@@ -98,7 +98,7 @@
                                     {% for p in products %}
                                         <tr class="gradeA">
                                             <td>{{ p.ProductId }}</td>
-                                            <td>{{ p.ProductName }}</td>
+                                            <td><a href="/product/show/{{ p.ProductId }}&product" >{{ p.ProductName }}</a></td>
                                             <td>{{ p.Barcode }}</td>
                                             <td>
                                                 <img src="{{ asset('/uploads/images/products/' ~ p.ImagePath)}}" height="42" width="42"/>

@@ -22,7 +22,6 @@
                 <p class="lead" id="tracking_form_title">{{ 'tracking_page.register'|trans }}</p>
             </div>
             <div class="body">
-
                 {{ form_start(form) }}
                 <small class="text-muted">{{ form_label(form.batch_number)}} </small>
                 <p>{{ form_widget(form.batch_number, {'attr': {'class': 'form-control'}}) }}</p>
@@ -61,14 +60,14 @@
                 <small class="text-muted">{{ form_label(form.factory_delivery_time)}} </small>
                 <p>{{ form_widget(form.factory_delivery_time, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
+                <small class="text-muted">{{ form_label(form.factory_delivery_responsible)}} </small>
+                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
                 <small class="text-muted">{{ form_label(form.export_time)}} </small>
                 <p>{{ form_widget(form.export_time, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.export_responsible)}} </small>
                 <p>{{ form_widget(form.export_responsible, {'attr': {'class': 'form-control'}}) }}</p>
-                <hr>
-                <small class="text-muted">{{ form_label(form.export_responsible)}} </small>
-                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
                 <hr>
                 <small class="text-muted">{{ form_label(form.import_time)}} </small>
                 <p>{{ form_widget(form.import_time, {'attr': {'class': 'form-control'}}) }}</p>
@@ -120,16 +119,53 @@
 
     <div id="main-content">
         <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'tracking_page.header'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'tracking_page.header'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
+                        {% if is_granted('ROLE_SELLER') or is_granted('ROLE_ADMIN') %}
                         <a href="javascript:void(0)" id="addrow" class="btn btn-primary m-b-15">
                             <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.add_row'|trans }}
                         </a>
                         <a href="javascript:void(0)" id="addbatch" class="btn btn-primary m-b-15">
                             <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.add_batch'|trans }}
                         </a>
+                        {% endif %}
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
                                     <thead>
@@ -160,18 +196,20 @@
                                         {% for t in product_trackings %}
                                             <tr class="gradeA">
                                                 <td><a href="/tracking/{{ t.TrackingId }}&tracking" >{{ t.TrackingId }}</a></td>
-                                                <td>{{ t.ProductId }}</td>
+                                                <td><a href="/product/show/{{ t.ProductId }}&product" >{{ t.ProductId }}</a></td>
                                                 <td>{{ t.ProductionDate|date('Y年m月d日h:m:s') }}</td>
-                                                <td>{{ t.BatchId }}</td>
+                                                <td><a href="/tracking/batch_show/{{ t.BatchId }}&batch_show" >{{ t.BatchId }}</a></td>
                                                 <td>{{ t.StartingTime|date('Y年m月d日h:m:s') }}</td>
                                                 <td>{{ t.RanchId }}</td>
                                                 <td>{{ t.Factory }}</td>
                                                 <td class="actions">
+                                                {% if is_granted('ROLE_SELLER') or is_granted('ROLE_ADMIN') %}
                                                 <a class="btn btn-info modify_btn_tracking">
                                                     <i class="fa fa-edit"></i></a>
                                                 <a href="/tracking/delete/{{ t.TrackingId }}&product" class="btn btn-danger delete_product_confirm" title="Delete">
                                                     <i class="fa fa-trash-o"></i></a>
                                                 </td>
+                                                {% endif %}
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -210,7 +248,7 @@
         });
 
 
-        {% if not product_existance %}
+        {% if not product_existence %}
             swal({
                 title: "出错啦",
                 text: "商品编号不存在",
@@ -219,7 +257,7 @@
             $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
         {% endif %}
 
-        {% if not user_existance %}
+        {% if not user_existence %}
             swal({
                 title: "出错啦",
                 text: "该用户不存在",
@@ -283,8 +321,9 @@
             $('#product_tracking_product_id').val('');
             $('#product_tracking_production_date').val('');
             $('#product_tracking_ranch_id').val('');
-            $('#product_tracking_production_date').val('');
-            $('#product_tracking_starting_time').val('');
+            $('#product_tracking_starting_time select').each(function (i) {
+                $(this).find('option:first-child').attr('selected', true);
+            });
             $('#product_tracking_ranch_id').val('');
             $('#product_tracking_milk_collection_time').val('');
             $('#product_tracking_ranch_responsible').val('');
@@ -335,7 +374,12 @@
                     $('#product_tracking_production_date').val(product_tracking['production_date']);
                     $('#product_tracking_batch_id').val(product_tracking['batch_id']);
                     $('#product_tracking_production_date').val(product_tracking['production_date']);
-                    $('#product_tracking_starting_time').val(product_tracking['starting_time']);
+                    $date_time = product_tracking['starting_time'].split('-');
+                    $('#product_tracking_starting_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
                     $('#product_tracking_ranch_id').val(product_tracking['ranch_id']);
                     $('#product_tracking_milk_collection_time').val(product_tracking['milk_collection_time']);
                     $('#product_tracking_ranch_responsible').val(product_tracking['ranch_responsible']);

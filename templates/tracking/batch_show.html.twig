@@ -1,0 +1,248 @@
+{% trans_default_domain 'ums' %}
+{% extends 'layout.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/popup_box.css') }}"/>
+{% endblock %}
+{% block sidebar %}
+    {% set tab_menu_index, tab_menu_profile, tab_menu_histo, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "active", "", "", "", "", "", "active", "" %}
+    {{ parent() }}
+{% endblock %}
+{% block main_content %}
+    <div id="overlay"></div>
+    <div id="popupBox">
+        <div id="popupContent">
+            <div class="header">
+                <p class="lead" id="tracking_form_title">{{ 'tracking_page.register'|trans }}</p>
+            </div>
+            <div class="body">
+                {{ form_start(form) }}
+                <small class="text-muted">{{ form_label(form.product_id)}} </small>
+                <p>{{ form_widget(form.product_id, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.production_date)}} </small>
+                <p>{{ form_widget(form.production_date, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{  form_label(form.starting_time)}} </small>
+                <p>{{  form_widget(form.starting_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.ranch_id)}} </small>
+                <p>{{ form_widget(form.ranch_id, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.milk_collection_time)}} </small>
+                <p>{{ form_widget(form.milk_collection_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.ranch_responsible)}} </small>
+                <p>{{ form_widget(form.ranch_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory)}} </small>
+                <p>{{ form_widget(form.factory, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory_processing_time)}} </small>
+                <p>{{ form_widget(form.factory_processing_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory_responsible)}} </small>
+                <p>{{ form_widget(form.factory_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory_delivery_time)}} </small>
+                <p>{{ form_widget(form.factory_delivery_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.factory_delivery_responsible)}} </small>
+                <p>{{ form_widget(form.factory_delivery_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.export_time)}} </small>
+                <p>{{ form_widget(form.export_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.export_responsible)}} </small>
+                <p>{{ form_widget(form.export_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.import_time)}} </small>
+                <p>{{ form_widget(form.import_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.import_responsible)}} </small>
+                <p>{{ form_widget(form.import_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.center_arrival_time)}} </small>
+                <p>{{ form_widget(form.center_arrival_time, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <small class="text-muted">{{ form_label(form.arrival_responsible)}} </small>
+                <p>{{ form_widget(form.arrival_responsible, {'attr': {'class': 'form-control'}}) }}</p>
+                <hr>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="{{ 'tracking_page.btn'|trans }}">
+                    <a href="javascript:void(0)" id="popupCancel" class="btn btn-default">{{ 'tracking_page.return'|trans }}</a>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                        class="fa fa-arrow-left"></i></a>{{ 'tracking_page.header'|trans }}</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">{{ 'tracking_page.header'|trans }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15">
+                                <small>Visitors</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                            </div>
+                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Visits</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                            </div>
+                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                        </div>
+                        <div class="bh_chart hidden-sm">
+                            <div class="float-left m-r-15">
+                                <small>Chats</small>
+                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                            </div>
+                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <a href="javascript:void(0)" id="addbatch" class="btn btn-primary m-b-15">
+                                <i class="icon wb-plus" aria-hidden="false"></i>{{ 'tracking_page.batch_modify'|trans }}
+                            </a>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable table-custom table-userList text-md-left ">
+                                    <thead>
+                                        <th>{{ 'tracking_page.product_id' | trans }}</th>
+                                        <th>{{ batch.ProductId }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.production_date' | trans }}</th>
+                                        <th>{{ batch.ProductionDate|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.batch_id' | trans }}</th>
+                                        <th>{{ batch.BatchId }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.starting_time' | trans }}</th>
+                                        <th>{{ batch.StartingTime |date('Y年m月d日h:m:s')}}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.ranch_id' | trans }}</th>
+                                        <th>{{ batch.RanchId }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.milk_collection_time' | trans }}</th>
+                                        <th>{{ batch.MilkCollectionTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.ranch_responsible' | trans }}</th>
+                                        <th>{{ batch.RanchResponsible }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.factory' | trans }}</th>
+                                        <th>{{ batch.Factory }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.factory_processing_time' | trans }}</th>
+                                        <th>{{ batch.FactoryProcessingTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.factory_responsible' | trans }}</th>
+                                        <th>{{ batch.FactoryResponsible }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.factory_delivery_time' | trans }}</th>
+                                        <th>{{ batch.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.factory_delivery_responsible' | trans }}</th>
+                                        <th>{{ batch.FactoryDeliveryResponsible }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.export_time' | trans }}</th>
+                                        <th>{{ batch.ExportTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.export_responsible' | trans }}</th>
+                                        <th>{{ batch.ExportResponsible }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.import_time' | trans }}</th>
+                                        <th>{{ batch.ImportTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.import_responsible' | trans }}</th>
+                                        <th>{{ batch.ImportResponsible }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.center_arrival_time' | trans }}</th>
+                                        <th>{{ batch.CenterArrivalTime|date('Y年m月d日h:m:s') }}</th>
+                                    </thead>
+                                    <thead>
+                                        <th>{{ 'tracking_page.arrival_responsible' | trans }}</th>
+                                        <th>{{ batch.ArrivalResponsible }}</th>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
+    <script>
+
+
+        {% if not product_existence %}
+        swal({
+            title: "出错啦",
+            text: "商品编号不存在",
+            type: "error"
+        });
+        $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
+        {% endif %}
+        $('#addbatch').click(function () {
+            $('#overlay').fadeIn('fast');
+            $('#popupBox').fadeIn('fast');
+            $('#popupContent').fadeIn('fast');
+        });
+        $('#overlay, #popupCancel').click(function () {
+            $('#overlay').fadeOut('fast');
+            $('#popupBox').fadeOut('fast');
+            $('#popupContent').fadeOut('fast');
+        });
+
+
+    </script>
+{% endblock %}
