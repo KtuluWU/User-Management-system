@@ -18,7 +18,7 @@
 {% block main_content %}
     <div class="body">
         <div class="timeline-item animated fadeIn faster green">
-            <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }} </span>
+            <span class="date">{{ tracking.StartingTime|date('Y年m月d日h:m:s') }} &nbsp 地点：爱薇牛澳洲总厂</span>
             {% if not is_block %}
             <span class="date" align="right">
                 <a href="javascript:void(0)" id="modify_button" class="btn btn-primary m-b-15">
@@ -26,69 +26,70 @@
                  </a>
             </span>
             {% endif %}
-            <h5> {{ tracking_product }}{{ tracking_images.StartMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.StartImagePath)}}" height="300" width="300"/>
+            <h5> {{ tracking_product }}{{ tracking_images.StartMessage}}  </h5>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.StartImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower warning">
-            <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s')  }}  负责人： {{ tracking.RanchResponsible }}</span>
+            <span class="date">{{ tracking.MilkCollectionTime|date('Y年m月d日h:m:s')  }}  负责人：{{ tracking.RanchResponsible }}   &nbsp 地点：{{ tracking.RanchId }}</span>
             <h5> {{ tracking_images.RanchMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.RanchImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.RanchImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower blue">
-            <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryResponsible }}</span>
+            <span class="date">{{ tracking.FactoryProcessingTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryResponsible }} &nbsp 地点：{{ tracking.Factory }}</span>
             <h5> {{ tracking_images.FactoryMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower green">
-            <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryDeliveryResponsible }}</span>
+            <span class="date">{{ tracking.FactoryDeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.FactoryDeliveryResponsible }} &nbsp 地点：{{ tracking.Factory }}</span>
             <h5> {{ tracking_images.FactoryDeliveryMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryDeliveryImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.FactoryDeliveryImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower warning">
-            <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ExportResponsible }}</span>
+            <span class="date">{{ tracking.ExportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ExportResponsible }} &nbsp 地点：澳大利亚悉尼海关</span>
             <h5> {{ tracking_images.ExportMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ExportImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ExportImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower blue">
-            <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ImportResponsible }}</span>
+            <span class="date">{{ tracking.ImportTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ImportResponsible }} &nbsp 地点：中国海口海关</span>
             <h5> {{ tracking_images.ImportMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ImportImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ImportImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower green">
-            <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ArrivalResponsible }}</span>
+            <span class="date">{{ tracking.CenterArrivalTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.ArrivalResponsible }} &nbsp 地点：爱薇牛海口总部</span>
             <h5> {{ tracking_images.CenterMessage}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.CenterImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.CenterImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower warning">
-            <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site1Responsible }}</span>
+            <span class="date">{{ tracking.Site1DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site1Responsible }} &nbsp 地点：{{ tracking.Site1 }}</span>
             <h5> {{ tracking_images.Site1Message}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site1ImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site1ImagePath)}}" height="300" width="400"/>
         </div>
 
         <div class="timeline-item animated fadeIn slower blue">
-            <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site2Responsible }}</span>
+            <span class="date">{{ tracking.Site2DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site2Responsible }} &nbsp 地点：{{ tracking.Site2 }}</span>
             <h5> {{ tracking_images.Site2Message}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site2ImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site2ImagePath)}}" height="300" width="400"/>
         </div>
-
+        {% if tracking.Site3 is not null %}
         <div class="timeline-item animated fadeIn slower green">
-            <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site3Responsible }}</span>
+            <span class="date">{{ tracking.Site3DeliveryTime|date('Y年m月d日h:m:s') }}  负责人：{{ tracking.Site3Responsible }} &nbsp 地点：{{ tracking.Site3 }}</span>
             <h5> {{ tracking_images.Site3Message}}</h5>
-            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath)}}" height="300" width="300"/>
+            <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.Site3ImagePath)}}" height="300" width="400"/>
         </div>
+        {% endif %}
 
         {% if purchase_time is not null %}
             <div class="timeline-item animated fadeIn slower warning">
                 <span class="date">{{ purchase_time|date('Y年m月d日h:m:s') }}</span>
                 <h5> {{ tracking_images.ClientMessage}}</h5>
-                <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="300"/>
+                <img src="{{ asset('/uploads/images/trackings/' ~ tracking_images.ClientImagePath)}}" height="300" width="400"/>
             </div>
         {% endif %}
 

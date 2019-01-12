@@ -111,8 +111,10 @@ product_page:
   modify: 修改产品信息
 
 tracking_page:
+  header: 溯源信息
   register: 输入溯源信息
   modify: 修改溯源信息
+  batch_modify: 批量修改
   edit_row: 编辑
   add_row: 添加
   add_batch: 批量添加
@@ -161,6 +163,8 @@ tracking_page:
   Site2Message: 站点2信息
   Site3Message: 站点3信息
   ClientMessage: 用户信息
+
+
 
 
 
