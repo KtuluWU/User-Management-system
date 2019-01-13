@@ -220,6 +220,20 @@ class ProductController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/show/{product_id}&{page}", name = "ProductShow")
+     */
+    public function product_Introduction($product_id, $page)
+    {   $product_manager = $this->getDoctrine()->getManager();
+        $product= $product_manager->getRepository(Product::class)->findOneBy(array('product_id' => $product_id));
+        return $this->render('product/show.html.twig',
+
+        ['product' => $product]);
+    }
+
+
+
     private function generate_product_id(){
         $conn = $this->getDoctrine()->getManager()->getConnection();
         $sql = "SELECT product_id FROM infos";
