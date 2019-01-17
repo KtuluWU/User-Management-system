@@ -165,7 +165,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr id="copy_source" style="display: none">
+                                        <tr class="copy_source" style="display: none">
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -302,10 +302,10 @@
             });
         }
 
-        function insert_records(records){
+        function insert_records(records, record_table){
             i = 0;
             for (i in records){
-                let row = $('#copy_source').clone().removeAttr('id style');
+                let row = record_table.find('.copy_source').clone().removeAttr('class style');
                 let columns = row.children('td');
                 columns.eq(0).text(records[i]['lastname'] + ' ' + records[i]['firstname']);  // full_name
                 columns.eq(1).text(records[i]['username']);  // user_name
@@ -324,7 +324,7 @@
                 columns.eq(13).text(moment(new Date(records[i]['date_register'])).format('YYYY-MM-DD')); // date_register
                 columns.eq(14).children('a').eq(0).attr("href", "/userList/edit/"+ records[i]['user_id'] +"&Users"); // modify button
                 columns.eq(14).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button
-                row.appendTo($('#record_table tbody'));
+                row.appendTo(record_table.find('tbody'));
             }
         }
 

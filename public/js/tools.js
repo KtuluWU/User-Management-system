@@ -75,7 +75,7 @@ $.fn.renderTable = function (table_name, page_number, sort_field, sort_order, co
             $(function() {
                 record_table.find('.record_table_pagination').pagination('updateItems', c);
             });
-            insert_records(json_data['list']);
+            insert_records(json_data['list'], record_table);
             if(!record_table.find('.record_table_pagination').length){
                 let sortables = record_table.find('thead tr .sortable');
                 let field_list = sortables.map(function () {
