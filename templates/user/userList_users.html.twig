@@ -182,7 +182,7 @@
                                             <td></td>
                                             <td>
                                                 <a class="btn btn-info"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger delete_user_confirm"><i class="fa fa-trash-o"></i></a>
+                                                <a class="btn btn-danger delete_user_confirm"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -323,7 +323,7 @@
                 columns.eq(12).text(records[i]['enabled'] === 1 ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
                 columns.eq(13).text(moment(new Date(records[i]['date_register'])).format('YYYY-MM-DD')); // date_register
                 columns.eq(14).children('a').eq(0).attr("href", "/userList/edit/"+ records[i]['user_id'] +"&Users"); // modify button
-                columns.eq(15).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button
+                columns.eq(14).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button
                 row.appendTo($('#record_table tbody'));
             }
         }
@@ -339,9 +339,9 @@
 
             $('#record_table').renderTable(table_name, page_number, sort_field, sort_order, count, where_clause, insert_records);
 
-            $('.delete_user_confirm').click(function (e) {
+            $(document).on('click', '.delete_user_confirm', function (e) {
                 e.preventDefault();
-                var linkURL = $(this).attr("href");
+                let linkURL = $(this).attr("href");
                 confirmBeforeRedirect(linkURL);
             });
 
