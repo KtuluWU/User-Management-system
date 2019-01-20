@@ -307,7 +307,7 @@
             for (i in records){
                 let row = record_table.find('.copy_source').clone().removeAttr('class style');
                 let columns = row.children('td');
-                columns.eq(0).text(records[i]['lastname'] + ' ' + records[i]['firstname']);  // full_name
+                columns.eq(0).html( '<a href="/user/show/'+ records[i]['user_id']+ '&user">' + records[i]['lastname'] + ' ' + records[i]['firstname']+ '</a>');  // full_name
                 columns.eq(1).text(records[i]['username']);  // user_name
                 columns.eq(2).text(records[i]['sex'] === '1' ? "{{ 'user_infos.sex.1'|trans }}" : "{{ 'user_infos.sex.0'|trans }}");  // sex
                 columns.eq(3).text(records[i]['email']); // email
@@ -320,7 +320,7 @@
                 let user_region = "{{ 'r'|trans }}".replace('r', 'region.'+records[i]['region']);
                 columns.eq(10).text(user_region); // user_region
                 columns.eq(11).text(records[i]['responsible_id']); // responsible_id
-                columns.eq(12).text(records[i]['enabled'] === 1 ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
+                columns.eq(12).text(records[i]['enabled'] === "1" ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
                 columns.eq(13).text(moment(new Date(records[i]['date_register'])).format('YYYY-MM-DD')); // date_register
                 columns.eq(14).children('a').eq(0).attr("href", "/userList/edit/"+ records[i]['user_id'] +"&Users"); // modify button
                 columns.eq(14).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button

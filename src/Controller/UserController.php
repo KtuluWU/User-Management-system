@@ -360,6 +360,20 @@ class UserController extends Controller
         return $this->redirectToRoute('UserList'.$page.'Page');
     }
 
+
+
+    /**
+     * @Route("/user/show/{user_id}&{page}", name = "UserShow")
+     */
+    public function User_introduction($user_id, $page)
+    {   $user_manager = $this->getDoctrine()->getManager();
+        $user= $user_manager->getRepository(User::class)->findOneBy(array('user_id' => $user_id));
+        return $this->render('user/user_show.html.twig',
+
+            ['user' => $user]);
+    }
+
+
     /**
      * @return string
      */

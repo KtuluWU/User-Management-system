@@ -22,44 +22,44 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable table-custom table-userList text-md-left ">
+                                <table class="table table-bordered ">
                                     <thead>
-                                        <th>{{ 'product_page.product_id' | trans }}</th>
-                                        <th>{{ product.ProductId }}</th>
+                                        <th style="width: 200px">{{ 'product_page.product_id' | trans }}</th>
+                                        <td>{{ product.ProductId }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.product_name' | trans }}</th>
-                                        <th>{{ product.ProductName }}</th>
+                                        <td>{{ product.ProductName }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.barcode' | trans }}</th>
-                                        <th>{{ product.Barcode }}</th>
+                                        <td>{{ product.Barcode }}</td>
                                     </thead>
                                     <thead>
-                                        <th align="">{{ 'product_page.image_path' | trans }}</th>
+                                        <td class="description" style="font-weight:bold">{{ 'product_page.image_path' | trans }}</td>
                                         <td>
                                             <img src="{{ asset('/uploads/images/products/' ~ product.ImagePath)}}" height="300" width="300"/>
                                         </td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.category' | trans }}</th>
-                                        <th>{{ product.Category }}</th>
+                                        <td>{{ product.Category }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.shelf_life' | trans }}</th>
-                                        <th>{{ product.ShelfLife }}</th>
+                                        <td>{{ product.ShelfLife }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.promotion' | trans }}</th>
-                                        <th>{{ product.Promotion }}</th>
+                                        <td>{{ product.Promotion }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.stock' | trans }}</th>
-                                        <th>{{ product.Stock }}</th>
+                                        <td>{{ product.Stock }}</td>
                                     </thead>
                                     <thead>
                                         <th>{{ 'product_page.description' | trans }}</th>
-                                        <th>{{ product.Description }}</th>
+                                        <td>{{ product.Description }}</td>
                                     </thead>
                                 </table>
                             </div>
