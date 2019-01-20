@@ -20,12 +20,13 @@
                             <tbody>
                             <tr>
                                 <th scope="row" style="width: 100px">销售员ID</th>
-                                <td>{{ seller_id }}</td>
+                                <td><a href="/user/show/{{ seller_id }}&user" > {{ seller_id }} </a></td>
                             </tr>
                             <tr>
                                 <th scope="row">姓名</th>
-                                <td>{{ seller_last_name }}{{ seller_first_name }}</td>
+                                <td><a href="/user/show/{{ seller_id }}&user" > {{ seller_last_name }}{{ seller_first_name }} </a></td>
                             </tr>
+
                             <tr>
                                 <th scope="row">性别</th>
                                 <td>{{ seller_sex }}</td>
