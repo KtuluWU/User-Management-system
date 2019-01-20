@@ -164,8 +164,8 @@ class UserController extends Controller
      */
     public function userList_users(Request $request)
     {
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $users = $em->findMembers();
+        //$em = $this->getDoctrine()->getRepository(User::class);
+        //$users = $em->findMembers();
 
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->createUser();
@@ -202,13 +202,13 @@ class UserController extends Controller
 
         }
 
-        $month_count = $this->get_register_month_distribution($users);
+        //$month_count = $this->get_register_month_distribution($users);
 
         return $this->render('user/userList_users.html.twig', [
-            'users' => $users,
+            //'users' => $users,
             'form' => $form->createView(),
             'form_file' => $form_file->createView(),
-            'month_count' => $month_count
+            //'month_count' => $month_count
         ]);
     }
 
@@ -479,94 +479,6 @@ class UserController extends Controller
         $stm = $em_users->prepare($sql);
         $stm->execute();
     }
-
-    private function get_register_month_distribution($users){
-        $month_count = array_fill_keys(range(1, 12), 0);
-        foreach ($users as $user){
-            $month = intval($user->getDateRegister()->format('m'));
-            $month_count[$month] += 1;
-        }
-        return $month_count;
-    }
-
-    private function get_user_date_by($em, $date_by){
-        $qb = $em->createQueryBuilder();
-        $mapping = [
-            "day" => "-30 day",
-            "week" => "-10 week",
-            "month" => "-6 month",
-            "year" => "-1 year"
-        ];
-        $starting_date = new \DateTime($mapping[$date_by]);
-        $qb->select('u.date_register')
-            ->from('App\Entity\User', 'u')
-            ->where('u.date_register > :starting_date')
-            ->andWhere('u.date_register < :now')
-            ->andWhere('u.roles = :user_role')
-            ->setParameter('starting_date', $starting_date, \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('now',new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('user_role', 'a:0:{}');
-        $filtered_users = $qb->getQuery()->getResult();
-        $qb_acc = $em->createQueryBuilder();
-        $qb_acc->select('count(u.date_register)')
-               ->from('App\Entity\User', 'u')
-               ->where('u.date_register <= :starting_date')
-               ->andWhere("u.roles = :user_role")
-               ->setParameter('starting_date', $starting_date, \Doctrine\DBAL\Types\Type::DATETIME)
-               ->setParameter('user_role', 'a:0:{}');
-        $accumulated_user_count = $qb_acc->getQuery()->getResult();
-        foreach ($filtered_users as &$user){
-            $user = $user['date_register']->format('Y-m-d');
-        }
-        return [$filtered_users, $accumulated_user_count, $starting_date->format('Y-m-d')];
-    }
-
-    /**
-     * @Route("/service/get_user_count", name="GetUserCount", methods="POST")
-     */
-    public function send_user_count(Request $request){
-        if ($request->isXmlHttpRequest()){
-            $content = $request->getContent();
-            if (!empty($content)){
-                $em = $this->getDoctrine()->getManager();
-                $params = json_decode($content, true);
-                $date_by = $params['date_by'];
-                $res_tuple = $this->get_user_date_by($em, $date_by);
-                $filtered_users = $res_tuple[0];
-                $accumulated_user_count = $res_tuple[1];
-                $starting_date = $res_tuple[2];
-                $res_dict = [
-                    'filtered_users' => $filtered_users,
-                    'accumulated_user_count' => (int) $accumulated_user_count[0]["1"],  //"accumulated_user_count":[{"1":"329"}]
-                    'starting_date' => $starting_date
-                ];
-                return new JsonResponse(json_encode($res_dict));
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @Route("/service/attach_user", name="AttachUserToSeller", methods="POST")
-     */
-    public function attach_user_to_seller(Request $request){
-        if ($request->isXmlHttpRequest()){
-            $content = $request->getContent();
-            if (!empty($content)){
-                $params = json_decode($content, true);
-                $user_id = $params['user_id'];
-                $seller_id = $params['seller_id'];
-                $user_manager = $this->get('fos_user.user_manager');
-                $user = $user_manager->findUserBy(['user_id' => $user_id]);
-                $user->setResponsibleId($seller_id);
-
-                $user_manager->updateUser($user);
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private function addUserSetData($form, $user, $userManager)
     {
