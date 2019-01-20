@@ -378,9 +378,14 @@
                     $('#tracking_form_title').text('{{ 'tracking_page.modify'|trans }}');
                     $('#product_tracking_tracking_id').val(product_tracking['tracking_id']);
                     $('#product_tracking_product_id').val(product_tracking['product_id']);
-                    $('#product_tracking_production_date').val(product_tracking['production_date']);
+                    $date_time = product_tracking['production_date'].split('-');
+                    $('#product_tracking_production_date select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
                     $('#product_tracking_batch_id').val(product_tracking['batch_id']);
-                    $('#product_tracking_production_date').val(product_tracking['production_date']);
+
                     $date_time = product_tracking['starting_time'].split('-');
                     $('#product_tracking_starting_time select').each(function (i) {
                         $(this).find('option').filter(function () {
@@ -388,30 +393,93 @@
                         }).attr('selected', true);
                     });
                     $('#product_tracking_ranch_id').val(product_tracking['ranch_id']);
-                    $('#product_tracking_milk_collection_time').val(product_tracking['milk_collection_time']);
+
+                    $date_time = product_tracking['milk_collection_time'].split('-');
+                    $('#product_tracking_milk_collection_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_ranch_responsible').val(product_tracking['ranch_responsible']);
                     $('#product_tracking_factory').val(product_tracking['factory']);
-                    $('#product_tracking_factory_processing_time').val(product_tracking['factory_processing_time']);
+
+                    $date_time = product_tracking['factory_processing_time'].split('-');
+                    $('#product_tracking_factory_processing_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_factory_responsible').val(product_tracking['factory_responsible']);
-                    $('#product_tracking_factory_delivery_time').val(product_tracking['factory_delivery_time']);
+
+                    $date_time = product_tracking['factory_delivery_time'].split('-');
+                    $('#product_tracking_factory_delivery_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_factory_delivery_responsible').val(product_tracking['factory_delivery_responsible']);
-                    $('#product_tracking_export_time').val(product_tracking['export_time']);
+
+                    $date_time = product_tracking['export_time'].split('-');
+                    $('#product_tracking_export_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_export_responsible').val(product_tracking['export_responsible']);
-                    $('#product_tracking_import_time').val(product_tracking['import_time']);
+
+                    $date_time = product_tracking['import_time'].split('-');
+                    $('#product_tracking_import_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_import_responsible').val(product_tracking['import_responsible']);
-                    $('#product_tracking_center_arrival_time').val(product_tracking['center_arrival_time']);
+
+                    $date_time = product_tracking['center_arrival_time'].split('-');
+                    $('#product_tracking_center_arrival_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_arrival_responsible').val(product_tracking['arrival_responsible']);
                     $('#product_tracking_site_1').val(product_tracking['site_1']);
-                    $('#product_tracking_site_1_delivery_time').val(product_tracking['site_1_delivery_time']);
+
+                    $date_time = product_tracking['site_1_delivery_time'].split('-');
+                    $('#product_tracking_site_1_delivery_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_site_1_responsible').val(product_tracking['site_1_responsible']);
                     $('#product_tracking_site_2').val(product_tracking['site_2']);
-                    $('#product_tracking_site_2_delivery_time').val(product_tracking['site_2_delivery_time']);
+
+
+                    $date_time = product_tracking['site_2_delivery_time'].split('-');
+                    $('#product_tracking_site_2_delivery_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_site_2_responsible').val(product_tracking['site_2_responsible']);
                     $('#product_tracking_site_3').val(product_tracking['site_3']);
-                    $('#product_tracking_site_3_delivery_time').val(product_tracking['site_3_delivery_time']);
+
+                    $date_time = product_tracking['site_3_delivery_time'].split('-');
+                    $('#product_tracking_site_3_delivery_time select').each(function (i) {
+                        $(this).find('option').filter(function () {
+                            return parseInt($(this).text()) === parseInt($date_time[i]);
+                        }).attr('selected', true);
+                    });
+
                     $('#product_tracking_site_3_responsible').val(product_tracking['site_3_responsible']);
-                    $('#product_tracking_client_id').val(product_tracking['client_id']);
-                    $('#product_tracking_purchase_time').val(product_tracking['purchase_time']);
+
                     $('#product_tracking_seller_id').val(product_tracking['seller_id']);
                     $('#overlay').fadeIn('fast');
                     $('#popupBox').fadeIn('fast');
