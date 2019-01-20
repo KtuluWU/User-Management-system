@@ -90,7 +90,7 @@
                                 {% set pct_sales_year = seller.sales_plan_year == 0 ? 0 : (seller.sales_year / seller.sales_plan_year) * 100 %}
                                 <tr>
                                     <td class="text-left h">
-                                        <span class="font-weight-bold">{{ seller.lastname ~ " " ~ seller.firstname }}</span>
+                                        <span class="font-weight-bold"><a href="/user/show/{{ seller.user_id }}&user" >{{ seller.lastname ~ " " ~ seller.firstname }}</a></span>
                                     </td>
                                     <td>
                                         <div class="progress">
