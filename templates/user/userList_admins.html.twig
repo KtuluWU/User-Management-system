@@ -3,11 +3,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/pagination/simplePagination.css') }}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
 {% endblock %}
 
@@ -127,96 +124,48 @@
                     <div class="card">
                         <div class="body">
                             <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15 text-white">{{ 'userList_pages.add_admin'|trans }}</a>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                            <div id="record_table" class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover text-nowrap">
                                     <thead>
-                                    <tr>
-                                        <th class="text-left">{{ 'user_infos.name'|trans }}</th>
-                                        <th>{{ 'user_infos.username'|trans }}</th>
-                                        <th>{{ 'user_infos.sex.title'|trans }}</th>
-                                        <th>{{ 'user_infos.email'|trans }}</th>
-                                        <th>{{ 'user_infos.employee_id'|trans }}</th>
-                                        <th>{{ 'user_infos.date_birth'|trans }}</th>
-                                        <th>{{ 'user_infos.id_card'|trans }}</th>
-                                        <th>{{ 'user_infos.phone'|trans }}</th>
-                                        <th>{{ 'user_infos.wechat'|trans }}</th>
-                                        <th>{{ 'user_infos.address'|trans }}</th>
-                                        <th>{{ 'user_infos.region'|trans }}</th>
-                                        <th>{{ 'user_infos.responsible_region'|trans }}</th>
-                                        <th>{{ 'user_infos.enabled.title'|trans }}</th>
-                                        <th>{{ 'user_infos.date_register'|trans }}</th>
-                                        <th>{{ 'userList_pages.action'|trans }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="sortable" sortfield="CONCAT(lastname, firstname)">{{ 'user_infos.name'|trans }}</th>
+                                            <th class="sortable" sortfield="username">{{ 'user_infos.username'|trans }}</th>
+                                            <th class="sortable" sortfield="sex" optionlist="user_infos.sex">{{ 'user_infos.sex.title'|trans }}</th>
+                                            <th class="sortable" sortfield="email">{{ 'user_infos.email'|trans }}</th>
+                                            <th class="sortable" sortfield="user_id">{{ 'user_infos.employee_id'|trans }}</th>
+                                            <th class="sortable" sortfield="date_birth">{{ 'user_infos.date_birth'|trans }}</th>
+                                            <th class="sortable" sortfield="id_card">{{ 'user_infos.id_card'|trans }}</th>
+                                            <th class="sortable" sortfield="phone">{{ 'user_infos.phone'|trans }}</th>
+                                            <th class="sortable" sortfield="wechat">{{ 'user_infos.wechat'|trans }}</th>
+                                            <th class="sortable" sortfield="address">{{ 'user_infos.address'|trans }}</th>
+                                            <th class="sortable" sortfield="region" optionlist="region">{{ 'user_infos.region'|trans }}</th>
+                                            <th class="sortable" sortfield="responsible_region">{{ 'user_infos.responsible_region'|trans }}</th>
+                                            <th class="sortable" sortfield="enabled" optionlist="user_infos.enabled">{{ 'user_infos.enabled.title'|trans }}</th>
+                                            <th class="sortable" sortfield="date_register">{{ 'user_infos.date_register'|trans }}</th>
+                                            <th>{{ 'userList_pages.action'|trans }}</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {% for user in users %}
-                                        <tr>
-                                            <td class="text-left">
-                                                <span class="font-weight-bold"><a href="/user/show/{{ user.userid }}&user" > {{ user.lastname ~ " " ~ user.firstname }}</a> </span>
-                                            </td>
+                                        <tr class="copy_source" style="display: none">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
-                                                {{ user.username }}
-                                            </td>
-                                            <td>
-                                                {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
-                                                {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
-                                                {{ user_sex|trans }}
-                                            </td>
-                                            <td>
-                                                {{ user.email }}
-                                            </td>
-                                            <td>
-                                                {{ user.userid }}
-                                            </td>
-                                            <td>
-                                                {{ user.datebirth|date('Y年m月d日') }}
-                                            </td>
-                                            <td>
-                                                {{ user.idcard }}
-                                            </td>
-                                            <td>
-                                                {{ user.phone }}
-                                            </td>
-                                            <td>
-                                                {{ user.wechat }}
-                                            </td>
-                                            <td>
-                                                {{ user.address }}
-                                            </td>
-                                            <td>
-                                                {% set user_region = 'region.'~user.region %}
-                                                {{ user_region|trans }}
-                                            </td>
-                                            <td>
-                                                {% for r in user.responsibleregion %}
-                                                    {% if r is not empty %}
-                                                        {% set rt = 'region.' ~ r %}
-                                                        {% if loop.index <= 3 %}
-                                                            [<span>{{ rt|trans }}</span>]
-                                                        {% elseif loop.index%3==0 %}
-                                                            [<span>{{ rt|trans }}</span>]<br>
-                                                        {% else %}
-                                                            [<span>{{ rt|trans }}</span>]
-                                                        {% endif %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </td>
-                                            <td>
-                                                {% if user.enabled %}{% set user_enabeld = 'user_infos.enabled.' ~ user.enabled %}
-                                                {% else %}{% set user_enabeld = 'user_infos.enabled.0' %}{% endif %}
-                                                {{ user_enabeld|trans }}
-                                            </td>
-                                            <td>
-                                                {{ user.dateregister|date('Y年m月d日') }}
-                                            </td>
-                                            <td>
-                                                <a href="/userList/edit/{{ user.userid }}&Admins" class="btn btn-info" title="Edit"><i
-                                                            class="fa fa-edit"></i></a>
-                                                <a href="/userList/delete/{{ user.userid }}&Admins" class="btn btn-danger delete_user_confirm" title="Delete"><i
-                                                            class="fa fa-trash-o"></i></a>
+                                                <a class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger delete_user_confirm"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
-                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -245,23 +194,59 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="{{ asset('js/tools.js') }}"></script>
+    <script src="{{ asset('js/external/moment.min.js') }}"></script>
+    <script src="{{ asset('vendor/pagination/jquery.simplePagination.js') }}"></script>
     <script>
+        function insert_records(records, record_table){
+            i = 0;
+            for (i in records){
+                let row = record_table.find('.copy_source').clone().removeAttr('class style');
+                let columns = row.children('td');
+                columns.eq(0).html( '<a href="/user/show/'+ records[i]['user_id']+ '&user">' + records[i]['lastname'] + ' ' + records[i]['firstname']+ '</a>');  // full_name
+                columns.eq(1).text(records[i]['username']);  // user_name
+                columns.eq(2).text(records[i]['sex'] === '1' ? "{{ 'user_infos.sex.1'|trans }}" : "{{ 'user_infos.sex.0'|trans }}");  // sex
+                columns.eq(3).text(records[i]['email']); // email
+                columns.eq(4).text(records[i]['user_id']); // userid
+                columns.eq(5).text(moment(new Date(records[i]['date_birth'])).format('YYYY-MM-DD')); // date_birth
+                columns.eq(6).text(records[i]['id_card']); // id_card
+                columns.eq(7).text(records[i]['phone']); // phone
+                columns.eq(8).text(records[i]['wechat']); // wechat
+                columns.eq(9).text(records[i]['address']); // address
+                columns.eq(10).text(translate('region.'+records[i]['region'])); // user_region
+                let responsible_regions = [];
+                let parsed_array = parseDC2Array(records[i]['responsible_region']);
+                for (i in parsed_array){
+                    responsible_regions.push(translate('region.'+parsed_array[i]));
+                }
+                columns.eq(11).text(responsible_regions.toString());
+                columns.eq(12).text(records[i]['enabled'] === '1' ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
+                columns.eq(13).text(moment(new Date(records[i]['date_register'])).format('YYYY-MM-DD')); // date_register
+                columns.eq(14).children('a').eq(0).attr("href", "/userList/edit/"+ records[i]['user_id'] +"&Users"); // modify button
+                columns.eq(14).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button
+                row.appendTo(record_table.find('tbody'));
+            }
+        }
+
         $(document).ready(function () {
+            let table_name = 'User';
+            let page_number = "1";
+            let sort_field = "lastname";  // 默认以lastname排序
+            let sort_order = null;
+            let count = "10";
+            let where_clause = "user_id LIKE '3%'"; // WHERE user_id LIKE 3% (管理员)
+
+            $('#record_table').renderTable(table_name, page_number, sort_field, sort_order, count, where_clause, insert_records);
+
             $('#app_userList_add_roles').removeAttr("multiple");
-            $('.delete_user_confirm').click(function(e) {
+
+            $(document).on('click', '.delete_user_confirm', function (e) {
                 e.preventDefault();
                 var linkURL = $(this).attr("href");
                 confirmBeforeRedirect(linkURL);
             });
+
             function confirmBeforeRedirect(linkURL) {
                 swal({
                     title: "确定删除该管理员吗？",

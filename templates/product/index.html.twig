@@ -4,11 +4,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/popup_box.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/pagination/simplePagination.css') }}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 {% endblock %}
 {% block sidebar %}
     {% set tab_menu_index, tab_menu_profile, tab_menu_source, tab_admin_users, tab_admin_sellers, tab_admin_admins, tab_admin_products, tab_admin_histo, nav_menu, nav_admin = "", "", "", "", "", "", "active", "", "", "active" %}
@@ -61,64 +59,44 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                        <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15">
-                            <i class="icon wb-plus" aria-hidden="false"></i>{{ 'product_page.add_row'|trans }}
-                        </a>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                            <a href="javascript:void(0)" id="addRow" class="btn btn-primary m-b-15">
+                                <i class="icon wb-plus" aria-hidden="false"></i>{{ 'product_page.add_row'|trans }}
+                            </a>
+                            <div id="record_table" class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover text-nowrap">
                                     <thead>
-                                    <tr>
-                                        <th>{{ 'product_page.product_id' | trans }}</th>
-                                        <th>{{ 'product_page.product_name' | trans }}</th>
-                                        <th>{{ 'product_page.barcode' | trans }}</th>
-                                        <th>{{ 'product_page.image_path' | trans }}</th>
-                                        <th>{{ 'product_page.category' | trans }}</th>
-                                        <th>{{ 'product_page.shelf_life' | trans }}</th>
-                                        <th>{{ 'product_page.promotion' | trans }}</th>
-                                        <th>{{ 'product_page.stock' | trans }}</th>
-                                        <th>{{ 'product_page.description' | trans }}</th>
-                                        <th>{{ 'product_page.action' | trans }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="sortable" sortfield="product_id">{{ 'product_page.product_id'|trans }}</th>
+                                            <th class="sortable" sortfield="product_name">{{ 'product_page.product_name'|trans }}</th>
+                                            <th class="sortable" sortfield="barcode">{{ 'product_page.barcode'|trans }}</th>
+                                            <th>{{ 'product_page.image_path'|trans }}</th>
+                                            <th class="sortable" sortfield="category">{{ 'product_page.category'|trans }}</th>
+                                            <th class="sortable" sortfield="shelf_life">{{ 'product_page.shelf_life'|trans }}</th>
+                                            <th class="sortable" sortfield="promotion">{{ 'product_page.promotion'|trans }}</th>
+                                            <th class="sortable" sortfield="stock">{{ 'product_page.stock'|trans }}</th>
+                                            <th class="sortable" sortfield="description">{{ 'product_page.description'|trans }}</th>
+                                            <th>{{ 'product_page.action'|trans }}</th>
+                                        </tr>
                                     </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>{{ 'product_page.product_id' | trans }}</th>
-                                        <th>{{ 'product_page.product_name' | trans }}</th>
-                                        <th>{{ 'product_page.barcode' | trans }}</th>
-                                        <th>{{ 'product_page.image_path' | trans }}</th>
-                                        <th>{{ 'product_page.category' | trans }}</th>
-                                        <th>{{ 'product_page.shelf_life' | trans }}</th>
-                                        <th>{{ 'product_page.promotion' | trans }}</th>
-                                        <th>{{ 'product_page.stock' | trans }}</th>
-                                        <th>{{ 'product_page.description' | trans }}</th>
-                                        <th>{{ 'product_page.action' | trans }}</th>
-                                    </tr>
-                                    </tfoot>
                                     <tbody>
-                                    {% for p in products %}
-                                        <tr class="gradeA">
-                                            <td>{{ p.ProductId }}</td>
-                                            <td><a href="/product/show/{{ p.ProductId }}&product" >{{ p.ProductName }}</a></td>
-                                            <td>{{ p.Barcode }}</td>
+                                        <tr class="copy_source" style="display: none">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td>
-                                                <img src="{{ asset('/uploads/images/products/' ~ p.ImagePath)}}" height="42" width="42"/>
-                                            </td>
-                                            <td>{{ p.Category }}</td>
-                                            <td>{{ p.ShelfLife }}</td>
-                                            <td>{{ p.Promotion }}</td>
-                                            <td>{{ p.Stock }}</td>
-                                            <td>{{ p.Description }}</td>
-                                            <td class="actions">
-                                                <a class="btn btn-info modify_btn">
-                                                    <i class="fa fa-edit"></i></a>
-                                                <a class="remove_btn btn btn-danger delete_user_confirm">
-                                                    <i class="fa fa-trash-o"></i></a>
+                                                <a class="btn btn-info modify_btn"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger remove_btn"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
-                                    {% endfor %}
                                     </tbody>
                                 </table>
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,14 +106,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/tools.js') }}"></script>
+    <script src="{{ asset('vendor/pagination/jquery.simplePagination.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
     <script>
         function readURL(input) {
           if (input.files && input.files[0]) {
@@ -146,11 +119,32 @@
             reader.readAsDataURL(input.files[0]);
           }
         }
+
         $("#product_image_path").change(function() {
           readURL(this);
         });
 
+        function insert_records(records, record_table){
+            i = 0;
+            for (i in records){
+                let row = record_table.find('.copy_source').clone().removeAttr('class style');
+                let columns = row.children('td');
+                columns.eq(0).text(records[i]['product_id']);
+                columns.eq(1).html('<a href="/product/show/' + records[i]["product_id"] + '&product" >' + records[i]["product_name"] + '</a>');
+                columns.eq(2).text(records[i]['barcode']);
+                let image_path = "{{ asset('path') }}".replace('path', 'uploads/images/products/'+records[i]['image_path']);
+                columns.eq(3).html('<img src="' + image_path + '" height="42" width="42"/>');
+                columns.eq(4).text(records[i]['category']);
+                columns.eq(5).text(records[i]['shelf_life']);
+                columns.eq(6).text(records[i]['promotion']);
+                columns.eq(7).text(records[i]['stock']);
+                columns.eq(8).text(records[i]['description']);
+                row.appendTo(record_table.find('tbody'));
+            }
+        }
+
         $('#addRow').click(function () {
+            $('#product_product_id').val('');
             $('#product_form_title').text('{{ 'product_page.register'|trans }}');
             $('#product_product_name').val('');
             $('#product_barcode').val('');
@@ -181,8 +175,7 @@
             $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
         {% endif %}
 
-
-        $('.modify_btn').click(function (e) {
+        $(document).on('click', '.modify_btn', function (e) {
             data = {"product_id": $('td:first-child', $(e.target).parents('tr')).text()};
             $.ajax({
                 url: '/product/modify',
@@ -211,7 +204,7 @@
             });
         });
 
-        $('.remove_btn').click(function(e) {
+        $(document).on('click', '.remove_btn', function (e) {
             swal({
                 title: "确定删除该购买记录吗？",
                 text: "该操作无法恢复！",
@@ -230,6 +223,17 @@
                 });
                 location.reload();
             });
+        });
+
+        $(document).ready(function () {
+            let table_name = 'product';
+            let page_number = "1";
+            let sort_field = "product_id";
+            let sort_order = null;
+            let count = "10";
+            let where_clause = null;
+
+            $('#record_table').renderTable(table_name, page_number, sort_field, sort_order, count, where_clause, insert_records);
         });
 
     </script>
