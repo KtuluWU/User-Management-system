@@ -37,6 +37,38 @@ function get_option_list(option_name){
     }();
 }
 
+function parseDC2Array(dc2array){
+    let re = /"(.*)"/gm;
+    let match = re.exec(dc2array);
+    let parsed = [];
+    while (match != null){
+        parsed.push(match[1]);
+        match = re.exec(dc2array);
+    }
+    return parsed;
+}
+
+
+function translate(pattern) {
+    return function () {
+        let tmp = null;
+        $.ajax({
+            'async': false,
+            'type': 'GET',
+            'global': false,
+            'dataType': 'html',
+            'url': "/service/translate/pattern=" + pattern,
+            'success': function (data) {
+                tmp = JSON.parse(data);
+            }
+        });
+        if (tmp === null) {
+            tmp = pattern;
+        }
+        return tmp;
+    }();
+}
+
 
 function put_query_by_option_index(i, option_mapping, search_block, field_list){
     let text_search_query = '<input style="margin-left: 20px; margin-right: 20px" type="text" size="60" class="search_query">';
@@ -117,7 +149,11 @@ $.fn.renderTable = function (table_name, page_number, sort_field, sort_order, co
 
                 search_block.find('.search_submit').click(function () {
                     pn = 1;
-                    wc = default_clause + " AND "+search_block.find('.search_field option:selected').attr("name")+" LIKE '%"+search_block.find('.search_query').val()+"%'";
+                    if (search_block.find('.search_query').val() !== ''){
+                        wc = default_clause + " AND "+search_block.find('.search_field option:selected').attr("name")+" LIKE '%"+search_block.find('.search_query').val()+"%'";
+                    }else{
+                        wc = default_clause;
+                    }
                     record_table.renderTable(table_name, pn, sf, so, count, wc, insert_records, default_clause);
                 });
 

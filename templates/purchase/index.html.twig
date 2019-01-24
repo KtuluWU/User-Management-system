@@ -3,10 +3,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/pagination/simplePagination.css') }}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 {% endblock %}
 {% block sidebar %}
     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
@@ -96,56 +95,36 @@
                             </a>
                             {% endif %}
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                            <div id="record_table" class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover text-nowrap">
                                     <thead>
-                                    <tr>
-                                        <th>{{ 'purchase_page.purchase_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.user_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.product_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.purchase_time'|trans }}</th>
-                                        <th>{{ 'purchase_page.tracking_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.seller_id'|trans }}</th>
-                                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
-                                        <th>{{ 'purchase_page.activity'|trans }}</th>
-                                        {% endif %}
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>{{ 'purchase_page.purchase_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.user_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.product_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.purchase_time'|trans }}</th>
-                                        <th>{{ 'purchase_page.tracking_id'|trans }}</th>
-                                        <th>{{ 'purchase_page.seller_id'|trans }}</th>
-                                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
-                                        <th>{{ 'purchase_page.activity'|trans }}</th>
-                                        {% endif %}
-                                    </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    {% for p in purchase %}
-                                        <tr class="gradeA">
-                                            <td>{{ p.PurchaseId }}</td>
-                                            <td>{{ p.UserId }}</td>
-                                            <td>{{ p.ProductId }}</td>
-                                            <td>{{ p.PurchaseTime|date('Y-m-d') }}</td>
-                                            <td>{{ p.TrackingId }}</td>
-                                            <td>{{ p.SellerId }}</td>
+                                        <tr>
+                                            <th class="sortable" sortfield="purchase_id">{{ 'purchase_page.purchase_id'|trans }}</th>
+                                            <th class="sortable" sortfield="user_id">{{ 'purchase_page.user_id'|trans }}</th>
+                                            <th class="sortable" sortfield="product_id">{{ 'purchase_page.product_id'|trans }}</th>
+                                            <th class="sortable" sortfield="purchase_time">{{ 'purchase_page.purchase_time'|trans }}</th>
+                                            <th class="sortable" sortfield="tracking_id">{{ 'purchase_page.tracking_id'|trans }}</th>
+                                            <th class="sortable" sortfield="seller_id">{{ 'purchase_page.seller_id'|trans }}</th>
                                             {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
-                                            <td class="actions">
-                                                <a class="btn btn-info modify_btn">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a class="remove_btn btn btn-danger delete_user_confirm">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
+                                                <th>{{ 'purchase_page.activity'|trans }}</th>
+                                            {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="copy_source" style="display: none">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SELLER') %}
+                                            <td>
+                                                <a class="btn btn-info modify_btn"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger remove_btn"><i class="fa fa-trash"></i></a>
                                             </td>
                                             {% endif %}
                                         </tr>
-                                    {% endfor %}
-
                                     </tbody>
                                 </table>
                             </div>
@@ -158,16 +137,37 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles_js/datatablescripts.bundle.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-datatable/buttons/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
-
+    <script src="{{ asset('js/tools.js') }}"></script>
+    <script src="{{ asset('js/external/moment.min.js') }}"></script>
+    <script src="{{ asset('vendor/pagination/jquery.simplePagination.js') }}"></script>
     <script>
+        function insert_records(records, record_table){
+            i = 0;
+            for (i in records){
+                let row = record_table.find('.copy_source').clone().removeAttr('class style');
+                let columns = row.children('td');
+                columns.eq(0).text(records[i]['purchase_id']);
+                columns.eq(1).text(records[i]['user_id']);
+                columns.eq(2).text(records[i]['product_id']);
+                columns.eq(3).text(moment(new Date(records[i]['purchase_time'])).format('YYYY-MM-DD HH:MM:SS'));
+                columns.eq(4).text(records[i]['tracking_id']);
+                columns.eq(5).text(records[i]['seller_id']);
+                row.appendTo(record_table.find('tbody'));
+            }
+        }
+
+        $(document).ready(function () {
+            let table_name = 'purchase_history';
+            let page_number = "1";
+            let sort_field = "purchase_id";
+            let sort_order = null;
+            let count = "10";
+            let where_clause = null;
+
+            $('#record_table').renderTable(table_name, page_number, sort_field, sort_order, count, where_clause, insert_records);
+        });
+
         $('#addRow').click(function () {
             $('#purchase_form_title').text('{{ 'purchase_page.register'|trans }}');
             $('#purchase_purchase_id').val('');
@@ -225,7 +225,7 @@
             $('.sweet-alert p').attr('style', 'display:block;color:#de4848');
         {% endif %}
 
-        $('.modify_btn').click(function (e) {
+        $(document).on('click', '.modify_btn', function (e) {
             data = {"purchase_id": $('td:first-child', $(e.target).parents('tr')).text()};
             $.ajax({
                 url: '/purchasehistory/modify',
@@ -252,7 +252,7 @@
             });
         });
 
-        $('.remove_btn').click(function(e) {
+        $(document).on('click', '.remove_btn', function (e) {
             swal({
                 title: "确定删除该购买记录吗？",
                 text: "该操作无法恢复！",

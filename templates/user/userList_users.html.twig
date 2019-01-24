@@ -3,11 +3,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ asset('vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert/sweetalert.css') }}"/>
     <link rel="stylesheet" href="{{ asset('vendor/pagination/simplePagination.css') }}"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -317,10 +312,9 @@
                 columns.eq(7).text(records[i]['phone']); // phone
                 columns.eq(8).text(records[i]['wechat']); // wechat
                 columns.eq(9).text(records[i]['address']); // address
-                let user_region = "{{ 'r'|trans }}".replace('r', 'region.'+records[i]['region']);
-                columns.eq(10).text(user_region); // user_region
+                columns.eq(10).text(translate('region.'+records[i]['region'])); // user_region
                 columns.eq(11).text(records[i]['responsible_id']); // responsible_id
-                columns.eq(12).text(records[i]['enabled'] === "1" ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
+                columns.eq(12).text(records[i]['enabled'] === '1' ? "{{ 'user_infos.enabled.1'|trans }}" : "{{ 'user_infos.enabled.0'|trans }}"); // enabled
                 columns.eq(13).text(moment(new Date(records[i]['date_register'])).format('YYYY-MM-DD')); // date_register
                 columns.eq(14).children('a').eq(0).attr("href", "/userList/edit/"+ records[i]['user_id'] +"&Users"); // modify button
                 columns.eq(14).children('a').eq(1).attr("href", "/userList/delete/"+ records[i]['user_id'] +"&Users"); // detele button
@@ -335,7 +329,7 @@
             let sort_field = "lastname";  // 默认以lastname排序
             let sort_order = null;
             let count = "10";
-            let where_clause = "user_id LIKE '1%'" // %20 为空格 WHERE user_id LIKE 1% (用户)
+            let where_clause = "user_id LIKE '1%'"; // %20 为空格 WHERE user_id LIKE 1% (用户)
 
             $('#record_table').renderTable(table_name, page_number, sort_field, sort_order, count, where_clause, insert_records);
 

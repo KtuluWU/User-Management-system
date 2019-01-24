@@ -69,48 +69,35 @@
                     <h5 class="m-t-0">{{ 'seller_index_page.engage'|trans }}</h5>
                     <!--<small class="text-small">4% higher than last month</small>!-->
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                <div id="record_table_1" class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover text-nowrap">
                         <thead>
-                        <tr>
-                            <th class="text-left">{{ 'user_infos.name'|trans }}</th>
-                            <th>{{ 'user_infos.sex.title'|trans }}</th>
-                            <th>{{ 'user_infos.user_id'|trans }}</th>
-                            <th>{{ 'user_infos.phone'|trans }}</th>
-                            <th>{{ 'user_infos.wechat'|trans }}</th>
-                            <th>{{ 'user_infos.address'|trans }}</th>
-                            <th>{{ 'user_infos.region'|trans }}</th>
-                            <th>{{ 'user_infos.date_register'|trans }}</th>
-                            <th>{{ 'seller_index_page.engage_action'|trans }}</th>
-                        </tr>
+                            <tr>
+                                <th class="sortable" sortfield="CONCAT(lastname, firstname)">{{ 'user_infos.name'|trans }}</th>
+                                <th class="sortable" sortfield="sex" optionlist="user_infos.sex">{{ 'user_infos.sex.title'|trans }}</th>
+                                <th class="sortable" sortfield="user_id">{{ 'user_infos.user_id'|trans }}</th>
+                                <th class="sortable" sortfield="phone">{{ 'user_infos.phone'|trans }}</th>
+                                <th class="sortable" sortfield="wechat">{{ 'user_infos.wechat'|trans }}</th>
+                                <th class="sortable" sortfield="address">{{ 'user_infos.address'|trans }}</th>
+                                <th class="sortable" sortfield="region" optionlist="region">{{ 'user_infos.region'|trans }}</th>
+                                <th class="sortable" sortfield="date_register">{{ 'user_infos.date_register'|trans }}</th>
+                                <th>{{ 'seller_index_page.engage_action'|trans }}</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <td class="text-left">
-                                    <span class="font-weight-bold"><a href="/user/show/{{ user.user_id }}&user" >{{ user.lastname ~ " " ~ user.firstname }}</a></span>
-                                </td>
+                            <tr class="copy_source" style="display: none">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
-                                    {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
-                                    {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
-                                    {{ user_sex|trans }}
-                                </td>
-                                <td>{{ user.user_id }}</td>
-                                <td>{{ user.phone }}</td>
-                                <td>{{ user.wechat }}</td>
-                                <td>{{ user.address }}</td>
-                                <td>
-                                    {% set user_region = 'region.'~user.region %}
-                                    {{ user_region|trans }}
-                                </td>
-                                <td>{{ user.date_register|date('Y年m月d日') }}</td>
-                                <td>
-                                    <a href="javascript:void(0)" class="engage btn btn-info">
-                                        {{ 'seller_index_page.engage_action'|trans }}
-                                    </a>
+                                    <a class="engage btn btn-info"><b>{{ 'seller_index_page.engage_action'|trans }}</b></a>
                                 </td>
                             </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -122,37 +109,33 @@
                     <h5 class="m-t-0">{{ 'seller_index_page.engaged_user'|trans }}</h5>
                     <!--<small class="text-small">4% higher than last month</small>!-->
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover js-basic dataTable table-custom table-userList text-center">
+                <div id="record_table_2" class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover text-nowrap">
                         <thead>
                         <tr>
-                            <th class="text-left">{{ 'user_infos.name'|trans }}</th>
-                            <th>{{ 'user_infos.sex.title'|trans }}</th>
-                            <th>{{ 'user_infos.user_id'|trans }}</th>
-                            <th>{{ 'user_infos.phone'|trans }}</th>
-                            <th>{{ 'user_infos.wechat'|trans }}</th>
-                            <th>{{ 'user_infos.address'|trans }}</th>
-                            <th>{{ 'user_infos.date_register'|trans }}</th>
+                            <th class="sortable" sortfield="CONCAT(lastname, firstname)">{{ 'user_infos.name'|trans }}</th>
+                            <th class="sortable" sortfield="sex" optionlist="user_infos.sex">{{ 'user_infos.sex.title'|trans }}</th>
+                            <th class="sortable" sortfield="user_id">{{ 'user_infos.user_id'|trans }}</th>
+                            <th class="sortable" sortfield="phone">{{ 'user_infos.phone'|trans }}</th>
+                            <th class="sortable" sortfield="wechat">{{ 'user_infos.wechat'|trans }}</th>
+                            <th class="sortable" sortfield="address">{{ 'user_infos.address'|trans }}</th>
+                            <th class="sortable" sortfield="date_register">{{ 'user_infos.date_register'|trans }}</th>
+                            <th>{{ 'seller_index_page.dismiss_action'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for user in engaged_users %}
-                            <tr>
-                                <td class="text-left">
-                                    <span class="font-weight-bold">{{ user.lastname ~ " " ~ user.firstname }}</span>
-                                </td>
-                                <td>
-                                    {% if user.sex %}{% set user_sex = 'user_infos.sex.' ~ user.sex %}
-                                    {% else %}{% set user_sex = 'user_infos.sex.0' %}{% endif %}
-                                    {{ user_sex|trans }}
-                                </td>
-                                <td>{{ user.user_id }}</td>
-                                <td>{{ user.phone }}</td>
-                                <td>{{ user.wechat }}</td>
-                                <td>{{ user.address }}</td>
-                                <td>{{ user.date_register|date('Y年m月d日') }}</td>
-                            </tr>
-                        {% endfor %}
+                        <tr class="copy_source" style="display: none">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a class="dismiss btn btn-danger"><b>{{ 'seller_index_page.dismiss_action'|trans }}</b></a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

@@ -5,13 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
+use Symfony\Component\DependencyInjection\Tests\Compiler\J;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Yaml\Yaml;
 
 error_reporting(E_ALL);
@@ -20,7 +20,7 @@ error_reporting(E_ALL);
 /**
  * @Route("/service")
  */
-class ServiceController extends AbstractController
+class ServiceController extends Controller
 {
     /**
      * @Route("/get_user_count", name="GetUserCount", methods="POST")
@@ -80,24 +80,25 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @Route("/attach_user", name="AttachUserToSeller", methods="POST")
+     * @Route("/attach_user/action={action}&user_id={user_id}&seller_id={seller_id}", name="AttachUserToSeller", methods="POST")
+     * @param Request $request
+     * @param string $action
+     * @param string $user_id
+     * @param string $seller_id
+     * @return JsonResponse
      */
-    public function attach_user_to_seller(Request $request){
-        if ($request->isXmlHttpRequest()){
-            $content = $request->getContent();
-            if (!empty($content)){
-                $params = json_decode($content, true);
-                $user_id = $params['user_id'];
-                $seller_id = $params['seller_id'];
-                $user_manager = $this->get('fos_user.user_manager');
-                $user = $user_manager->findUserBy(['user_id' => $user_id]);
-                $user->setResponsibleId($seller_id);
-
-                $user_manager->updateUser($user);
-                return true;
-            }
+    public function attach_user_to_seller(Request $request, string $action, string $user_id, string $seller_id){
+        $user_manager = $this->get('fos_user.user_manager');
+        $user = $user_manager->findUserBy(['user_id' => $user_id]);
+        if ($action === "engage"){
+            $user->setResponsibleId($seller_id);
+        }elseif($action === "dismiss"){
+            $user->setResponsibleId(null);
+        }else{
+            return new JsonResponse(false);
         }
-        return false;
+        $user_manager->updateUser($user);
+        return new JsonResponse(true);
     }
 
     /**
@@ -115,20 +116,21 @@ class ServiceController extends AbstractController
         }
         $sql = "SELECT * FROM $table";
         $count_sql = "SELECT count(*) FROM $table";
-        if ($where_clause){
-            $sql .= " WHERE $where_clause";
-            $count_sql .= " WHERE $where_clause";
+        if (substr($where_clause, 0, 4) === 'null'){
+            $where_clause = '1 '.substr($where_clause, 4);
         }
-        if ($field){
+        $sql .= " WHERE $where_clause";
+        $count_sql .= " WHERE $where_clause";
+        if ($field !== 'null'){
             $sql .= " ORDER BY $field";
         }
         if (strtolower($order) === "desc"){
             $sql .= " DESC";
         }
-        if ($n_records){
+        if ($n_records != 'null'){
             $sql .= " LIMIT $n_records";
         }
-        if ($n_page) {
+        if ($n_page != 'null') {
             $offset = ($n_page - 1) * $n_records;
             $sql .= " OFFSET $offset";
         }
@@ -166,6 +168,21 @@ class ServiceController extends AbstractController
             ARRAY_FILTER_USE_KEY
         );
         return new JsonResponse(json_encode($filtered));
+    }
+
+    /**
+     * @Route("/translate/pattern={pattern}", name="TranslationService", methods="GET")
+     * @param Request $request
+     * @param string $pattern
+     * @return JsonResponse
+     */
+    public function translate(Request $request, string $pattern){
+        $yaml = Yaml::parse(file_get_contents('../translations/ums.zh_CN.yaml'));
+        $path = explode('.', $pattern);
+        foreach($path as $part){
+            $yaml = $yaml[$part];
+        }
+        return new JsonResponse($yaml);
     }
 
 }
