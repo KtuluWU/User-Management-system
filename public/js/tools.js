@@ -48,25 +48,31 @@ function parseDC2Array(dc2array){
     return parsed;
 }
 
+let translation_array = null;
 
 function translate(pattern) {
-    return function () {
-        let tmp = null;
-        $.ajax({
-            'async': false,
-            'type': 'GET',
-            'global': false,
-            'dataType': 'html',
-            'url': "/service/translate/pattern=" + pattern,
-            'success': function (data) {
-                tmp = JSON.parse(data);
-            }
-        });
-        if (tmp === null) {
-            tmp = pattern;
-        }
-        return tmp;
-    }();
+    if (translation_array === null){
+        translation_array = function () {
+            let array = null;
+            $.ajax({
+                'async': false,
+                'type': "GET",
+                'global': false,
+                'dataType': 'html',
+                'url': "/service/get_translation_array",
+                'success': function (data) {
+                    array = JSON.parse(data);
+                }
+            });
+            return array;
+        }();
+    }
+    let parts = pattern.split('.');
+    let translated = translation_array;
+    for (let i in parts){
+        translated = translated[parts[i]];
+    }
+    return translated
 }
 
 

@@ -171,17 +171,12 @@ class ServiceController extends Controller
     }
 
     /**
-     * @Route("/translate/pattern={pattern}", name="TranslationService", methods="GET")
+     * @Route("/get_translation_array", name="GetTranslationArrayService", methods="GET")
      * @param Request $request
-     * @param string $pattern
      * @return JsonResponse
      */
-    public function translate(Request $request, string $pattern){
+    public function get_translation_array(Request $request){
         $yaml = Yaml::parse(file_get_contents('../translations/ums.zh_CN.yaml'));
-        $path = explode('.', $pattern);
-        foreach($path as $part){
-            $yaml = $yaml[$part];
-        }
         return new JsonResponse($yaml);
     }
 

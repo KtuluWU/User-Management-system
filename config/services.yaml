@@ -60,3 +60,6 @@ services:
         - { name: form.type, alis: app_userList_add }
 
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
+
+    tools:
+        class: App\Controller\ToolController
